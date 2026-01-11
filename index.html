@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Help Puppies</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -14,6 +13,7 @@ body {
   background:#fffaf5;
   color:#333;
   overflow-x:hidden;
+  position:relative;
 }
 
 /* HERO */
@@ -33,17 +33,20 @@ body {
   font-size:4rem;
   color:#ff69b4;
   text-shadow:0 0 10px #ffb6c1;
-  animation:bounce 1.6s infinite;
+  animation:bounce 1.5s infinite, pulse 2s infinite alternate;
 }
 
-.hero-word:nth-child(2) {
-  animation-delay:0.2s;
-}
+.hero-word:nth-child(2) { animation-delay:0.2s; }
 
 @keyframes bounce {
   0%,20%,50%,80%,100% { transform:translateY(0); }
   40% { transform:translateY(-12px); }
   60% { transform:translateY(-6px); }
+}
+
+@keyframes pulse {
+  0% { text-shadow:0 0 8px #ffb6c1; }
+  100% { text-shadow:0 0 20px #ff69b4; }
 }
 
 .hero-sub {
@@ -53,7 +56,25 @@ body {
   max-width:520px;
 }
 
-/* FEATURED CARD */
+/* PARTICLES */
+.particle {
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:0.6;
+  background:#ff69b4;
+  animation:float 5s linear infinite;
+}
+
+@keyframes float {
+  0% { transform:translateY(0) translateX(0) rotate(0deg); opacity:0.6; }
+  50% { transform:translateY(-50px) translateX(20px) rotate(180deg); opacity:0.3; }
+  100% { transform:translateY(0) translateX(0) rotate(360deg); opacity:0.6; }
+}
+
+/* FEATURED PUPPY */
 .featured {
   margin-top:60px;
   width:100%;
@@ -74,31 +95,32 @@ body {
 }
 
 .puppy-card:hover {
-  transform:translateY(-8px) scale(1.02);
-  box-shadow:0 40px 80px rgba(255,105,180,0.35);
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 50px 100px rgba(255,105,180,0.4);
 }
 
 .puppy-card::after {
   content:"";
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at top,#ffb6c140,transparent 60%);
+  background:radial-gradient(circle at top,#ffb6c180,transparent 60%);
   opacity:0;
   transition:opacity 0.4s ease;
 }
 
-.puppy-card:hover::after {
-  opacity:1;
-}
+.puppy-card:hover::after { opacity:1; }
 
 .puppy-img {
   width:100%;
-  height:300px;
+  height:320px;
   object-fit:cover;
+  transition: transform 0.3s ease;
 }
 
+.puppy-card:hover .puppy-img { transform:scale(1.05); }
+
 .puppy-body {
-  padding:26px;
+  padding:28px;
 }
 
 .puppy-body h2 {
@@ -135,12 +157,13 @@ body {
   width:38%;
   height:100%;
   background:linear-gradient(90deg,#ff69b4,#ffb6c1);
-  animation:loadBar 1.5s ease;
+  animation:loadBar 1.5s ease, pulseBar 2s infinite alternate;
 }
 
-@keyframes loadBar {
-  from { width:0; }
-  to { width:38%; }
+@keyframes loadBar { from {width:0;} to {width:38%;} }
+@keyframes pulseBar {
+  0% { filter:brightness(1); }
+  100% { filter:brightness(1.2); }
 }
 
 .progress-note {
@@ -149,7 +172,7 @@ body {
   margin-top:6px;
 }
 
-/* ACTIONS */
+/* BUTTONS */
 .actions {
   display:flex;
   flex-direction:column;
@@ -163,45 +186,49 @@ body {
   font-weight:600;
   text-decoration:none;
   text-align:center;
-  transition:transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position:relative;
+  overflow:hidden;
 }
 
-.action:hover {
-  transform:scale(1.05);
+.action::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.2);
+  border-radius:30px;
+  transform:scale(0);
+  transition:transform 0.3s ease;
 }
 
-.adopt {
-  background:#ff69b4;
-  color:white;
-  box-shadow:0 10px 30px #ff69b470;
-}
+.action:hover::after { transform:scale(1); }
 
-.shop {
-  background:white;
-  border:2px solid #ffb6c1;
-  color:#ff69b4;
-}
+.action:hover { transform:scale(1.05); }
 
-.crypto {
-  background:#eef4ff;
-  border:2px solid #cddfff;
-  color:#3366cc;
-}
+.adopt { background:#ff69b4; color:white; box-shadow:0 10px 30px #ff69b470; }
+.shop { background:white; border:2px solid #ffb6c1; color:#ff69b4; }
+.crypto { background:#eef4ff; border:2px solid #cddfff; color:#3366cc; }
 
-/* FOOT */
-.disclaimer {
-  margin-top:18px;
-  max-width:420px;
-  font-size:0.8rem;
-  color:#999;
+/* CAREERS CARD */
+.careers {
+  margin-top:40px;
+  background:#fff0f5;
+  padding:24px;
+  border-radius:24px;
+  max-width:400px;
   text-align:center;
+  box-shadow:0 15px 40px rgba(255,105,180,0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.stats {
-  margin-top:30px;
-  font-size:0.85rem;
-  color:#aaa;
-}
+.careers:hover { transform:scale(1.03); box-shadow:0 25px 60px rgba(255,105,180,0.4); }
+
+.careers h3 { font-size:1.5rem; margin-bottom:10px; color:#ff69b4; }
+.careers p { font-size:0.9rem; color:#666; margin-bottom:15px; }
+
+/* FOOTER */
+.disclaimer { margin-top:18px; max-width:420px; font-size:0.8rem; color:#999; text-align:center; }
+.stats { margin-top:30px; font-size:0.85rem; color:#aaa; text-align:center; }
 </style>
 </head>
 
@@ -212,7 +239,7 @@ body {
   <div class="hero-word">Earn Rewards.</div>
 
   <div class="hero-sub">
-    We spotlight one real rescue puppy at a time and rally the internet to help.
+    Spotlighting one real rescue puppy at a time. Join in, click, and make an impact!
   </div>
 
   <!-- FEATURED PUPPY -->
@@ -224,9 +251,7 @@ body {
 
       <div class="puppy-body">
         <h2>Tank 🐶</h2>
-        <div class="puppy-meta">
-          Pitbull puppy • 4 months old • Big heart, bigger paws
-        </div>
+        <div class="puppy-meta">Pitbull puppy • 4 months • Big heart, bigger paws</div>
 
         <div class="progress-wrap">
           <div class="progress-top">
@@ -242,31 +267,62 @@ body {
         </div>
 
         <div class="actions">
-          <a href="https://example-shelter-link.org" target="_blank" class="action adopt">
-            Adopt Tank
-          </a>
-
-          <a href="https://chewy.com/?affiliate=yourlink" target="_blank" class="action shop">
-            Help by Shopping 🛒
-          </a>
-
-          <a href="#" class="action crypto">
-            Support Digitally 💖
-          </a>
+          <a href="https://example-shelter-link.org" target="_blank" class="action adopt">Adopt Tank</a>
+          <a href="https://chewy.com/?affiliate=yourlink" target="_blank" class="action shop">Help by Shopping 🛒</a>
+          <a href="#" class="action crypto">Support Digitally 💖</a>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- CAREERS -->
+  <div class="careers">
+    <h3>Work with Puppies 🐾</h3>
+    <p>Explore opportunities to help rescues, care for puppies, or join our mission.</p>
+    <a href="mailto:team@helppuppies.org" class="action crypto">Apply / Learn More</a>
+  </div>
+
   <div class="disclaimer">
-    Featured puppy shown during our early pilot. If Tank is adopted before the goal
-    is reached, support rolls to the next rescue.
+    Featured puppy shown during our early pilot. If Tank is adopted before the goal is reached, support rolls to the next rescue.
   </div>
 
   <div class="stats">
     Community rewards paid so far: <strong>$31</strong>
   </div>
 </div>
+
+<script>
+// Optional: micro particle effects behind hero
+for(let i=0;i<15;i++){
+  const p = document.createElement('div');
+  p.className='particle';
+  p.style.left = Math.random()*window.innerWidth+'px';
+  p.style.top = Math.random()*window.innerHeight*0.4+'px';
+  p.style.width=p.style.height=Math.random()*10+5+'px';
+  p.style.background=['#ff69b4','#ffb6c1','#fff0f5'][Math.floor(Math.random()*3)];
+  document.body.appendChild(p);
+}
+
+// Button click animation (ripple)
+document.querySelectorAll('.action').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    const ripple = document.createElement('span');
+    ripple.style.position='absolute';
+    ripple.style.width='100%';
+    ripple.style.height='100%';
+    ripple.style.top='0';
+    ripple.style.left='0';
+    ripple.style.background='rgba(255,255,255,0.2)';
+    ripple.style.borderRadius='30px';
+    ripple.style.pointerEvents='none';
+    ripple.style.transform='scale(0)';
+    ripple.style.transition='transform 0.3s ease, opacity 0.3s ease';
+    btn.appendChild(ripple);
+    requestAnimationFrame(()=>{ ripple.style.transform='scale(1)'; ripple.style.opacity='0'; });
+    setTimeout(()=>ripple.remove(),350);
+  });
+});
+</script>
 
 </body>
 </html>
