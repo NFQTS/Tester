@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Help Luna Find a Home 🐾</title>
+<title>Help Puppies</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -12,66 +13,111 @@ body {
   font-family: 'Inter', sans-serif;
   background:#fffaf5;
   color:#333;
+  overflow-x:hidden;
 }
 
+/* HERO */
 .hero {
   min-height:100vh;
-  padding:60px 20px;
   display:flex;
   flex-direction:column;
+  justify-content:center;
   align-items:center;
   text-align:center;
+  padding:40px 20px;
+  position:relative;
 }
 
-.hero h1 {
+.hero-word {
   font-family:'Pacifico', cursive;
-  font-size:3.5rem;
+  font-size:4rem;
   color:#ff69b4;
-  margin-bottom:10px;
+  text-shadow:0 0 10px #ffb6c1;
+  animation:bounce 1.6s infinite;
 }
 
-.hero p {
-  max-width:520px;
+.hero-word:nth-child(2) {
+  animation-delay:0.2s;
+}
+
+@keyframes bounce {
+  0%,20%,50%,80%,100% { transform:translateY(0); }
+  40% { transform:translateY(-12px); }
+  60% { transform:translateY(-6px); }
+}
+
+.hero-sub {
+  margin-top:14px;
   font-size:1.1rem;
   color:#666;
+  max-width:520px;
+}
+
+/* FEATURED CARD */
+.featured {
+  margin-top:60px;
+  width:100%;
+  display:flex;
+  justify-content:center;
 }
 
 .puppy-card {
-  margin-top:40px;
-  background:white;
-  border-radius:28px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.08);
-  overflow:hidden;
-  max-width:420px;
+  background:linear-gradient(180deg,#ffffff,#fff0f5);
+  border-radius:30px;
+  max-width:440px;
   width:100%;
+  box-shadow:0 30px 60px rgba(0,0,0,0.12);
+  overflow:hidden;
+  transform:translateY(0);
+  transition:transform 0.4s ease, box-shadow 0.4s ease;
+  position:relative;
 }
 
-.puppy-card img {
+.puppy-card:hover {
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 40px 80px rgba(255,105,180,0.35);
+}
+
+.puppy-card::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top,#ffb6c140,transparent 60%);
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+.puppy-card:hover::after {
+  opacity:1;
+}
+
+.puppy-img {
   width:100%;
-  height:280px;
+  height:300px;
   object-fit:cover;
 }
 
-.puppy-content {
-  padding:25px;
+.puppy-body {
+  padding:26px;
 }
 
-.puppy-content h2 {
-  font-size:1.8rem;
+.puppy-body h2 {
+  font-size:2rem;
   margin-bottom:6px;
 }
 
-.puppy-content .meta {
-  font-size:0.95rem;
+.puppy-meta {
   color:#777;
-  margin-bottom:15px;
+  font-size:0.95rem;
+  margin-bottom:18px;
 }
 
+/* PROGRESS */
 .progress-wrap {
-  margin:20px 0;
+  margin-bottom:20px;
 }
 
-.progress-label {
+.progress-top {
   display:flex;
   justify-content:space-between;
   font-size:0.9rem;
@@ -79,68 +125,80 @@ body {
 }
 
 .progress-bar {
-  background:#ffe4ec;
+  height:16px;
   border-radius:20px;
-  height:14px;
+  background:#ffe1ec;
   overflow:hidden;
 }
 
 .progress-fill {
-  width:32%;
+  width:38%;
   height:100%;
   background:linear-gradient(90deg,#ff69b4,#ffb6c1);
-  transition:width 0.6s ease;
+  animation:loadBar 1.5s ease;
 }
 
-.goal-text {
-  font-size:0.85rem;
+@keyframes loadBar {
+  from { width:0; }
+  to { width:38%; }
+}
+
+.progress-note {
+  font-size:0.8rem;
   color:#888;
   margin-top:6px;
 }
 
+/* ACTIONS */
 .actions {
   display:flex;
   flex-direction:column;
   gap:12px;
-  margin-top:20px;
 }
 
-.action-btn {
+.action {
   padding:14px;
   border-radius:30px;
   font-size:1rem;
   font-weight:600;
   text-decoration:none;
   text-align:center;
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action:hover {
+  transform:scale(1.05);
 }
 
 .adopt {
   background:#ff69b4;
   color:white;
+  box-shadow:0 10px 30px #ff69b470;
 }
 
 .shop {
-  background:#fff0f5;
-  color:#ff69b4;
+  background:white;
   border:2px solid #ffb6c1;
+  color:#ff69b4;
 }
 
 .crypto {
-  background:#f0f7ff;
-  color:#3366cc;
+  background:#eef4ff;
   border:2px solid #cddfff;
+  color:#3366cc;
 }
 
+/* FOOT */
 .disclaimer {
+  margin-top:18px;
   max-width:420px;
   font-size:0.8rem;
   color:#999;
-  margin-top:18px;
-  line-height:1.4;
+  text-align:center;
 }
 
-.footer {
-  margin-top:50px;
+.stats {
+  margin-top:30px;
   font-size:0.85rem;
   color:#aaa;
 }
@@ -150,57 +208,62 @@ body {
 <body>
 
 <div class="hero">
-  <h1>Help Luna 🐾</h1>
-  <p>
-    We’re helping one rescue puppy at a time — starting with Luna.
-    Every action below helps her get closer to a safe, happy life.
-  </p>
+  <div class="hero-word">Help Puppies.</div>
+  <div class="hero-word">Earn Rewards.</div>
+
+  <div class="hero-sub">
+    We spotlight one real rescue puppy at a time and rally the internet to help.
+  </div>
 
   <!-- FEATURED PUPPY -->
-  <div class="puppy-card">
-    <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b" alt="Luna the puppy">
+  <div class="featured">
+    <div class="puppy-card">
+      <img class="puppy-img"
+        src="https://images.unsplash.com/photo-1601758173925-6e26e6d36d38"
+        alt="Pitbull Puppy">
 
-    <div class="puppy-content">
-      <h2>Luna</h2>
-      <div class="meta">2-year-old rescue • Sweet • Loves people</div>
-
-      <!-- PROGRESS -->
-      <div class="progress-wrap">
-        <div class="progress-label">
-          <span>Care Fund Progress</span>
-          <span>$640 / $2,000</span>
+      <div class="puppy-body">
+        <h2>Tank 🐶</h2>
+        <div class="puppy-meta">
+          Pitbull puppy • 4 months old • Big heart, bigger paws
         </div>
-        <div class="progress-bar">
-          <div class="progress-fill"></div>
+
+        <div class="progress-wrap">
+          <div class="progress-top">
+            <span>Tank’s Care Fund</span>
+            <span>$760 / $2,000</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <div class="progress-note">
+            Covers adoption fees, vet care & essentials
+          </div>
         </div>
-        <div class="goal-text">
-          Goal covers adoption fees, food, vet care & basics.
+
+        <div class="actions">
+          <a href="https://example-shelter-link.org" target="_blank" class="action adopt">
+            Adopt Tank
+          </a>
+
+          <a href="https://chewy.com/?affiliate=yourlink" target="_blank" class="action shop">
+            Help by Shopping 🛒
+          </a>
+
+          <a href="#" class="action crypto">
+            Support Digitally 💖
+          </a>
         </div>
-      </div>
-
-      <!-- ACTIONS -->
-      <div class="actions">
-        <a href="https://example-shelter-link.org" target="_blank" class="action-btn adopt">
-          Adopt Luna 🐶
-        </a>
-
-        <a href="https://chewy.com/?affiliate=yourlink" target="_blank" class="action-btn shop">
-          Shop Puppy Essentials 🛒
-        </a>
-
-        <a href="#" class="action-btn crypto">
-          Support Digitally 💖
-        </a>
       </div>
     </div>
   </div>
 
   <div class="disclaimer">
-    Luna is featured as part of our early pilot. If she is adopted before
-    this goal is reached, support will be redirected to the next rescue puppy.
+    Featured puppy shown during our early pilot. If Tank is adopted before the goal
+    is reached, support rolls to the next rescue.
   </div>
 
-  <div class="footer">
+  <div class="stats">
     Community rewards paid so far: <strong>$31</strong>
   </div>
 </div>
