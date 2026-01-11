@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Puppies</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;cursor:default;transition: all 0.3s ease;}
+body{font-family:'Pacifico',cursive;overflow-x:hidden;background:#fffaf0;color:#ff69b4;}
+
+.hero{position:relative;z-index:10;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:url('https://via.placeholder.com/1920x1080?text=Cute+Puppy+Background') no-repeat center center/cover;}
+.hero-word{font-size:4em;margin:0.2em 0;text-shadow:0 0 5px,0 0 10px;animation:bounce 1.5s infinite;}
+@keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0);}40%{transform:translateY(-10px);}60%{transform:translateY(-5px);}}
+
+.cta-button{margin-top:30px;padding:15px 40px;font-size:1.4em;border:none;border-radius:50px;box-shadow:0 0 10px,0 0 20px inset;background:#ffb6c1;color:#fff;box-shadow:0 0 10px #ff69b4,0 0 20px #ffb6c1 inset;cursor:pointer;}
+.cta-button:hover{transform:scale(1.05);}
+
+.meter-container{margin-top:30px;width:80%;max-width:500px;background:#ffe4e1;border-radius:50px;overflow:hidden;height:35px;box-shadow: inset 0 0 10px #ffb6c1;}
+.meter-fill{height:100%;width:0%;background:linear-gradient(90deg,#ff69b4,#ffb6c1);transition:width 1s ease-in-out;}
+.meter-label{margin-top:10px;font-size:1.3em;text-shadow:0 0 5px;}
+
+.card{margin:20px auto;padding:25px;border-radius:25px;max-width:500px;width:90%;text-align:center;box-shadow:0 0 20px;}
+.card h3{font-size:1.8em;margin-bottom:15px;}
+.card p{font-size:1.2em;margin-bottom:20px;}
+.card a{padding:15px 40px;font-size:1.3em;border-radius:50px;text-decoration:none;display:inline-block;}
+
+.chewy-card{background:linear-gradient(120deg,#ffb6c1,#ff69b4);box-shadow:0 0 20px #ff69b4;color:white;}
+.chewy-card a{background:#fff;color:#ff69b4;box-shadow:0 0 10px #ffb6c1;}
+
+.crypto-card{background:linear-gradient(120deg,#fff0f5,#ffb6c1);box-shadow:0 0 20px #ffb6c1;color:#ff69b4;}
+.crypto-card a{background:#ff69b4;color:white;box-shadow:0 0 10px #ff69b4;}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;}
+.modal-content{background:#fffaf0;padding:40px;border-radius:30px;text-align:center;max-width:450px;box-shadow:0 0 30px #ffb6c1;position:relative;}
+.modal-close{position:absolute;top:15px;right:20px;font-size:2em;cursor:pointer;}
+.contribute-btn{padding:18px 50px;margin:15px;font-size:1.3em;border-radius:50px;cursor:pointer;border:none;background:#ff69b4;color:white;}
+.contribute-btn:hover{transform:scale(1.05);}
+
+input[type=number]{width:80%;padding:12px 20px;font-size:1.2em;border-radius:12px;border:2px solid #ffb6c1;margin-bottom:15px;}
+
+.leaderboard{margin:20px auto;text-align:center;max-width:400px;}
+.leaderboard h3{font-size:1.5em;margin-bottom:10px;}
+.leaderboard ol{font-size:1.2em;text-align:left;margin-left:30px;}
+
+.particle{position:absolute;border-radius:50%;opacity:0.6;pointer-events:none;}
+.cursor{position:fixed;width:15px;height:15px;pointer-events:none;transform:translate(-50%,-50%);z-index:100;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff69b4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center center/cover;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-word">Help Puppies.</div>
+  <div class="hero-word">Track the Progress.</div>
+  <button class="cta-button" id="contributeBtn">Contribute Crypto 🐾</button>
+
+  <div class="meter-container">
+    <div class="meter-fill" id="meterFill"></div>
+  </div>
+  <div class="meter-label" id="meterLabel">$0 / $2,500</div>
+</div>
+
+<!-- Chewy Affiliate -->
+<div class="card chewy-card">
+  <h3>Shop Puppy Essentials 🐶</h3>
+  <p>Every purchase helps fill the puppy adoption meter!</p>
+  <a href="YOUR_CHEWY_AFFILIATE_LINK" target="_blank">Shop Chewy & Help 🛒</a>
+  <p style="font-size:0.85em;margin-top:12px;">This is an affiliate link — purchases contribute to the meter.</p>
+</div>
+
+<!-- Crypto Contribution -->
+<div class="card crypto-card">
+  <h3>Contribute with Polygon 💎</h3>
+  <p>Send crypto to help rescue puppies! Fun, fast, and secure.</p>
+  <a href="#" id="cryptoBtn">Contribute Crypto</a>
+  <p style="font-size:0.85em;margin-top:12px;">Only Polygon supported for now.</p>
+</div>
+
+<!-- Leaderboard -->
+<div class="leaderboard">
+  <h3>Top Puppy Heroes 🐾</h3>
+  <ol id="leaderboardList">
+    <li>Alice — 3 contributions</li>
+    <li>Emma — 2 contributions</li>
+    <li>Sophia — 1 contribution</li>
+  </ol>
+</div>
+
+<!-- Contribution Modal -->
+<div id="contributeModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" id="closeModal">&times;</span>
+    <h2>Contribute Polygon 💎</h2>
+    <p>Enter an amount to add to the global fund:</p>
+    <input type="number" id="contributeInput" placeholder="$" min="1">
+    <button class="contribute-btn" id="submitContribute">Add Contribution</button>
+  </div>
+</div>
+
+<div class="cursor" id="cursor"></div>
+
+<script>
+// Cursor particles
+const cursor=document.getElementById('cursor');
+document.body.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  for(let i=0;i<2;i++){
+    const p=document.createElement('div');p.className='particle';
+    p.style.width=p.style.height=Math.random()*8+4+'px';
+    p.style.left=e.clientX+'px';p.style.top=e.clientY+'px';
+    p.style.background=['#ff69b4','#ffb6c1','#fff0f5'][Math.floor(Math.random()*3)];
+    p.style.opacity=Math.random();document.body.appendChild(p);
+    setTimeout(()=>p.remove(),800);
+  }
+});
+
+// Modal logic
+const modal=document.getElementById('contributeModal');
+const contributeBtn=document.getElementById('contributeBtn');
+const closeModal=document.getElementById('closeModal');
+const submitContribute=document.getElementById('submitContribute');
+const contributeInput=document.getElementById('contributeInput');
+
+let globalAmount=0,goalAmount=2500;
+
+contributeBtn.onclick=()=>modal.style.display='flex';
+closeModal.onclick=()=>modal.style.display='none';
+window.onclick=e=>{if(e.target===modal) modal.style.display='none';}
+
+submitContribute.onclick=()=>{
+  const value=parseFloat(contributeInput.value);
+  if(!value||value<=0)return;
+  globalAmount+=value;if(globalAmount>goalAmount)globalAmount=goalAmount;
+  updateMeter(); modal.style.display='none'; contributeInput.value='';
+  updateLeaderboard("You",value); // temporary fun demo
+}
+
+function updateMeter(){
+  const percent=(globalAmount/goalAmount)*100;
+  document.getElementById('meterFill').style.width=percent+'%';
+  document.getElementById('meterLabel').textContent=`$${globalAmount.toLocaleString()} / $${goalAmount.toLocaleString()}`;
+}
+
+// Simple leaderboard update for demo
+function updateLeaderboard(name,value){
+  const list=document.getElementById('leaderboardList');
+  const li=document.createElement('li');
+  li.textContent=`${name} — 1 contribution`;
+  list.insertBefore(li,list.firstChild);
+}
+</script>
+
+</body>
+</html>
