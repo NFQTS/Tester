@@ -25,7 +25,6 @@ body {
   align-items:center;
   text-align:center;
   padding:40px 20px;
-  position:relative;
 }
 
 .hero-word {
@@ -38,16 +37,8 @@ body {
 
 .hero-word:nth-child(2) { animation-delay:0.2s; }
 
-@keyframes bounce {
-  0%,20%,50%,80%,100% { transform:translateY(0); }
-  40% { transform:translateY(-12px); }
-  60% { transform:translateY(-6px); }
-}
-
-@keyframes pulse {
-  0% { text-shadow:0 0 8px #ffb6c1; }
-  100% { text-shadow:0 0 20px #ff69b4; }
-}
+@keyframes bounce { 0%,20%,50%,80%,100%{transform:translateY(0);} 40%{transform:translateY(-12px);} 60%{transform:translateY(-6px);} }
+@keyframes pulse { 0%{text-shadow:0 0 8px #ffb6c1;} 100%{text-shadow:0 0 20px #ff69b4;} }
 
 .hero-sub {
   margin-top:14px;
@@ -91,144 +82,74 @@ body {
   overflow:hidden;
   transform:translateY(0);
   transition:transform 0.4s ease, box-shadow 0.4s ease;
-  position:relative;
 }
 
-.puppy-card:hover {
-  transform:translateY(-10px) scale(1.03);
-  box-shadow:0 50px 100px rgba(255,105,180,0.4);
-}
+.puppy-card:hover { transform:translateY(-10px) scale(1.03); box-shadow:0 50px 100px rgba(255,105,180,0.4); }
 
-.puppy-card::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at top,#ffb6c180,transparent 60%);
-  opacity:0;
-  transition:opacity 0.4s ease;
-}
-
-.puppy-card:hover::after { opacity:1; }
-
-.puppy-img {
-  width:100%;
-  height:320px;
-  object-fit:cover;
-  transition: transform 0.3s ease;
-}
-
+.puppy-img { width:100%; height:320px; object-fit:cover; transition: transform 0.3s ease; }
 .puppy-card:hover .puppy-img { transform:scale(1.05); }
 
-.puppy-body {
-  padding:28px;
-}
+.puppy-body { padding:28px; }
+.puppy-body h2 { font-size:2rem; margin-bottom:6px; }
+.puppy-meta { color:#777; font-size:0.95rem; margin-bottom:18px; }
 
-.puppy-body h2 {
-  font-size:2rem;
-  margin-bottom:6px;
-}
+.progress-wrap { margin-bottom:14px; }
+.progress-top { display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:6px; }
+.progress-bar { height:16px; border-radius:20px; background:#ffe1ec; overflow:hidden; }
+.progress-fill { width:38%; height:100%; background:linear-gradient(90deg,#ff69b4,#ffb6c1); animation:loadBar 1.5s ease, pulseBar 2s infinite alternate; }
+@keyframes loadBar { from{width:0;} to{width:38%;} }
+@keyframes pulseBar { 0%{filter:brightness(1);} 100%{filter:brightness(1.2);} }
+.progress-note { font-size:0.8rem; color:#888; margin-top:6px; text-align:center; }
 
-.puppy-meta {
-  color:#777;
-  font-size:0.95rem;
-  margin-bottom:18px;
-}
-
-/* PROGRESS */
-.progress-wrap {
-  margin-bottom:20px;
-}
-
-.progress-top {
-  display:flex;
-  justify-content:space-between;
-  font-size:0.9rem;
-  margin-bottom:6px;
-}
-
-.progress-bar {
-  height:16px;
-  border-radius:20px;
-  background:#ffe1ec;
-  overflow:hidden;
-}
-
-.progress-fill {
-  width:38%;
-  height:100%;
-  background:linear-gradient(90deg,#ff69b4,#ffb6c1);
-  animation:loadBar 1.5s ease, pulseBar 2s infinite alternate;
-}
-
-@keyframes loadBar { from {width:0;} to {width:38%;} }
-@keyframes pulseBar {
-  0% { filter:brightness(1); }
-  100% { filter:brightness(1.2); }
-}
-
-.progress-note {
-  font-size:0.8rem;
-  color:#888;
-  margin-top:6px;
-}
-
-/* BUTTONS */
-.actions {
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.action {
-  padding:14px;
-  border-radius:30px;
-  font-size:1rem;
+/* SINGLE CTA BUTTON */
+.cta-button {
+  margin:20px auto 0;
+  padding:18px 50px;
+  font-size:1.2rem;
   font-weight:600;
-  text-decoration:none;
-  text-align:center;
+  border:none;
+  border-radius:50px;
+  background:#ff69b4;
+  color:white;
+  cursor:pointer;
+  display:block;
+  box-shadow:0 12px 30px rgba(255,105,180,0.4);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position:relative;
   overflow:hidden;
 }
 
-.action::after {
+.cta-button:hover { transform:scale(1.05); box-shadow:0 18px 40px rgba(255,105,180,0.5); }
+.cta-button::after {
   content:"";
   position:absolute;
   inset:0;
   background:rgba(255,255,255,0.2);
-  border-radius:30px;
+  border-radius:50px;
   transform:scale(0);
   transition:transform 0.3s ease;
 }
+.cta-button:hover::after { transform:scale(1); }
 
-.action:hover::after { transform:scale(1); }
-
-.action:hover { transform:scale(1.05); }
-
-.adopt { background:#ff69b4; color:white; box-shadow:0 10px 30px #ff69b470; }
-.shop { background:white; border:2px solid #ffb6c1; color:#ff69b4; }
-.crypto { background:#eef4ff; border:2px solid #cddfff; color:#3366cc; }
-
-/* CAREERS CARD */
+/* CAREERS (COMING SOON) */
 .careers {
-  margin-top:40px;
+  margin-top:30px;
   background:#fff0f5;
-  padding:24px;
+  padding:22px;
   border-radius:24px;
   max-width:400px;
   text-align:center;
   box-shadow:0 15px 40px rgba(255,105,180,0.25);
+  cursor:pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .careers:hover { transform:scale(1.03); box-shadow:0 25px 60px rgba(255,105,180,0.4); }
-
 .careers h3 { font-size:1.5rem; margin-bottom:10px; color:#ff69b4; }
-.careers p { font-size:0.9rem; color:#666; margin-bottom:15px; }
+.careers p { font-size:0.9rem; color:#666; }
 
 /* FOOTER */
 .disclaimer { margin-top:18px; max-width:420px; font-size:0.8rem; color:#999; text-align:center; }
-.stats { margin-top:30px; font-size:0.85rem; color:#aaa; text-align:center; }
+.stats { margin-top:30px; font-size:0.85rem; color:#aaa; text-align:center; text-align:center; }
 </style>
 </head>
 
@@ -237,22 +158,17 @@ body {
 <div class="hero">
   <div class="hero-word">Help Puppies.</div>
   <div class="hero-word">Earn Rewards.</div>
-
   <div class="hero-sub">
-    Spotlighting one real rescue puppy at a time. Join in, click, and make an impact!
+    Spotlighting one real rescue puppy at a time. Join in and make an impact!
   </div>
 
   <!-- FEATURED PUPPY -->
   <div class="featured">
     <div class="puppy-card">
-      <img class="puppy-img"
-        src="https://images.unsplash.com/photo-1601758173925-6e26e6d36d38"
-        alt="Pitbull Puppy">
-
+      <img class="puppy-img" src="https://images.unsplash.com/photo-1601758173925-6e26e6d36d38" alt="Pitbull Puppy">
       <div class="puppy-body">
         <h2>Tank 🐶</h2>
         <div class="puppy-meta">Pitbull puppy • 4 months • Big heart, bigger paws</div>
-
         <div class="progress-wrap">
           <div class="progress-top">
             <span>Tank’s Care Fund</span>
@@ -261,66 +177,51 @@ body {
           <div class="progress-bar">
             <div class="progress-fill"></div>
           </div>
-          <div class="progress-note">
-            Covers adoption fees, vet care & essentials
-          </div>
-        </div>
-
-        <div class="actions">
-          <a href="https://example-shelter-link.org" target="_blank" class="action adopt">Adopt Tank</a>
-          <a href="https://chewy.com/?affiliate=yourlink" target="_blank" class="action shop">Help by Shopping 🛒</a>
-          <a href="#" class="action crypto">Support Digitally 💖</a>
+          <div class="progress-note">Covers adoption fees, vet care & essentials</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- CAREERS -->
-  <div class="careers">
+  <!-- SINGLE MAIN CTA -->
+  <button class="cta-button" id="mainCTA">Adopt / Support Tank 🐾</button>
+
+  <!-- CAREERS COMING SOON -->
+  <div class="careers" id="careersCard">
     <h3>Work with Puppies 🐾</h3>
-    <p>Explore opportunities to help rescues, care for puppies, or join our mission.</p>
-    <a href="mailto:team@helppuppies.org" class="action crypto">Apply / Learn More</a>
+    <p>Opportunities to help rescues, care for puppies, and more!</p>
   </div>
 
   <div class="disclaimer">
     Featured puppy shown during our early pilot. If Tank is adopted before the goal is reached, support rolls to the next rescue.
   </div>
-
   <div class="stats">
     Community rewards paid so far: <strong>$31</strong>
   </div>
 </div>
 
 <script>
-// Optional: micro particle effects behind hero
+// particles
 for(let i=0;i<15;i++){
-  const p = document.createElement('div');
+  const p=document.createElement('div');
   p.className='particle';
-  p.style.left = Math.random()*window.innerWidth+'px';
-  p.style.top = Math.random()*window.innerHeight*0.4+'px';
+  p.style.left=Math.random()*window.innerWidth+'px';
+  p.style.top=Math.random()*window.innerHeight*0.4+'px';
   p.style.width=p.style.height=Math.random()*10+5+'px';
   p.style.background=['#ff69b4','#ffb6c1','#fff0f5'][Math.floor(Math.random()*3)];
   document.body.appendChild(p);
 }
 
-// Button click animation (ripple)
-document.querySelectorAll('.action').forEach(btn=>{
-  btn.addEventListener('click',e=>{
-    const ripple = document.createElement('span');
-    ripple.style.position='absolute';
-    ripple.style.width='100%';
-    ripple.style.height='100%';
-    ripple.style.top='0';
-    ripple.style.left='0';
-    ripple.style.background='rgba(255,255,255,0.2)';
-    ripple.style.borderRadius='30px';
-    ripple.style.pointerEvents='none';
-    ripple.style.transform='scale(0)';
-    ripple.style.transition='transform 0.3s ease, opacity 0.3s ease';
-    btn.appendChild(ripple);
-    requestAnimationFrame(()=>{ ripple.style.transform='scale(1)'; ripple.style.opacity='0'; });
-    setTimeout(()=>ripple.remove(),350);
-  });
+// CTA button click animation
+const cta = document.getElementById('mainCTA');
+cta.addEventListener('click',()=>{
+  alert("Thanks for supporting Tank! 💖"); // placeholder
+});
+
+// Careers "coming soon"
+const careers = document.getElementById('careersCard');
+careers.addEventListener('click',()=>{
+  alert("Coming soon! Stay tuned for puppy jobs 🐾");
 });
 </script>
 
