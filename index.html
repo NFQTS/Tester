@@ -13,8 +13,9 @@ body{font-family:'Pacifico',cursive;overflow-x:hidden;background:#fffaf0;color:#
 .hero-word{font-size:4em;margin:0.2em 0;text-shadow:0 0 5px,0 0 10px;animation:bounce 1.5s infinite;}
 @keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0);}40%{transform:translateY(-10px);}60%{transform:translateY(-5px);}}
 
-.cta-button{margin-top:30px;padding:15px 40px;font-size:1.4em;border:none;border-radius:50px;box-shadow:0 0 10px,0 0 20px inset;background:#ffb6c1;color:#fff;box-shadow:0 0 10px #ff69b4,0 0 20px #ffb6c1 inset;cursor:pointer;}
-.cta-button:hover{transform:scale(1.05);}
+.cta-button{margin-top:30px;padding:18px 50px;font-size:1.5em;border:none;border-radius:50px;box-shadow:0 0 10px,0 0 20px inset;background:#ff69b4;color:#fff;display:flex;align-items:center;gap:12px;transition:transform 0.2s;}
+.cta-button img{width:28px;height:28px;}
+.cta-button:hover{transform:scale(1.08);}
 
 .meter-container{margin-top:30px;width:80%;max-width:500px;background:#ffe4e1;border-radius:50px;overflow:hidden;height:35px;box-shadow: inset 0 0 10px #ffb6c1;}
 .meter-fill{height:100%;width:0%;background:linear-gradient(90deg,#ff69b4,#ffb6c1);transition:width 1s ease-in-out;}
@@ -28,14 +29,11 @@ body{font-family:'Pacifico',cursive;overflow-x:hidden;background:#fffaf0;color:#
 .chewy-card{background:linear-gradient(120deg,#ffb6c1,#ff69b4);box-shadow:0 0 20px #ff69b4;color:white;}
 .chewy-card a{background:#fff;color:#ff69b4;box-shadow:0 0 10px #ffb6c1;}
 
-.crypto-card{background:linear-gradient(120deg,#fff0f5,#ffb6c1);box-shadow:0 0 20px #ffb6c1;color:#ff69b4;}
-.crypto-card a{background:#ff69b4;color:white;box-shadow:0 0 10px #ff69b4;}
-
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;}
 .modal-content{background:#fffaf0;padding:40px;border-radius:30px;text-align:center;max-width:450px;box-shadow:0 0 30px #ffb6c1;position:relative;}
 .modal-close{position:absolute;top:15px;right:20px;font-size:2em;cursor:pointer;}
-.contribute-btn{padding:18px 50px;margin:15px;font-size:1.3em;border-radius:50px;cursor:pointer;border:none;background:#ff69b4;color:white;}
-.contribute-btn:hover{transform:scale(1.05);}
+.contribute-btn{padding:18px 50px;margin:15px;font-size:1.3em;border-radius:50px;cursor:pointer;border:none;background:#ff69b4;color:white;transition:transform 0.2s;}
+.contribute-btn:hover{transform:scale(1.08);}
 
 input[type=number]{width:80%;padding:12px 20px;font-size:1.2em;border-radius:12px;border:2px solid #ffb6c1;margin-bottom:15px;}
 
@@ -52,7 +50,10 @@ input[type=number]{width:80%;padding:12px 20px;font-size:1.2em;border-radius:12p
 <div class="hero">
   <div class="hero-word">Help Puppies.</div>
   <div class="hero-word">Track the Progress.</div>
-  <button class="cta-button" id="contributeBtn">Contribute Crypto 🐾</button>
+  <button class="cta-button" id="contributeBtn">
+    <img src="https://cryptologos.cc/logos/polygon-matic-logo.png" alt="Polygon Logo">
+    Contribute Crypto 🐾
+  </button>
 
   <div class="meter-container">
     <div class="meter-fill" id="meterFill"></div>
@@ -66,14 +67,6 @@ input[type=number]{width:80%;padding:12px 20px;font-size:1.2em;border-radius:12p
   <p>Every purchase helps fill the puppy adoption meter!</p>
   <a href="YOUR_CHEWY_AFFILIATE_LINK" target="_blank">Shop Chewy & Help 🛒</a>
   <p style="font-size:0.85em;margin-top:12px;">This is an affiliate link — purchases contribute to the meter.</p>
-</div>
-
-<!-- Crypto Contribution -->
-<div class="card crypto-card">
-  <h3>Contribute with Polygon 💎</h3>
-  <p>Send crypto to help rescue puppies! Fun, fast, and secure.</p>
-  <a href="#" id="cryptoBtn">Contribute Crypto</a>
-  <p style="font-size:0.85em;margin-top:12px;">Only Polygon supported for now.</p>
 </div>
 
 <!-- Leaderboard -->
@@ -90,7 +83,7 @@ input[type=number]{width:80%;padding:12px 20px;font-size:1.2em;border-radius:12p
 <div id="contributeModal" class="modal">
   <div class="modal-content">
     <span class="modal-close" id="closeModal">&times;</span>
-    <h2>Contribute Polygon 💎</h2>
+    <h2>Contribute Crypto 💎</h2>
     <p>Enter an amount to add to the global fund:</p>
     <input type="number" id="contributeInput" placeholder="$" min="1">
     <button class="contribute-btn" id="submitContribute">Add Contribution</button>
@@ -132,7 +125,7 @@ submitContribute.onclick=()=>{
   if(!value||value<=0)return;
   globalAmount+=value;if(globalAmount>goalAmount)globalAmount=goalAmount;
   updateMeter(); modal.style.display='none'; contributeInput.value='';
-  updateLeaderboard("You",value); // temporary fun demo
+  updateLeaderboard("You",value);
 }
 
 function updateMeter(){
