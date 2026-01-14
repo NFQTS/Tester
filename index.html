@@ -1,214 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Stellar — Talent & Work On Demand</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Stellar — Specialized Talent On Demand</title>
 
-    body {
-      height: 100vh;
-      background: radial-gradient(ellipse at bottom, #0a0015 0%, #000 100%);
-      color: #f0f0ff;
-      font-family: system-ui, -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, sans-serif;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-    }
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-    /* Stars */
-    .stars {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-    }
+body {
+  height: 100vh;
+  background: radial-gradient(ellipse at bottom, #0b0018 0%, #020006 55%, #000 100%);
+  color: #f4f7ff;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
 
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      opacity: 0;
-      animation: twinkle 8s infinite;
-    }
+/* ---------- STARFIELD ---------- */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
 
-    @keyframes twinkle {
-      0%,100% { opacity: 0; }
-      50%     { opacity: 0.9; }
-    }
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle 7s infinite;
+}
 
-    /* Shooting stars / Starfall */
-    .shooting-star {
-      position: absolute;
-      width: 3px;
-      height: 60px;
-      background: linear-gradient(transparent, #a5d8ff, #ffffff, transparent);
-      transform: rotate(35deg);
-      opacity: 0;
-      filter: blur(1px);
-      animation: fall linear infinite;
-    }
+@keyframes twinkle {
+  0%,100% { opacity: 0; }
+  50% { opacity: 0.9; }
+}
 
-    @keyframes fall {
-      0% {
-        opacity: 0;
-        transform: translateY(-100vh) translateX(50vw) rotate(35deg);
-      }
-      10% { opacity: 0.8; }
-      50% { opacity: 0.9; }
-      90% { opacity: 0; }
-      100% {
-        opacity: 0;
-        transform: translateY(120vh) translateX(-80vw) rotate(35deg);
-      }
-    }
+/* ---------- SHOOTING STARS ---------- */
+.shooting-star {
+  position: absolute;
+  width: 3px;
+  height: 90px;
+  background: linear-gradient(transparent, #9adfff, #ffffff, transparent);
+  transform: rotate(35deg);
+  filter: blur(1px);
+  animation: fall linear infinite;
+}
 
-    .content {
-      text-align: center;
-      z-index: 10;
-      padding: 20px;
-      max-width: 720px;
-    }
+@keyframes fall {
+  0% {
+    opacity: 0;
+    transform: translateY(-120vh) translateX(40vw) rotate(35deg);
+  }
+  15% { opacity: 1; }
+  60% { opacity: 0.9; }
+  100% {
+    opacity: 0;
+    transform: translateY(140vh) translateX(-90vw) rotate(35deg);
+  }
+}
 
-    h1 {
-      font-size: clamp(3.2rem, 8vw, 7.5rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      background: linear-gradient(90deg, #c3daff, #a5d8ff, #91e8ff, #c3daff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      background-size: 200% auto;
-      animation: gradientFlow 12s linear infinite;
-    }
+/* ---------- CONTENT ---------- */
+.content {
+  text-align: center;
+  z-index: 10;
+  padding: 24px;
+  max-width: 820px;
+}
 
-    @keyframes gradientFlow {
-      0%   { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
+/* LOGO WORDMARK */
+h1 {
+  font-size: clamp(3.5rem, 8vw, 7.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  margin-bottom: 0.6rem;
+  background: linear-gradient(120deg, #d4e6ff, #9adfff, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientFlow 10s linear infinite;
+}
 
-    .tagline {
-      font-size: clamp(1.5rem, 5vw, 2.4rem);
-      font-weight: 300;
-      margin: 1.2rem 0 2.5rem;
-      opacity: 0.92;
-      letter-spacing: -0.02em;
-    }
+@keyframes gradientFlow {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
 
-    .flip-text {
-      display: inline-block;
-      min-width: 240px;
-      font-weight: 600;
-      color: #91e8ff;
-      position: relative;
-    }
+/* SUBHEAD */
+.subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+  margin-bottom: 2.4rem;
+}
 
-    .flip-text span {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    }
+/* FLIP LINE */
+.tagline {
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  font-weight: 300;
+  margin-bottom: 3.2rem;
+  letter-spacing: -0.03em;
+}
 
-    .flip-text span.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+.flip {
+  display: inline-block;
+  min-width: 260px;
+  font-weight: 600;
+  color: #9adfff;
+  position: relative;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 1rem 2.6rem;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #000;
-      background: #91e8ff;
-      border: none;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: all 0.35s ease;
-      box-shadow: 0 0 40px rgba(145, 232, 255, 0.45);
-    }
+.flip span {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-    .btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 60px rgba(145, 232, 255, 0.7);
-      background: #a5d8ff;
-    }
-  </style>
+.flip span.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- BUTTON ---------- */
+.btn {
+  display: inline-block;
+  padding: 1.1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #001018;
+  background: linear-gradient(135deg, #9adfff, #cfefff);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.25) inset,
+    0 20px 60px rgba(154,223,255,0.45);
+  transition: all 0.35s ease;
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.35) inset,
+    0 30px 90px rgba(154,223,255,0.7);
+}
+</style>
 </head>
+
 <body>
 
-  <div class="stars" id="stars"></div>
+<div class="stars" id="stars"></div>
 
-  <div class="content">
-    <h1>Stellar</h1>
-    
-    <div class="tagline">
-      <span class="flip-text">
-        <span class="active">Work</span>
-        <span>Talent</span>
-      </span>
-       on demand
-    </div>
+<div class="content">
+  <h1>Stellar</h1>
 
-    <a href="#" class="btn">Early Access</a>
+  <div class="subtitle">
+    A platform for highly specialized talent
   </div>
 
-  <script>
-    // Twinkling background stars
-    function createStars() {
-      const starsContainer = document.getElementById('stars');
-      for(let i = 0; i < 180; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        const size = Math.random() * 3 + 0.6;
-        star.style.width = size + 'px';
-        star.style.height = size + 'px';
-        star.style.left = Math.random() * 100 + 'vw';
-        star.style.top = Math.random() * 100 + 'vh';
-        star.style.animationDelay = Math.random() * 8 + 's';
-        starsContainer.appendChild(star);
-      }
-    }
+  <div class="tagline">
+    <span class="flip">
+      <span class="active">Work</span>
+      <span>Talent</span>
+    </span>
+    on demand
+  </div>
 
-    // Shooting stars
-    function createShootingStar() {
-      const star = document.createElement('div');
-      star.className = 'shooting-star';
-      star.style.left = Math.random() * 120 + 'vw';
-      star.style.top = '-60px';
-      star.style.animationDuration = (Math.random() * 4 + 3.5) + 's';
-      star.style.animationDelay = Math.random() * 6 + 's';
-      document.body.appendChild(star);
-      
-      star.addEventListener('animationend', () => {
-        star.remove();
-      });
-    }
+  <a href="#" class="btn">Request Early Access</a>
+</div>
 
-    // Text flip animation
-    function flipText() {
-      const spans = document.querySelectorAll('.flip-text span');
-      let index = 0;
-      
-      setInterval(() => {
-        spans.forEach(s => s.classList.remove('active'));
-        spans[index].classList.add('active');
-        index = (index + 1) % spans.length;
-      }, 3800);
-    }
+<script>
+// Background stars
+const starsContainer = document.getElementById('stars');
+for (let i = 0; i < 200; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = Math.random() * 3 + 0.5;
+  star.style.width = size + 'px';
+  star.style.height = size + 'px';
+  star.style.left = Math.random() * 100 + 'vw';
+  star.style.top = Math.random() * 100 + 'vh';
+  star.style.animationDelay = Math.random() * 7 + 's';
+  starsContainer.appendChild(star);
+}
 
-    // Init
-    createStars();
-    flipText();
-    setInterval(createShootingStar, 2200);
-    // First one immediately
-    createShootingStar();
-  </script>
+// Shooting stars (more frequent)
+function spawnShootingStar() {
+  const star = document.createElement('div');
+  star.className = 'shooting-star';
+  star.style.left = Math.random() * 120 + 'vw';
+  star.style.animationDuration = (Math.random() * 2.5 + 2.8) + 's';
+  document.body.appendChild(star);
+  star.addEventListener('animationend', () => star.remove());
+}
+
+// Flip Work / Talent
+const words = document.querySelectorAll('.flip span');
+let i = 0;
+setInterval(() => {
+  words.forEach(w => w.classList.remove('active'));
+  words[i].classList.add('active');
+  i = (i + 1) % words.length;
+}, 2600);
+
+// Init
+setInterval(spawnShootingStar, 1400);
+spawnShootingStar();
+</script>
+
 </body>
 </html>
