@@ -97,58 +97,105 @@ h1 {
   margin-bottom: 2.4rem;
 }
 
-/* FLIP LINE */
+/* TAGLINE */
 .tagline {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.55rem;
   font-size: clamp(1.8rem, 4.5vw, 2.6rem);
   font-weight: 300;
-  margin-bottom: 3.2rem;
   letter-spacing: -0.03em;
 }
 
-.flip {
-  display: inline-block;
-  min-width: 260px;
+/* INLINE FLIP */
+.flip-inline {
+  position: relative;
+  width: 140px;
+  height: 1.1em;
+  display: inline-flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.flip-inline .word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(1em);
+  transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   font-weight: 600;
   color: #9adfff;
-  position: relative;
 }
 
-.flip span {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transform: translateY(22px);
-  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.flip span.active {
+.flip-inline .word.active {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ---------- BUTTON ---------- */
-.btn {
-  display: inline-block;
-  padding: 1.1rem 3rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #001018;
-  background: linear-gradient(135deg, #9adfff, #cfefff);
-  border-radius: 999px;
-  text-decoration: none;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.25) inset,
-    0 20px 60px rgba(154,223,255,0.45);
-  transition: all 0.35s ease;
+.static {
+  opacity: 0.85;
 }
 
-.btn:hover {
-  transform: translateY(-5px);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.35) inset,
-    0 30px 90px rgba(154,223,255,0.7);
+/* ---------- CTA OBJECT ---------- */
+.cta-orbit {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  margin-top: 3.5rem;
+  width: 260px;
+  height: 64px;
+  text-decoration: none;
+  color: #cfefff;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cta-orbit span {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-orbit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(154,223,255,0.35);
+  background: rgba(154,223,255,0.05);
+  backdrop-filter: blur(8px);
+  transition: all 0.4s ease;
+}
+
+.orbit {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background:
+    linear-gradient(#0000, #0000) padding-box,
+    conic-gradient(
+      from 0deg,
+      transparent,
+      #9adfff,
+      transparent
+    ) border-box;
+  animation: spin 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.cta-orbit:hover::before {
+  background: rgba(154,223,255,0.12);
+}
+
+.cta-orbit:hover .orbit {
+  opacity: 1;
 }
 </style>
 </head>
@@ -165,32 +212,35 @@ h1 {
   </div>
 
   <div class="tagline">
-    <span class="flip">
-      <span class="active">Work</span>
-      <span>Talent</span>
+    <span class="flip-inline">
+      <span class="word active">Work</span>
+      <span class="word">Talent</span>
     </span>
-    on demand
+    <span class="static">on demand</span>
   </div>
 
-  <a href="#" class="btn">Request Early Access</a>
+  <a href="#" class="cta-orbit">
+    <span>Request Early Access</span>
+    <div class="orbit"></div>
+  </a>
 </div>
 
 <script>
-// Background stars
-const starsContainer = document.getElementById('stars');
+// BACKGROUND STARS
+const stars = document.getElementById('stars');
 for (let i = 0; i < 200; i++) {
-  const star = document.createElement('div');
-  star.className = 'star';
+  const s = document.createElement('div');
+  s.className = 'star';
   const size = Math.random() * 3 + 0.5;
-  star.style.width = size + 'px';
-  star.style.height = size + 'px';
-  star.style.left = Math.random() * 100 + 'vw';
-  star.style.top = Math.random() * 100 + 'vh';
-  star.style.animationDelay = Math.random() * 7 + 's';
-  starsContainer.appendChild(star);
+  s.style.width = size + 'px';
+  s.style.height = size + 'px';
+  s.style.left = Math.random() * 100 + 'vw';
+  s.style.top = Math.random() * 100 + 'vh';
+  s.style.animationDelay = Math.random() * 7 + 's';
+  stars.appendChild(s);
 }
 
-// Shooting stars (more frequent)
+// SHOOTING STARS (MORE FREQUENT)
 function spawnShootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
@@ -200,18 +250,18 @@ function spawnShootingStar() {
   star.addEventListener('animationend', () => star.remove());
 }
 
-// Flip Work / Talent
-const words = document.querySelectorAll('.flip span');
-let i = 0;
-setInterval(() => {
-  words.forEach(w => w.classList.remove('active'));
-  words[i].classList.add('active');
-  i = (i + 1) % words.length;
-}, 2600);
-
-// Init
 setInterval(spawnShootingStar, 1400);
 spawnShootingStar();
+
+// WORK / TALENT FLIP
+const words = document.querySelectorAll('.flip-inline .word');
+let index = 0;
+
+setInterval(() => {
+  words.forEach(w => w.classList.remove('active'));
+  words[index].classList.add('active');
+  index = (index + 1) % words.length;
+}, 2400);
 </script>
 
 </body>
