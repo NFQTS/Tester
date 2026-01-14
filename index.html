@@ -1,165 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Help Puppies</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-/* Reset */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Inter', sans-serif; background:#fffaf5; color:#333; overflow-x:hidden; position:relative; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stellar — Talent & Work On Demand</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* Hero */
-.hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px 20px; }
-.hero-word { font-family:'Pacifico',cursive; font-size:4rem; color:#ff69b4; text-shadow:0 0 10px #ffb6c1; animation:bounce 1.5s infinite, pulse 2s infinite alternate; }
-.hero-word:nth-child(2){ animation-delay:0.2s; }
-@keyframes bounce {0%,20%,50%,80%,100%{transform:translateY(0);}40%{transform:translateY(-12px);}60%{transform:translateY(-6px);}}
-@keyframes pulse {0%{text-shadow:0 0 8px #ffb6c1;}100%{text-shadow:0 0 20px #ff69b4;}}
-.hero-sub { margin-top:14px; font-size:1.1rem; color:#666; max-width:520px; }
+    body {
+      height: 100vh;
+      background: radial-gradient(ellipse at bottom, #0a0015 0%, #000 100%);
+      color: #f0f0ff;
+      font-family: system-ui, -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
 
-/* PARTICLES */
-.particle { position:absolute; width:10px; height:10px; border-radius:50%; pointer-events:none; opacity:0.6; background:#ff69b4; animation:float 5s linear infinite; }
-@keyframes float {0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:0.6;}50%{transform:translateY(-50px) translateX(20px) rotate(180deg);opacity:0.3;}100%{transform:translateY(0) translateX(0) rotate(360deg);opacity:0.6;}}
+    /* Stars */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
 
-/* FEATURED PUPPY */
-.featured { margin-top:60px; width:100%; display:flex; justify-content:center; }
-.puppy-card { background:linear-gradient(180deg,#ffffff,#fff0f5); border-radius:30px; max-width:440px; width:100%; box-shadow:0 30px 60px rgba(0,0,0,0.12); overflow:hidden; transform:translateY(0); transition:transform 0.4s ease, box-shadow 0.4s ease; }
-.puppy-card:hover { transform:translateY(-10px) scale(1.03); box-shadow:0 50px 100px rgba(255,105,180,0.4); }
-.puppy-img { width:100%; height:320px; object-fit:cover; transition: transform 0.3s ease; }
-.puppy-card:hover .puppy-img { transform:scale(1.05); }
-.puppy-body { padding:28px; }
-.puppy-body h2 { font-size:2rem; margin-bottom:6px; }
-.puppy-meta { color:#777; font-size:0.95rem; margin-bottom:18px; }
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 8s infinite;
+    }
 
-/* PROGRESS BAR */
-.progress-wrap { margin-bottom:14px; }
-.progress-top { display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:6px; }
-.progress-bar { height:16px; border-radius:20px; background:#ffe1ec; overflow:hidden; }
-.progress-fill { width:38%; height:100%; background:linear-gradient(90deg,#ff69b4,#ffb6c1); animation:loadBar 1.5s ease, pulseBar 2s infinite alternate; }
-@keyframes loadBar{from{width:0;}to{width:38%;}}
-@keyframes pulseBar{0%{filter:brightness(1);}100%{filter:brightness(1.2);}}
-.progress-note { font-size:0.8rem; color:#888; margin-top:6px; text-align:center; }
+    @keyframes twinkle {
+      0%,100% { opacity: 0; }
+      50%     { opacity: 0.9; }
+    }
 
-/* OPTIONS PANEL */
-.options-panel { display:flex; flex-direction:column; gap:16px; margin-top:30px; max-width:420px; width:90%; align-items:center; }
-.option-btn { width:100%; padding:18px; border-radius:50px; font-size:1.1rem; font-weight:600; text-align:center; cursor:pointer; transition:all 0.3s ease; position:relative; overflow:hidden; border:none; color:white; box-shadow:0 12px 30px rgba(255,105,180,0.4); }
-.option-btn::after { content:""; position:absolute; inset:0; background:rgba(255,255,255,0.2); border-radius:50px; transform:scale(0); transition:transform 0.3s ease; }
-.option-btn:hover::after { transform:scale(1); }
-.option-btn:hover { transform:scale(1.05); }
+    /* Shooting stars / Starfall */
+    .shooting-star {
+      position: absolute;
+      width: 3px;
+      height: 60px;
+      background: linear-gradient(transparent, #a5d8ff, #ffffff, transparent);
+      transform: rotate(35deg);
+      opacity: 0;
+      filter: blur(1px);
+      animation: fall linear infinite;
+    }
 
-/* Individual button styles */
-#shopBtn { background:linear-gradient(90deg,#ff69b4,#ffb6c1); }
-#shareBtn { background:linear-gradient(90deg,#a780ff,#d8b3ff); }
-#comingSoonBtn { background:linear-gradient(90deg,#ffb347,#ffcc70); }
+    @keyframes fall {
+      0% {
+        opacity: 0;
+        transform: translateY(-100vh) translateX(50vw) rotate(35deg);
+      }
+      10% { opacity: 0.8; }
+      50% { opacity: 0.9; }
+      90% { opacity: 0; }
+      100% {
+        opacity: 0;
+        transform: translateY(120vh) translateX(-80vw) rotate(35deg);
+      }
+    }
 
-/* CAREERS */
-.careers { margin-top:30px; background:#fff0f5; padding:22px; border-radius:24px; max-width:400px; text-align:center; box-shadow:0 15px 40px rgba(255,105,180,0.25); cursor:pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.careers:hover { transform:scale(1.03); box-shadow:0 25px 60px rgba(255,105,180,0.4); }
-.careers h3 { font-size:1.5rem; margin-bottom:10px; color:#ff69b4; }
-.careers p { font-size:0.9rem; color:#666; }
+    .content {
+      text-align: center;
+      z-index: 10;
+      padding: 20px;
+      max-width: 720px;
+    }
 
-/* FOOTER */
-.disclaimer { margin-top:18px; max-width:420px; font-size:0.8rem; color:#999; text-align:center; }
-.stats { margin-top:30px; font-size:0.85rem; color:#aaa; text-align:center; }
-</style>
+    h1 {
+      font-size: clamp(3.2rem, 8vw, 7.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(90deg, #c3daff, #a5d8ff, #91e8ff, #c3daff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      background-size: 200% auto;
+      animation: gradientFlow 12s linear infinite;
+    }
+
+    @keyframes gradientFlow {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .tagline {
+      font-size: clamp(1.5rem, 5vw, 2.4rem);
+      font-weight: 300;
+      margin: 1.2rem 0 2.5rem;
+      opacity: 0.92;
+      letter-spacing: -0.02em;
+    }
+
+    .flip-text {
+      display: inline-block;
+      min-width: 240px;
+      font-weight: 600;
+      color: #91e8ff;
+      position: relative;
+    }
+
+    .flip-text span {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flip-text span.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.6rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #000;
+      background: #91e8ff;
+      border: none;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.35s ease;
+      box-shadow: 0 0 40px rgba(145, 232, 255, 0.45);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 60px rgba(145, 232, 255, 0.7);
+      background: #a5d8ff;
+    }
+  </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-word">Help Puppies.</div>
-  <div class="hero-word">Earn Rewards.</div>
-  <div class="hero-sub">Spotlighting one real rescue puppy at a time. Join in and make an impact!</div>
+  <div class="stars" id="stars"></div>
 
-  <!-- FEATURED PUPPY -->
-  <div class="featured">
-    <div class="puppy-card">
-      <img class="puppy-img" src="https://images.unsplash.com/photo-1601758173925-6e26e6d36d38" alt="Pitbull Puppy">
-      <div class="puppy-body">
-        <h2>Tank 🐶</h2>
-        <div class="puppy-meta">Pitbull puppy • 4 months • Big heart, bigger paws</div>
-        <div class="progress-wrap">
-          <div class="progress-top">
-            <span>Tank’s Care Fund</span>
-            <span>$760 / $2,000</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
-          </div>
-          <div class="progress-note">Covers adoption fees, vet care & essentials</div>
-        </div>
-      </div>
+  <div class="content">
+    <h1>Stellar</h1>
+    
+    <div class="tagline">
+      <span class="flip-text">
+        <span class="active">Work</span>
+        <span>Talent</span>
+      </span>
+       on demand
     </div>
+
+    <a href="#" class="btn">Early Access</a>
   </div>
 
-  <!-- OPTIONS PANEL -->
-  <div class="options-panel">
-    <button class="option-btn" id="shopBtn">Buy a Chewy Item for Tank 🐾</button>
-    <button class="option-btn" id="shareBtn">Share Your Support 💌</button>
-    <button class="option-btn" id="comingSoonBtn">New Features Coming Soon 🚀</button>
-  </div>
+  <script>
+    // Twinkling background stars
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for(let i = 0; i < 180; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 3 + 0.6;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.animationDelay = Math.random() * 8 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
 
-  <!-- CAREERS COMING SOON -->
-  <div class="careers" id="careersCard">
-    <h3>Work with Puppies 🐾</h3>
-    <p>Opportunities to help rescues, care for puppies, and more!</p>
-  </div>
+    // Shooting stars
+    function createShootingStar() {
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      star.style.left = Math.random() * 120 + 'vw';
+      star.style.top = '-60px';
+      star.style.animationDuration = (Math.random() * 4 + 3.5) + 's';
+      star.style.animationDelay = Math.random() * 6 + 's';
+      document.body.appendChild(star);
+      
+      star.addEventListener('animationend', () => {
+        star.remove();
+      });
+    }
 
-  <div class="disclaimer">
-    Featured puppy shown during our early pilot. If Tank is adopted before the goal is reached, support rolls to the next rescue.
-  </div>
-  <div class="stats">
-    Community rewards paid so far: <strong>$31</strong>
-  </div>
-</div>
+    // Text flip animation
+    function flipText() {
+      const spans = document.querySelectorAll('.flip-text span');
+      let index = 0;
+      
+      setInterval(() => {
+        spans.forEach(s => s.classList.remove('active'));
+        spans[index].classList.add('active');
+        index = (index + 1) % spans.length;
+      }, 3800);
+    }
 
-<script>
-// particles
-for(let i=0;i<15;i++){
-  const p=document.createElement('div');
-  p.className='particle';
-  p.style.left=Math.random()*window.innerWidth+'px';
-  p.style.top=Math.random()*window.innerHeight*0.4+'px';
-  p.style.width=p.style.height=Math.random()*10+5+'px';
-  p.style.background=['#ff69b4','#ffb6c1','#fff0f5'][Math.floor(Math.random()*3)];
-  document.body.appendChild(p);
-}
-
-// popup helper
-function showPopup(message){
-  const popup=document.createElement('div');
-  popup.style.position='fixed';
-  popup.style.top='50%';
-  popup.style.left='50%';
-  popup.style.transform='translate(-50%,-50%)';
-  popup.style.background='white';
-  popup.style.padding='30px 24px';
-  popup.style.borderRadius='20px';
-  popup.style.boxShadow='0 20px 50px rgba(0,0,0,0.3)';
-  popup.style.textAlign='center';
-  popup.style.fontSize='1.1rem';
-  popup.style.zIndex=1000;
-  popup.innerHTML=message;
-  document.body.appendChild(popup);
-  setTimeout(()=>popup.remove(),2500);
-}
-
-// Option button handlers
-document.getElementById('shopBtn').addEventListener('click',()=>{
-  showPopup('Thanks! Visit Chewy to help Tank 🐾');
-  window.open('https://www.chewy.com','_blank'); // replace with affiliate link
-});
-document.getElementById('shareBtn').addEventListener('click',()=>{
-  showPopup('Thanks for sharing! More puppies coming soon 💌');
-});
-document.getElementById('comingSoonBtn').addEventListener('click',()=>{
-  showPopup('More functionality coming soon 🚀');
-});
-
-// Careers
-document.getElementById('careersCard').addEventListener('click',()=>{
-  showPopup('Coming soon! Stay tuned for puppy jobs 🐾');
-});
-</script>
+    // Init
+    createStars();
+    flipText();
+    setInterval(createShootingStar, 2200);
+    // First one immediately
+    createShootingStar();
+  </script>
 </body>
 </html>
