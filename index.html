@@ -142,7 +142,7 @@ h1 {
   opacity: 0.85;
 }
 
-/* ---------- CTA MAGIC ---------- */
+/* ---------- CTA ---------- */
 .cta-magic {
   margin-top: 3.8rem;
   font-size: 0.95rem;
@@ -192,8 +192,8 @@ h1 {
   transform: scaleX(1.05);
 }
 
-/* ---------- SUCCESS STATE ---------- */
-.success {
+/* ---------- REPORT VIEW ---------- */
+.report {
   position: fixed;
   inset: 0;
   display: grid;
@@ -202,35 +202,113 @@ h1 {
   color: #f4f7ff;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 1.2s ease;
+  transition: opacity 1.1s ease;
   z-index: 20;
 }
 
-.success.show {
+.report.show {
   opacity: 1;
   pointer-events: auto;
 }
 
-.success-message {
+.report-card {
+  max-width: 700px;
+  width: 92%;
+  padding: 48px 40px;
+  border-radius: 28px;
+  background: rgba(10, 15, 30, 0.75);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.6);
   text-align: center;
-  max-width: 640px;
-  padding: 32px;
 }
 
-.success-message h2 {
-  font-size: clamp(2.2rem, 6vw, 3.4rem);
+.report-title {
+  font-size: clamp(2.1rem, 5vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.03em;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   background: linear-gradient(120deg, #d4e6ff, #9adfff, #ffffff);
   -webkit-background-clip: text;
   color: transparent;
 }
 
-.success-message p {
-  font-size: 1.1rem;
-  opacity: 0.75;
+.report-subtitle {
+  font-size: 1.05rem;
+  opacity: 0.7;
+  margin-bottom: 2.8rem;
   line-height: 1.6;
+}
+
+/* DATA GRID */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 3.2rem;
+}
+
+.data-card {
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(154,223,255,0.06);
+  border: 1px solid rgba(154,223,255,0.15);
+  text-align: left;
+}
+
+.data-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 0.35rem;
+}
+
+.data-value {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* FOOTER ACTIONS */
+.report-actions {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.report-btn {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #cfefff;
+  text-decoration: none;
+  position: relative;
+  opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+
+.report-btn:hover {
+  opacity: 1;
+}
+
+.report-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #9adfff, transparent);
+  opacity: 0.25;
+}
+
+/* STELLAR ID */
+.stellar-id {
+  margin-top: 2.4rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  opacity: 0.45;
 }
 </style>
 </head>
@@ -255,19 +333,30 @@ h1 {
   </div>
 
   <a href="#" class="cta-magic" id="cta">
-    Request Early Access
+    Show me my data
   </a>
 </div>
 
-<div class="success" id="success">
-  <div class="success-message">
-    <h2>You’re on the list ✨</h2>
-    <p>We’ll notify you when Stellar opens. Until then, the universe is still expanding.</p>
+<div class="report" id="report">
+  <div class="report-card">
+    <div class="report-title">Your Data Mirror</div>
+    <div class="report-subtitle">
+      Here’s what this site can see — and what stays private.
+    </div>
+
+    <div class="data-grid" id="dataGrid"></div>
+
+    <div class="report-actions">
+      <span class="report-btn" id="shareBtn">Share report</span>
+      <span class="report-btn" id="closeBtn">Return</span>
+    </div>
+
+    <div class="stellar-id" id="stellarId"></div>
   </div>
 </div>
 
 <script>
-// BACKGROUND STARS
+// ---------- STARFIELD ----------
 const stars = document.getElementById('stars');
 for (let i = 0; i < 200; i++) {
   const s = document.createElement('div');
@@ -281,7 +370,6 @@ for (let i = 0; i < 200; i++) {
   stars.appendChild(s);
 }
 
-// SHOOTING STARS
 function spawnShootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
@@ -290,40 +378,116 @@ function spawnShootingStar() {
   document.body.appendChild(star);
   star.addEventListener('animationend', () => star.remove());
 }
-
 setInterval(spawnShootingStar, 1400);
 spawnShootingStar();
 
-// WORK / TALENT FLIP
+// ---------- WORD FLIP ----------
 const words = document.querySelectorAll('.flip-inline .word');
 let index = 0;
-
 setInterval(() => {
   words.forEach(w => w.classList.remove('active'));
   words[index].classList.add('active');
   index = (index + 1) % words.length;
 }, 2400);
 
-// CTA MAGIC INTERACTION
+// ---------- DATA COLLECTION ----------
+function getUserData() {
+  const nav = navigator;
+  const screenData = window.screen;
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  return {
+    "Device": `${nav.platform || "Unknown"} · ${nav.maxTouchPoints > 0 ? "Touch" : "No touch"}`,
+    "Browser": `${nav.userAgent.split(')')[0] + ')'}`,
+    "Language": nav.language || "Unknown",
+    "Timezone": tz || "Unknown",
+    "Screen": `${screenData.width} × ${screenData.height} · ${window.devicePixelRatio || 1}x`,
+    "Connection": nav.connection ? nav.connection.effectiveType.toUpperCase() : "Unknown",
+    "Color scheme": window.matchMedia('(prefers-color-scheme: dark)').matches ? "Dark mode" : "Light mode",
+    "CPU cores": nav.hardwareConcurrency || "Unknown",
+    "Memory": nav.deviceMemory ? `${nav.deviceMemory} GB` : "Unknown"
+  };
+}
+
+// ---------- STELLAR ID ----------
+function getStellarId() {
+  let id = localStorage.getItem('stellar_id');
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem('stellar_id', id);
+  }
+  return id;
+}
+
+// ---------- CTA INTERACTION ----------
 const cta = document.getElementById('cta');
 const content = document.getElementById('content');
-const success = document.getElementById('success');
+const report = document.getElementById('report');
+const dataGrid = document.getElementById('dataGrid');
+const stellarIdEl = document.getElementById('stellarId');
+const shareBtn = document.getElementById('shareBtn');
+const closeBtn = document.getElementById('closeBtn');
 
 cta.addEventListener('click', (e) => {
   e.preventDefault();
 
-  // Warp stars
+  // Warp background
   stars.style.transform = 'scale(1.4) rotate(3deg)';
   stars.style.opacity = '0.2';
 
-  // Fade content
+  // Fade out hero
   content.style.opacity = '0';
   content.style.transform = 'scale(0.96)';
 
-  // Show success state
+  // Build report
+  const data = getUserData();
+  dataGrid.innerHTML = "";
+
+  Object.entries(data).forEach(([label, value]) => {
+    const card = document.createElement('div');
+    card.className = 'data-card';
+    card.innerHTML = `
+      <div class="data-label">${label}</div>
+      <div class="data-value">${value}</div>
+    `;
+    dataGrid.appendChild(card);
+  });
+
+  const stellarId = getStellarId();
+  stellarIdEl.textContent = `Stellar ID · ${stellarId.slice(0, 8).toUpperCase()}`;
+
   setTimeout(() => {
-    success.classList.add('show');
-  }, 800);
+    report.classList.add('show');
+  }, 700);
+});
+
+// ---------- SHARE ----------
+shareBtn.addEventListener('click', async () => {
+  const stellarId = getStellarId();
+  const shareText = `I just viewed my data mirror on Stellar.\nStellar ID: ${stellarId.slice(0, 8).toUpperCase()}\n\nExplore yours at: ${window.location.href}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "My Stellar Data Mirror",
+        text: shareText,
+        url: window.location.href
+      });
+    } catch (err) {}
+  } else {
+    navigator.clipboard.writeText(shareText);
+    shareBtn.textContent = "Copied ✨";
+    setTimeout(() => shareBtn.textContent = "Share report", 2000);
+  }
+});
+
+// ---------- CLOSE ----------
+closeBtn.addEventListener('click', () => {
+  report.classList.remove('show');
+  stars.style.transform = '';
+  stars.style.opacity = '';
+  content.style.opacity = '';
+  content.style.transform = '';
 });
 </script>
 
