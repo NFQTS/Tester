@@ -268,39 +268,99 @@ h1 {
   opacity: 0.9;
 }
 
-/* FOOTER ACTIONS */
-.report-actions {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  flex-wrap: wrap;
+/* ---------- MONETIZATION SLIDER ---------- */
+.monetize-section {
+  margin-bottom: 2.8rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(154,223,255,0.12);
 }
 
-.report-btn {
+.monetize-title {
   font-size: 0.8rem;
   letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 1.2rem;
+}
+
+.slider-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.monetize-label {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  transition: color 0.3s ease;
+}
+
+/* Slider styling */
+.slider {
+  -webkit-appearance: none;
+  width: 240px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(154,223,255,0.2), rgba(154,223,255,0.8));
+  border-radius: 2px;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #9adfff;
+  box-shadow: 0 0 16px rgba(154,223,255,0.9);
+  cursor: pointer;
+  border: none;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #9adfff;
+  box-shadow: 0 0 16px rgba(154,223,255,0.9);
+  cursor: pointer;
+  border: none;
+}
+
+/* ---------- CONTINUE BUTTON ---------- */
+.continue-btn {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #cfefff;
   text-decoration: none;
   position: relative;
-  opacity: 0.75;
+  display: inline-block;
+  opacity: 0.8;
+  transition: opacity 0.4s ease;
   cursor: pointer;
-  transition: opacity 0.35s ease;
 }
 
-.report-btn:hover {
+.continue-btn:hover {
   opacity: 1;
 }
 
-.report-btn::after {
+.continue-btn::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -6px;
+  bottom: -8px;
   width: 100%;
   height: 1px;
   background: linear-gradient(90deg, transparent, #9adfff, transparent);
-  opacity: 0.25;
+  opacity: 0.3;
 }
 
 /* STELLAR ID */
@@ -333,7 +393,7 @@ h1 {
   </div>
 
   <a href="#" class="cta-magic" id="cta">
-    Show me my data
+    Find opportunities
   </a>
 </div>
 
@@ -346,10 +406,15 @@ h1 {
 
     <div class="data-grid" id="dataGrid"></div>
 
-    <div class="report-actions">
-      <span class="report-btn" id="shareBtn">Share report</span>
-      <span class="report-btn" id="closeBtn">Return</span>
+    <div class="monetize-section">
+      <div class="monetize-title">Data preferences</div>
+      <div class="slider-wrap">
+        <input type="range" min="0" max="1" step="1" value="0" class="slider" id="monetizeSlider">
+        <div class="monetize-label" id="monetizeLabel">Do not monetize my data</div>
+      </div>
     </div>
+
+    <div class="continue-btn" id="continueBtn">Continue</div>
 
     <div class="stellar-id" id="stellarId"></div>
   </div>
@@ -398,7 +463,7 @@ function getUserData() {
 
   return {
     "Device": `${nav.platform || "Unknown"} · ${nav.maxTouchPoints > 0 ? "Touch" : "No touch"}`,
-    "Browser": `${nav.userAgent.split(')')[0] + ')'}`,
+    "Browser": nav.userAgent.split(')')[0] + ')',
     "Language": nav.language || "Unknown",
     "Timezone": tz || "Unknown",
     "Screen": `${screenData.width} × ${screenData.height} · ${window.devicePixelRatio || 1}x`,
@@ -425,8 +490,9 @@ const content = document.getElementById('content');
 const report = document.getElementById('report');
 const dataGrid = document.getElementById('dataGrid');
 const stellarIdEl = document.getElementById('stellarId');
-const shareBtn = document.getElementById('shareBtn');
-const closeBtn = document.getElementById('closeBtn');
+const monetizeSlider = document.getElementById('monetizeSlider');
+const monetizeLabel = document.getElementById('monetizeLabel');
+const continueBtn = document.getElementById('continueBtn');
 
 cta.addEventListener('click', (e) => {
   e.preventDefault();
@@ -461,33 +527,20 @@ cta.addEventListener('click', (e) => {
   }, 700);
 });
 
-// ---------- SHARE ----------
-shareBtn.addEventListener('click', async () => {
-  const stellarId = getStellarId();
-  const shareText = `I just viewed my data mirror on Stellar.\nStellar ID: ${stellarId.slice(0, 8).toUpperCase()}\n\nExplore yours at: ${window.location.href}`;
-
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: "My Stellar Data Mirror",
-        text: shareText,
-        url: window.location.href
-      });
-    } catch (err) {}
+// ---------- SLIDER INTERACTION ----------
+monetizeSlider.addEventListener('input', () => {
+  if (monetizeSlider.value === "1") {
+    monetizeLabel.textContent = "Allow monetization of my data";
+    monetizeLabel.style.color = "#9adfff";
   } else {
-    navigator.clipboard.writeText(shareText);
-    shareBtn.textContent = "Copied ✨";
-    setTimeout(() => shareBtn.textContent = "Share report", 2000);
+    monetizeLabel.textContent = "Do not monetize my data";
+    monetizeLabel.style.color = "";
   }
 });
 
-// ---------- CLOSE ----------
-closeBtn.addEventListener('click', () => {
-  report.classList.remove('show');
-  stars.style.transform = '';
-  stars.style.opacity = '';
-  content.style.opacity = '';
-  content.style.transform = '';
+// ---------- CONTINUE ----------
+continueBtn.addEventListener('click', () => {
+  alert("Next step coming soon — this is where a waitlist, paywall, or opportunity feed will appear.");
 });
 </script>
 
