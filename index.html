@@ -101,8 +101,8 @@ h1 {
 .tagline {
   display: flex;
   justify-content: center;
-  align-items: baseline;
-  gap: 0.55rem;
+  align-items: center; /* baseline fix */
+  gap: 0.5rem;
   font-size: clamp(1.8rem, 4.5vw, 2.6rem);
   font-weight: 300;
   letter-spacing: -0.03em;
@@ -111,8 +111,9 @@ h1 {
 /* INLINE FLIP */
 .flip-inline {
   position: relative;
-  width: 140px;
-  height: 1.1em;
+  width: 120px; /* tighter and aligned */
+  height: 1em;
+  line-height: 1em;
   display: inline-flex;
   justify-content: center;
   overflow: hidden;
@@ -124,77 +125,66 @@ h1 {
   right: 0;
   text-align: center;
   opacity: 0;
-  transform: translateY(1em);
+  transform: translateY(100%);
   transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  font-weight: 600;
+  font-weight: 500;
   color: #9adfff;
 }
 
 .flip-inline .word.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0%);
 }
 
 .static {
   opacity: 0.85;
 }
 
-/* ---------- CTA OBJECT ---------- */
-.cta-orbit {
-  position: relative;
-  display: inline-grid;
-  place-items: center;
+/* ---------- CTA (MINIMAL, ELEGANT) ---------- */
+.cta-link {
   margin-top: 3.5rem;
-  width: 260px;
-  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   text-decoration: none;
-  color: #cfefff;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-}
-
-.cta-orbit span {
+  color: #cfefff;
   position: relative;
-  z-index: 2;
+  opacity: 0.85;
+  transition: all 0.35s ease;
 }
 
-.cta-orbit::before {
+.cta-link::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  border: 1px solid rgba(154,223,255,0.35);
-  background: rgba(154,223,255,0.05);
-  backdrop-filter: blur(8px);
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #9adfff, transparent);
+  opacity: 0.3;
   transition: all 0.4s ease;
 }
 
-.orbit {
-  position: absolute;
-  inset: -6px;
-  border-radius: 999px;
-  background:
-    linear-gradient(#0000, #0000) padding-box,
-    conic-gradient(
-      from 0deg,
-      transparent,
-      #9adfff,
-      transparent
-    ) border-box;
-  animation: spin 6s linear infinite;
-  opacity: 0.6;
+.cta-link .arrow {
+  font-size: 1rem;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0.7;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.cta-link:hover {
+  opacity: 1;
 }
 
-.cta-orbit:hover::before {
-  background: rgba(154,223,255,0.12);
+.cta-link:hover::after {
+  opacity: 1;
+  transform: scaleX(1.05);
 }
 
-.cta-orbit:hover .orbit {
+.cta-link:hover .arrow {
+  transform: translateX(6px);
   opacity: 1;
 }
 </style>
@@ -219,9 +209,9 @@ h1 {
     <span class="static">on demand</span>
   </div>
 
-  <a href="#" class="cta-orbit">
+  <a href="#" class="cta-link">
     <span>Request Early Access</span>
-    <div class="orbit"></div>
+    <span class="arrow">→</span>
   </a>
 </div>
 
@@ -240,7 +230,7 @@ for (let i = 0; i < 200; i++) {
   stars.appendChild(s);
 }
 
-// SHOOTING STARS (MORE FREQUENT)
+// SHOOTING STARS
 function spawnShootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
