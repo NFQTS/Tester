@@ -9,7 +9,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   background: radial-gradient(ellipse at bottom, #0b0018 0%, #020006 55%, #000 100%);
   color: #f4f7ff;
   font-family: Inter, system-ui, -apple-system, sans-serif;
@@ -23,6 +23,7 @@ body {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: 0;
 }
 
 .star {
@@ -38,6 +39,7 @@ body {
   50% { opacity: 0.9; }
 }
 
+/* ---------- SHOOTING STARS ---------- */
 .shooting-star {
   position: absolute;
   width: 3px;
@@ -61,20 +63,17 @@ body {
   }
 }
 
-/* ---------- SCREENS ---------- */
+/* ---------- SCREEN WRAPPER ---------- */
 .screen {
   position: absolute;
   inset: 0;
-  display: grid;
+  display: none;
   place-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
+  z-index: 10;
 }
 
 .screen.active {
-  opacity: 1;
-  pointer-events: all;
+  display: grid;
 }
 
 .content {
@@ -84,7 +83,7 @@ body {
   max-width: 820px;
 }
 
-/* ---------- LOGO WORDMARK ---------- */
+/* ---------- LANDING ---------- */
 h1 {
   font-size: clamp(3.5rem, 8vw, 7.2rem);
   font-weight: 800;
@@ -103,7 +102,6 @@ h1 {
   100% { background-position: 200% center; }
 }
 
-/* SUBHEAD */
 .subtitle {
   font-size: clamp(1.1rem, 3vw, 1.35rem);
   letter-spacing: 0.02em;
@@ -111,7 +109,6 @@ h1 {
   margin-bottom: 2.4rem;
 }
 
-/* TAGLINE */
 .tagline {
   display: flex;
   justify-content: center;
@@ -122,10 +119,10 @@ h1 {
   letter-spacing: -0.03em;
 }
 
-/* INLINE FLIP — RESTORED */
+/* INLINE FLIP — ORIGINAL PERFECT ALIGNMENT */
 .flip-inline {
   position: relative;
-  width: 120px;
+  width: 140px;
   height: 1.1em;
   display: inline-flex;
   justify-content: center;
@@ -153,309 +150,266 @@ h1 {
   opacity: 0.85;
 }
 
-/* ---------- CTA LINK ---------- */
-.cta-link {
-  margin-top: 3.8rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #cfefff;
-  text-decoration: none;
-  position: relative;
-  padding: 10px 4px;
-}
-
-.cta-link::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 0%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #9adfff, transparent);
-  transition: width 0.5s ease, left 0.5s ease;
-}
-
-.cta-link:hover::after {
-  width: 120%;
-  left: -10%;
-}
-
-/* ---------- DATA REPORT (RESTORED STYLE) ---------- */
-.report-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(154,223,255,0.15);
-  border-radius: 24px;
-  padding: 36px 32px;
-  max-width: 560px;
-  width: 100%;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 0 80px rgba(154,223,255,0.08);
-}
-
-.report-title {
-  font-size: 1.9rem;
-  font-weight: 500;
-  margin-bottom: 0.6rem;
-  letter-spacing: -0.02em;
-}
-
-.report-sub {
-  opacity: 0.7;
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
-}
-
-.data-list {
-  display: grid;
-  gap: 1.1rem;
-  text-align: left;
-  font-size: 0.95rem;
-}
-
-.data-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding-bottom: 0.6rem;
-}
-
-.data-row span:first-child {
-  opacity: 0.6;
-}
-
-.data-row span:last-child {
-  font-weight: 500;
-  color: #d9f2ff;
-}
-
-.stellar-id {
-  margin-top: 2rem;
-  font-size: 0.85rem;
-  opacity: 0.6;
-}
-
-/* ---------- PRIMARY BUTTON ---------- */
-.primary-btn {
-  margin-top: 2.8rem;
-  display: inline-block;
-  padding: 14px 34px;
-  border-radius: 999px;
-  border: 1px solid rgba(154,223,255,0.35);
-  background: rgba(154,223,255,0.05);
-  color: #cfefff;
-  text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: all 0.35s ease;
-}
-
-.primary-btn:hover {
-  background: rgba(154,223,255,0.12);
-  box-shadow: 0 0 40px rgba(154,223,255,0.2);
-}
-
-/* ---------- ROLE SCREEN ---------- */
-.role-card {
-  max-width: 720px;
-  width: 100%;
-  padding: 40px 32px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(154,223,255,0.15);
-  border-radius: 28px;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 0 80px rgba(154,223,255,0.08);
-  text-align: center;
-}
-
-.role-title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.role-sub {
-  opacity: 0.7;
-  margin-bottom: 2.4rem;
-}
-
-/* ---------- EMPLOYER / TALENT SLIDER ---------- */
-.mode-toggle {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: rgba(255,255,255,0.05);
-  border-radius: 999px;
-  padding: 6px;
-  margin-bottom: 2.4rem;
-  overflow: hidden;
-}
-
-.mode-toggle button {
-  background: none;
-  border: none;
-  color: #cfefff;
-  font-size: 0.85rem;
+/* ---------- CTA TEXT ---------- */
+.cta-text {
+  margin-top: 3.5rem;
+  font-size: 1.05rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 12px 0;
+  color: #9adfff;
   cursor: pointer;
   position: relative;
-  z-index: 2;
-  opacity: 0.7;
+  display: inline-block;
 }
 
-.mode-toggle button.active {
+.cta-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #9adfff, transparent);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.cta-text:hover::after {
   opacity: 1;
 }
 
-.mode-indicator {
-  position: absolute;
-  inset: 4px;
-  width: calc(50% - 4px);
-  background: rgba(154,223,255,0.12);
-  border-radius: 999px;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+/* ---------- DATA REPORT (OLD STYLE, CLEAN) ---------- */
+.report-title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 600;
+  margin-bottom: 1.2rem;
 }
 
-/* ---------- ROLE OPTIONS ---------- */
-.role-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1rem;
+.report-subtitle {
+  opacity: 0.7;
+  font-size: 1.05rem;
   margin-bottom: 2.4rem;
 }
 
-.role-option {
-  padding: 18px 14px;
-  border-radius: 18px;
-  border: 1px solid rgba(154,223,255,0.15);
-  background: rgba(255,255,255,0.02);
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #cfefff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.role-option:hover {
-  background: rgba(154,223,255,0.08);
-  box-shadow: 0 0 20px rgba(154,223,255,0.15);
-}
-
-.role-option.selected {
-  background: rgba(154,223,255,0.14);
-  border-color: rgba(154,223,255,0.4);
-  box-shadow: 0 0 30px rgba(154,223,255,0.25);
-}
-
-/* ---------- INTERESTS ---------- */
-.interest-title {
-  font-size: 1.1rem;
-  margin-bottom: 0.8rem;
-}
-
-.interest-sub {
-  opacity: 0.6;
-  font-size: 0.9rem;
-  margin-bottom: 1.6rem;
-}
-
-.interest-grid {
+.data-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
   margin-bottom: 2.6rem;
 }
 
-.interest-chip {
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(154,223,255,0.15);
-  background: rgba(255,255,255,0.02);
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
+.data-card {
+  padding: 18px 16px;
+  border-radius: 14px;
+  background: rgba(154,223,255,0.06);
+  border: 1px solid rgba(154,223,255,0.12);
+  backdrop-filter: blur(8px);
+  text-align: left;
+}
+
+.data-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #cfefff;
+  opacity: 0.6;
+  margin-bottom: 6px;
+}
+
+.data-value {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #d9efff;
+}
+
+/* ---------- MONETIZATION SLIDER ---------- */
+.slider-block {
+  margin: 2.4rem auto 1.4rem;
+  max-width: 520px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(90deg, #9adfff, rgba(154,223,255,0.2));
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #9adfff;
+  margin-top: -8px;
+  box-shadow: 0 0 12px rgba(154,223,255,0.6);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 2px;
+  background: linear-gradient(90deg, #9adfff, rgba(154,223,255,0.2));
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #9adfff;
+  box-shadow: 0 0 12px rgba(154,223,255,0.6);
+  cursor: pointer;
+}
+
+.details-link {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---------- NEXT BUTTON ---------- */
+.next-btn {
+  margin-top: 2.2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9adfff;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+}
+
+.next-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #9adfff, transparent);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.next-btn:hover::after {
+  opacity: 1;
+}
+
+/* ---------- ROLE + INTEREST ---------- */
+.role-title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.role-subtitle {
+  opacity: 0.7;
+  font-size: 1.05rem;
+  margin-bottom: 2.4rem;
+}
+
+.role-slider {
+  max-width: 420px;
+  margin: 0 auto 2.8rem;
+}
+
+.role-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 2.8rem;
+}
+
+.role-card {
+  padding: 18px 16px;
+  border-radius: 14px;
+  background: rgba(154,223,255,0.06);
+  border: 1px solid rgba(154,223,255,0.12);
+  backdrop-filter: blur(8px);
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
-.interest-chip:hover {
-  background: rgba(154,223,255,0.08);
+.role-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(154,223,255,0.35);
 }
 
-.interest-chip.selected {
-  background: rgba(154,223,255,0.18);
-  border-color: rgba(154,223,255,0.45);
-  box-shadow: 0 0 24px rgba(154,223,255,0.25);
+.role-card.selected {
+  background: rgba(154,223,255,0.14);
+  border-color: #9adfff;
 }
 
-/* ---------- OPPORTUNITY PREVIEW ---------- */
-.feed-card {
-  max-width: 760px;
-  width: 100%;
-  padding: 40px 32px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(154,223,255,0.12);
-  border-radius: 28px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 0 80px rgba(154,223,255,0.06);
-  text-align: center;
+.role-card h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
-.feed-title {
-  font-size: 2rem;
-  margin-bottom: 0.6rem;
-}
-
-.feed-sub {
+.role-card p {
+  font-size: 0.85rem;
   opacity: 0.7;
-  margin-bottom: 2.4rem;
 }
 
-.feed-placeholder {
-  height: 220px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, rgba(154,223,255,0.08), rgba(255,255,255,0.02));
-  box-shadow: inset 0 0 40px rgba(154,223,255,0.15);
+.interests-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.interest-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
   margin-bottom: 2.6rem;
 }
 
-.waitlist-popup {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(10px);
+.interest-pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(154,223,255,0.06);
+  border: 1px solid rgba(154,223,255,0.12);
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.waitlist-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(154,223,255,0.25);
-  border-radius: 24px;
-  padding: 36px 32px;
-  max-width: 420px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 0 60px rgba(154,223,255,0.25);
+.interest-pill:hover {
+  border-color: rgba(154,223,255,0.35);
 }
 
-.waitlist-title {
-  font-size: 1.5rem;
-  margin-bottom: 0.6rem;
-}
-
-.waitlist-sub {
-  opacity: 0.7;
-  font-size: 0.95rem;
-  margin-bottom: 2.2rem;
+.interest-pill.selected {
+  background: rgba(154,223,255,0.14);
+  border-color: #9adfff;
+  color: #d9efff;
 }
 </style>
 </head>
@@ -464,14 +418,11 @@ h1 {
 
 <div class="stars" id="stars"></div>
 
-<!-- ---------- SCREEN 1: LANDING ---------- -->
-<div class="screen active" id="screen-landing">
+<!-- ---------- LANDING SCREEN ---------- -->
+<div class="screen active" id="landingScreen">
   <div class="content">
     <h1>Stellar</h1>
-
-    <div class="subtitle">
-      A platform for highly specialized talent
-    </div>
+    <div class="subtitle">A platform for highly specialized talent</div>
 
     <div class="tagline">
       <span class="flip-inline">
@@ -481,103 +432,105 @@ h1 {
       <span class="static">on demand</span>
     </div>
 
-    <a href="#" class="cta-link" id="enter-btn">Find opportunities</a>
+    <div class="cta-text" id="enterBtn">Find opportunities</div>
   </div>
 </div>
 
-<!-- ---------- SCREEN 2: DATA REPORT ---------- -->
-<div class="screen" id="screen-report">
+<!-- ---------- DATA REPORT SCREEN ---------- -->
+<div class="screen" id="reportScreen">
   <div class="content">
-    <div class="report-card">
-      <div class="report-title">Here’s what we can see</div>
-      <div class="report-sub">Just the meaningful signals your browser and network already share.</div>
+    <div class="report-title">Your data snapshot</div>
+    <div class="report-subtitle">Here’s what this session shares with Stellar.</div>
 
-      <div class="data-list">
-        <div class="data-row"><span>Approximate location</span><span>San Francisco, CA</span></div>
-        <div class="data-row"><span>IP address</span><span>173.204.xxx.xxx</span></div>
-        <div class="data-row"><span>Device</span><span>MacBook Pro · macOS · Chrome</span></div>
-        <div class="data-row"><span>Language & time</span><span>English (US) · Pacific Time</span></div>
-        <div class="data-row"><span>Connection</span><span>High-speed network</span></div>
-        <div class="data-row"><span>Display</span><span>Large high-resolution screen</span></div>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="data-label">Approximate location</div>
+        <div class="data-value">San Francisco, CA</div>
       </div>
-
-      <div class="stellar-id" id="stellar-id">Stellar ID: —</div>
-
-      <a href="#" class="primary-btn" id="continue-btn">Continue</a>
+      <div class="data-card">
+        <div class="data-label">IP address</div>
+        <div class="data-value">192.168.4.23</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Device</div>
+        <div class="data-value">MacBook Pro · macOS · Chrome</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Language & timezone</div>
+        <div class="data-value">English (US) · Pacific Time</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Connection type</div>
+        <div class="data-value">Fast broadband</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Stellar ID</div>
+        <div class="data-value" id="stellarId"></div>
+      </div>
     </div>
+
+    <div class="slider-block">
+      <div class="slider-label">
+        <span>Keep private</span>
+        <span>Monetize data</span>
+      </div>
+      <input type="range" min="0" max="100" value="0" id="monetizeSlider">
+      <div class="details-link">Details</div>
+    </div>
+
+    <div class="next-btn" id="toRoleBtn">Continue</div>
   </div>
 </div>
 
-<!-- ---------- SCREEN 3: ROLE + INTERESTS ---------- -->
-<div class="screen" id="screen-role">
+<!-- ---------- ROLE + INTEREST SCREEN ---------- -->
+<div class="screen" id="roleScreen">
   <div class="content">
-    <div class="role-card">
-      <div class="role-title">What brings you here?</div>
-      <div class="role-sub">This helps us shape what you see — and what you’re offered.</div>
+    <div class="role-title">How do you want to use Stellar?</div>
+    <div class="role-subtitle">This helps us personalize your experience.</div>
 
-      <!-- MODE TOGGLE -->
-      <div class="mode-toggle" id="mode-toggle">
-        <div class="mode-indicator" id="mode-indicator"></div>
-        <button class="active" data-mode="talent">I am the help</button>
-        <button data-mode="employer">I’m looking for help</button>
+    <div class="role-slider">
+      <div class="role-slider-labels">
+        <span>Looking for help</span>
+        <span>I am the help</span>
       </div>
-
-      <!-- ROLE TYPES -->
-      <div class="role-grid" id="role-grid">
-        <div class="role-option">Research</div>
-        <div class="role-option">Production</div>
-        <div class="role-option">Services</div>
-        <div class="role-option">Operations</div>
-        <div class="role-option">Strategy</div>
-        <div class="role-option">Creative</div>
-      </div>
-
-      <!-- INTERESTS -->
-      <div class="interest-title">What are you interested in?</div>
-      <div class="interest-sub">Pick a few — you can always change this later.</div>
-
-      <div class="interest-grid" id="interest-grid">
-        <div class="interest-chip">Technology</div>
-        <div class="interest-chip">Business</div>
-        <div class="interest-chip">Science</div>
-        <div class="interest-chip">Design</div>
-        <div class="interest-chip">Media</div>
-        <div class="interest-chip">Finance</div>
-        <div class="interest-chip">Health</div>
-        <div class="interest-chip">Education</div>
-        <div class="interest-chip">Sustainability</div>
-      </div>
-
-      <a href="#" class="primary-btn" id="enter-platform-btn">Enter platform</a>
-    </div>
-  </div>
-</div>
-
-<!-- ---------- SCREEN 4: OPPORTUNITY PREVIEW ---------- -->
-<div class="screen" id="screen-feed">
-  <div class="content">
-    <div class="feed-card">
-      <div class="feed-title">Opportunities</div>
-      <div class="feed-sub">A preview of what Stellar is building for you.</div>
-
-      <div class="feed-placeholder"></div>
-
-      <a href="#" class="primary-btn" id="join-waitlist-btn">Join waitlist</a>
+      <input type="range" min="0" max="100" value="50" id="roleModeSlider">
     </div>
 
-    <!-- WAITLIST POPUP -->
-    <div class="waitlist-popup" id="waitlist-popup" style="display:none;">
-      <div class="waitlist-card">
-        <div class="waitlist-title">You’re early.</div>
-        <div class="waitlist-sub">Stellar is opening soon. Want first access when it does?</div>
-        <a href="#" class="primary-btn" id="waitlist-close-btn">Request early access</a>
+    <div class="role-grid">
+      <div class="role-card">
+        <h4>Research</h4>
+        <p>Discovery, analysis, experimentation</p>
+      </div>
+      <div class="role-card">
+        <h4>Production</h4>
+        <p>Building, creating, shipping</p>
+      </div>
+      <div class="role-card">
+        <h4>Services</h4>
+        <p>Advisory, execution, support</p>
       </div>
     </div>
+
+    <div class="interests-title">What are you interested in?</div>
+    <div class="interest-grid">
+      <div class="interest-pill">Tech</div>
+      <div class="interest-pill">Design</div>
+      <div class="interest-pill">Business</div>
+      <div class="interest-pill">Science</div>
+      <div class="interest-pill">Media</div>
+      <div class="interest-pill">Finance</div>
+      <div class="interest-pill">Education</div>
+      <div class="interest-pill">Health</div>
+      <div class="interest-pill">Government</div>
+      <div class="interest-pill">Nonprofit</div>
+    </div>
+
+    <div class="next-btn">Enter Stellar</div>
   </div>
 </div>
 
 <script>
-// ---------- BACKGROUND STARS ----------
+// ---------- STARFIELD ----------
 const stars = document.getElementById('stars');
 for (let i = 0; i < 200; i++) {
   const s = document.createElement('div');
@@ -606,70 +559,53 @@ spawnShootingStar();
 // ---------- WORD FLIP ----------
 const words = document.querySelectorAll('.flip-inline .word');
 let index = 0;
-
 setInterval(() => {
   words.forEach(w => w.classList.remove('active'));
   words[index].classList.add('active');
   index = (index + 1) % words.length;
 }, 2400);
 
-// ---------- SCREEN NAV ----------
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+// ---------- SCREEN NAVIGATION ----------
+const landingScreen = document.getElementById('landingScreen');
+const reportScreen = document.getElementById('reportScreen');
+const roleScreen = document.getElementById('roleScreen');
+
+document.getElementById('enterBtn').addEventListener('click', () => {
+  landingScreen.classList.remove('active');
+  reportScreen.classList.add('active');
+});
+
+document.getElementById('toRoleBtn').addEventListener('click', () => {
+  reportScreen.classList.remove('active');
+  roleScreen.classList.add('active');
+});
 
 // ---------- STELLAR ID ----------
-const stellarId = 'STLR-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-document.getElementById('stellar-id').textContent = 'Stellar ID: ' + stellarId;
+function generateStellarId() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let id = 'ST-';
+  for (let i = 0; i < 8; i++) {
+    id += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return id;
+}
+document.getElementById('stellarId').textContent = generateStellarId();
 
-// ---------- BUTTON FLOWS ----------
-document.getElementById('enter-btn').addEventListener('click', e => {
-  e.preventDefault();
-  showScreen('screen-report');
-});
-
-document.getElementById('continue-btn').addEventListener('click', e => {
-  e.preventDefault();
-  showScreen('screen-role');
-});
-
-document.getElementById('enter-platform-btn').addEventListener('click', e => {
-  e.preventDefault();
-  showScreen('screen-feed');
-});
-
-document.getElementById('join-waitlist-btn').addEventListener('click', e => {
-  e.preventDefault();
-  document.getElementById('waitlist-popup').style.display = 'grid';
-});
-
-document.getElementById('waitlist-close-btn').addEventListener('click', e => {
-  e.preventDefault();
-  document.getElementById('waitlist-popup').style.display = 'none';
-});
-
-// ---------- MODE TOGGLE ----------
-const modeToggle = document.getElementById('mode-toggle');
-const modeButtons = modeToggle.querySelectorAll('button');
-const modeIndicator = document.getElementById('mode-indicator');
-
-modeButtons.forEach((btn, idx) => {
-  btn.addEventListener('click', () => {
-    modeButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    modeIndicator.style.transform = `translateX(${idx * 100}%)`;
+// ---------- ROLE SELECTION ----------
+const roleCards = document.querySelectorAll('.role-card');
+roleCards.forEach(card => {
+  card.addEventListener('click', () => {
+    roleCards.forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
   });
 });
 
-// ---------- ROLE SELECTION ----------
-document.querySelectorAll('.role-option').forEach(opt => {
-  opt.addEventListener('click', () => opt.classList.toggle('selected'));
-});
-
 // ---------- INTEREST SELECTION ----------
-document.querySelectorAll('.interest-chip').forEach(chip => {
-  chip.addEventListener('click', () => chip.classList.toggle('selected'));
+const interestPills = document.querySelectorAll('.interest-pill');
+interestPills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    pill.classList.toggle('selected');
+  });
 });
 </script>
 
