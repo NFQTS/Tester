@@ -417,26 +417,16 @@ h1 {
   line-height: 1.55;
 }
 
-/* ---------- ROLE MODE SLIDER ---------- */
+/* ---------- ROLE MODE SLIDER (FIXED) ---------- */
 .role-mode {
-  margin-bottom: 2.2rem;
-}
-
-.role-mode-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.7;
-  margin-bottom: 0.6rem;
+  margin-bottom: 2.4rem;
 }
 
 .role-mode-track {
   position: relative;
   width: 100%;
   max-width: 360px;
-  height: 38px;
+  height: 44px;
   margin: 0 auto;
   background: rgba(154,223,255,0.08);
   border-radius: 999px;
@@ -448,8 +438,8 @@ h1 {
   position: absolute;
   top: 4px;
   left: 4px;
-  width: 50%;
-  height: 30px;
+  width: calc(50% - 8px);
+  height: 36px;
   border-radius: 999px;
   background: linear-gradient(120deg, #9adfff, #ffffff);
   box-shadow: 0 0 18px rgba(154,223,255,0.6);
@@ -467,7 +457,7 @@ h1 {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   pointer-events: none;
@@ -475,8 +465,8 @@ h1 {
 }
 
 .role-mode-text span {
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, color 0.3s ease;
 }
 
 .role-mode-track:not(.right) .role-mode-text span:first-child,
@@ -539,7 +529,7 @@ h1 {
   box-shadow: 0 0 22px rgba(154,223,255,0.3);
 }
 
-/* ---------- FEED (ABSTRACT PREVIEW) ---------- */
+/* ---------- FEED PREVIEW ---------- */
 .feed-bg {
   position: absolute;
   inset: 0;
@@ -557,76 +547,47 @@ h1 {
   backdrop-filter: blur(6px);
 }
 
-/* ---------- WAITLIST ---------- */
-.waitlist-modal {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(0,0,0,0.45);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
-  z-index: 30;
-}
-
-.waitlist-modal.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.waitlist-card {
-  max-width: 520px;
+/* ---------- FEED CONTENT ---------- */
+.feed-content {
+  position: relative;
+  z-index: 5;
+  max-width: 900px;
   width: 92%;
-  padding: 52px 44px;
-  border-radius: 32px;
-  background: rgba(10, 15, 30, 0.9);
-  backdrop-filter: blur(24px);
-  box-shadow: 0 50px 140px rgba(0,0,0,0.65);
   text-align: center;
 }
 
-.waitlist-title {
-  font-size: clamp(1.8rem, 5vw, 2.4rem);
+.feed-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 700;
   letter-spacing: -0.03em;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
   background: linear-gradient(120deg, #d4e6ff, #9adfff, #ffffff);
   -webkit-background-clip: text;
   color: transparent;
 }
 
-.waitlist-subtitle {
-  font-size: 1rem;
-  opacity: 0.72;
-  margin-bottom: 2.6rem;
-  line-height: 1.6;
+.feed-subtitle {
+  font-size: 1.05rem;
+  opacity: 0.7;
+  margin-bottom: 2.4rem;
 }
 
-.waitlist-btn {
-  font-size: 0.85rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #cfefff;
-  text-decoration: none;
+.video-frame {
   position: relative;
-  display: inline-block;
-  opacity: 0.85;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  cursor: pointer;
+  width: 100%;
+  padding-top: 56.25%;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+  background: #000;
 }
 
-.waitlist-btn:hover { opacity: 1; transform: translateY(-1px); }
-
-.waitlist-btn::after {
-  content: "";
+.video-frame iframe {
   position: absolute;
-  left: 0;
-  bottom: -10px;
+  inset: 0;
   width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #9adfff, transparent);
-  opacity: 0.35;
+  height: 100%;
+  border: none;
 }
 </style>
 </head>
@@ -723,16 +684,22 @@ h1 {
 <div class="feed" id="feed">
   <div class="feed-bg"></div>
   <div class="feed-overlay"></div>
-</div>
 
-<!-- WAITLIST -->
-<div class="waitlist-modal" id="waitlistModal">
-  <div class="waitlist-card">
-    <div class="waitlist-title">Access is opening soon</div>
-    <div class="waitlist-subtitle">
-      You’re early. We’re gradually opening the platform to maintain quality and fairness.
+  <div class="feed-content">
+    <div class="feed-title">Your Personalized Feed</div>
+    <div class="feed-subtitle">
+      Here’s a preview of the kind of content and opportunities you’ll see on Stellar.
     </div>
-    <div class="waitlist-btn" id="waitlistBtn">Join the waitlist</div>
+
+    <div class="video-frame">
+      <!-- Alex Hormozi business video (swap video ID anytime) -->
+      <iframe 
+        src="https://www.youtube.com/embed/aO7FZ9n5Y6U?rel=0&modestbranding=1&autoplay=1"
+        title="Alex Hormozi — Business Strategy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
 </div>
 
@@ -798,8 +765,6 @@ const monetizeLabel = document.getElementById('monetizeLabel');
 const monetizeDetails = document.getElementById('monetizeDetails');
 const continueToRoles = document.getElementById('continueToRoles');
 const continueToFeed = document.getElementById('continueToFeed');
-const waitlistModal = document.getElementById('waitlistModal');
-const waitlistBtn = document.getElementById('waitlistBtn');
 
 cta.addEventListener('click', (e) => {
   e.preventDefault();
@@ -911,15 +876,6 @@ function updateContinueVisibility() {
 continueToFeed.addEventListener('click', () => {
   roles.classList.remove('show');
   feed.classList.add('show');
-
-  setTimeout(() => {
-    waitlistModal.classList.add('show');
-  }, 900);
-});
-
-// ---------- WAITLIST ----------
-waitlistBtn.addEventListener('click', () => {
-  alert("Waitlist signup coming soon.");
 });
 </script>
 
