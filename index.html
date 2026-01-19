@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Unprincipled Inc.</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stellar Beta Launch</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -39,7 +38,6 @@ body {
   50% { opacity: 0.9; }
 }
 
-/* ---------- SHOOTING STARS ---------- */
 .shooting-star {
   position: absolute;
   width: 3px;
@@ -51,16 +49,10 @@ body {
 }
 
 @keyframes fall {
-  0% {
-    opacity: 0;
-    transform: translateY(-120vh) translateX(40vw) rotate(35deg);
-  }
+  0% { opacity: 0; transform: translateY(-120vh) translateX(40vw) rotate(35deg); }
   15% { opacity: 1; }
   60% { opacity: 0.9; }
-  100% {
-    opacity: 0;
-    transform: translateY(140vh) translateX(-90vw) rotate(35deg);
-  }
+  100% { opacity: 0; transform: translateY(140vh) translateX(-90vw) rotate(35deg); }
 }
 
 /* ---------- HERO ---------- */
@@ -97,24 +89,27 @@ h1 {
   margin-bottom: 2.4rem;
 }
 
+/* ---------- FIXED TAGLINE ---------- */
 .tagline {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
-  font-weight: 300;
-  letter-spacing: -0.03em;
+  gap: 0.3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  min-height: 3.2rem; /* ensures words never cut off */
+  overflow: visible;
+}
+
+.flip-line {
+  height: auto;
 }
 
 .flip-inline {
   position: relative;
-  width: 140px;
-  height: 1em;
-  line-height: 1em;
-  display: inline-flex;
-  justify-content: center;
-  overflow: hidden;
+  display: inline-block;
+  min-width: 220px; /* gives enough room for longest word */
 }
 
 .flip-inline .word {
@@ -125,7 +120,7 @@ h1 {
   opacity: 0;
   transform: translateY(100%);
   transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  font-weight: 500;
+  font-weight: 600;
   color: #9adfff;
 }
 
@@ -136,34 +131,44 @@ h1 {
 
 .static {
   opacity: 0.85;
+  font-weight: 400;
 }
 
-/* CTA */
-.cta-magic {
+/* ---------- PAYWALL ---------- */
+.paywall {
   margin-top: 3.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.paywall-title {
   font-size: 0.95rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.paywall-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.55;
+}
+
+.paywall-action {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #cfefff;
-  text-decoration: none;
+  cursor: pointer;
   position: relative;
-  display: inline-block;
   opacity: 0.85;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.cta-magic::before {
-  content: "";
-  position: absolute;
-  inset: -10px -18px;
-  border-radius: 999px;
-  background: radial-gradient(circle at center, rgba(154,223,255,0.35), transparent 65%);
-  opacity: 0;
-  filter: blur(16px);
-  transition: opacity 0.4s ease;
-}
-
-.cta-magic::after {
+.paywall-action::after {
   content: "";
   position: absolute;
   left: 0;
@@ -172,15 +177,15 @@ h1 {
   height: 1px;
   background: linear-gradient(90deg, transparent, #9adfff, transparent);
   opacity: 0.35;
-  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.cta-magic:hover { opacity: 1; transform: translateY(-1px); }
-.cta-magic:hover::before { opacity: 1; }
-.cta-magic:hover::after { opacity: 1; transform: scaleX(1.05); }
+.paywall-action:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
 
-/* ---------- PANELS ---------- */
-.report, .roles, .interests, .feed {
+/* ---------- REPORT ---------- */
+.report {
   position: fixed;
   inset: 0;
   display: grid;
@@ -193,7 +198,7 @@ h1 {
   z-index: 20;
 }
 
-.report.show, .roles.show, .interests.show, .feed.show {
+.report.show {
   opacity: 1;
   pointer-events: auto;
 }
@@ -203,7 +208,7 @@ h1 {
   width: 92%;
   padding: 52px 44px;
   border-radius: 32px;
-  background: rgba(10, 15, 30, 0.8);
+  background: rgba(10, 15, 30, 0.85);
   backdrop-filter: blur(24px);
   box-shadow: 0 50px 140px rgba(0,0,0,0.65);
   text-align: center;
@@ -261,80 +266,6 @@ h1 {
   opacity: 0.92;
 }
 
-/* ---------- MONETIZATION ---------- */
-.monetize-section {
-  margin-bottom: 3rem;
-  padding-top: 1.6rem;
-  border-top: 1px solid rgba(154,223,255,0.12);
-}
-
-.monetize-title {
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 1.4rem;
-}
-
-.slider-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.monetize-label {
-  font-size: 0.95rem;
-  opacity: 0.9;
-  transition: color 0.3s ease;
-}
-
-.monetize-details {
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.5;
-  margin-top: 0.4rem;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-
-.monetize-details:hover { opacity: 0.9; }
-
-.slider {
-  -webkit-appearance: none;
-  width: 260px;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(154,223,255,0.25), rgba(154,223,255,0.9));
-  border-radius: 2px;
-  outline: none;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
-}
-
-.slider:hover { opacity: 1; }
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #9adfff;
-  box-shadow: 0 0 18px rgba(154,223,255,0.9);
-  cursor: pointer;
-  border: none;
-}
-
-.slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #9adfff;
-  box-shadow: 0 0 18px rgba(154,223,255,0.9);
-  cursor: pointer;
-  border: none;
-}
-
 /* ---------- CONTINUE BUTTON ---------- */
 .action-btn {
   margin-top: 2.2rem;
@@ -369,229 +300,64 @@ h1 {
   opacity: 0.35;
 }
 
-/* ---------- ROLE SELECTION ---------- */
-.role-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-top: 2.2rem;
-}
-
-@media (max-width: 700px) {
-  .role-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.role-card {
-  padding: 30px 26px;
-  border-radius: 26px;
-  background: rgba(154,223,255,0.06);
-  border: 1px solid rgba(154,223,255,0.15);
+/* ---------- LAUNCH LOADING SCREEN ---------- */
+.launch-screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  background: radial-gradient(ellipse at center, #0b0018 0%, #020006 75%, #000 100%);
+  z-index: 50;
   text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  color: #9adfff;
+  font-family: Inter, sans-serif;
 }
 
-.role-card:hover {
-  transform: translateY(-4px);
-  background: rgba(154,223,255,0.12);
-  box-shadow: 0 20px 60px rgba(154,223,255,0.15);
+.launch-screen.show {
+  display: grid;
 }
 
-.role-card.selected {
-  background: rgba(154,223,255,0.2);
-  box-shadow: 0 0 28px rgba(154,223,255,0.35);
-  opacity: 1;
+.rocket {
+  width: 60px;
+  height: 120px;
+  background: linear-gradient(to top, #9adfff 0%, #fff 50%);
+  clip-path: polygon(50% 0%, 0% 70%, 100% 70%);
+  animation: launch 3s ease-in-out infinite;
+  margin-bottom: 2rem;
 }
 
-.role-title {
-  font-size: 1.15rem;
-  font-weight: 600;
+@keyframes launch {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-60px) rotate(-5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+.launch-text {
+  font-size: 1.1rem;
+  font-weight: 500;
   margin-bottom: 0.6rem;
 }
 
-.role-desc {
-  font-size: 0.9rem;
-  opacity: 0.7;
-  line-height: 1.55;
-}
-
-/* ---------- ROLE MODE SLIDER (FIXED) ---------- */
-.role-mode {
-  margin-bottom: 2.4rem;
-}
-
-.role-mode-track {
-  position: relative;
-  width: 100%;
-  max-width: 360px;
-  height: 44px;
-  margin: 0 auto;
-  background: rgba(154,223,255,0.08);
-  border-radius: 999px;
-  border: 1px solid rgba(154,223,255,0.18);
-  overflow: hidden;
-}
-
-.role-mode-thumb {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: calc(50% - 8px);
-  height: 36px;
-  border-radius: 999px;
-  background: linear-gradient(120deg, #9adfff, #ffffff);
-  box-shadow: 0 0 18px rgba(154,223,255,0.6);
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.role-mode-track.right .role-mode-thumb {
-  transform: translateX(100%);
-}
-
-.role-mode-text {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  text-align: center;
-  font-size: 0.8rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.role-mode-text span {
-  opacity: 0.6;
-  transition: opacity 0.3s ease, color 0.3s ease;
-}
-
-.role-mode-track:not(.right) .role-mode-text span:first-child,
-.role-mode-track.right .role-mode-text span:last-child {
-  opacity: 1;
-  color: #0b0018;
-  font-weight: 600;
-}
-
-/* ---------- INTEREST SELECTION (INLINE) ---------- */
-.inline-interests {
-  margin-top: 3rem;
-  padding-top: 2.2rem;
-  border-top: 1px solid rgba(154,223,255,0.14);
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity 0.8s ease, max-height 0.8s ease;
-}
-
-.inline-interests.show {
-  opacity: 1;
-  max-height: 800px;
-}
-
-.interest-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-top: 2rem;
-}
-
-@media (max-width: 800px) {
-  .interest-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.interest-pill {
-  padding: 14px 16px;
-  border-radius: 999px;
-  background: rgba(154,223,255,0.06);
-  border: 1px solid rgba(154,223,255,0.15);
+.launch-subtext {
   font-size: 0.85rem;
-  opacity: 0.85;
+  opacity: 0.65;
+  margin-bottom: 1rem;
+}
+
+.launch-easter {
+  font-size: 0.75rem;
+  opacity: 0.5;
   cursor: pointer;
-  text-align: center;
-  transition: background 0.25s ease, opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: underline;
 }
 
-.interest-pill:hover {
-  opacity: 1;
-  background: rgba(154,223,255,0.12);
-  transform: translateY(-2px);
-}
-
-.interest-pill.active {
-  background: rgba(154,223,255,0.22);
-  opacity: 1;
-  box-shadow: 0 0 22px rgba(154,223,255,0.3);
-}
-
-/* ---------- FEED PREVIEW ---------- */
-.feed-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 30% 40%, rgba(154,223,255,0.08), transparent 60%),
-    radial-gradient(circle at 70% 60%, rgba(154,223,255,0.05), transparent 65%),
-    radial-gradient(circle at 50% 80%, rgba(154,223,255,0.04), transparent 70%);
-  filter: blur(10px);
-  opacity: 0.6;
-}
-
-.feed-overlay {
-  position: absolute;
-  inset: 0;
-  backdrop-filter: blur(6px);
-}
-
-/* ---------- FEED CONTENT ---------- */
-.feed-content {
-  position: relative;
-  z-index: 5;
-  max-width: 900px;
-  width: 92%;
-  text-align: center;
-}
-
-.feed-title {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.8rem;
-  background: linear-gradient(120deg, #d4e6ff, #9adfff, #ffffff);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.feed-subtitle {
-  font-size: 1.05rem;
-  opacity: 0.7;
-  margin-bottom: 2.4rem;
-}
-
-.video-frame {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 30px 100px rgba(0,0,0,0.6);
-  background: #000;
-}
-
-.video-frame iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
+/* ---------- RESPONSIVE FIXES ---------- */
+@media (max-width: 500px) {
+  .flip-inline { min-width: 180px; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="stars" id="stars"></div>
@@ -600,93 +366,39 @@ h1 {
 <div class="content" id="content">
   <div class="subtitle">A platform for finding and creating opportunities</div>
   <div class="tagline">
-    <span class="flip-inline">
-      <span class="word active">Work</span>
-      <span class="word">Talent</span>
-    </span>
-    <span class="static">on demand</span>
+    <div class="flip-line">
+      <span class="flip-inline">
+        <span class="word active">Opportunities</span>
+        <span class="word">Talent</span>
+      </span>
+    </div>
+    <div class="static">on demand</div>
   </div>
-  <a href="#" class="cta-magic" id="cta">Enjoy opportunities</a>
+
+  <!-- PAYWALL -->
+  <div class="paywall">
+    <div class="paywall-title">Private access.</div>
+    <div class="paywall-subtitle">Explore beta for free.</div>
+    <div class="paywall-action" id="cta">Request Access</div>
+  </div>
 </div>
 
 <!-- REPORT -->
 <div class="report" id="report">
   <div class="card">
-    <div class="card-title">What we can see</div>
-    <div class="card-subtitle">
-      This is the essential information your browser and our servers receive when you visit.
-    </div>
+    <div class="card-title">Your Data Snapshot</div>
+    <div class="card-subtitle">Here’s the essential info we see when you explore the beta.</div>
     <div class="data-grid" id="dataGrid"></div>
-
-    <div class="monetize-section">
-      <div class="monetize-title">Want to monetize your data?</div>
-      <div class="slider-wrap">
-        <input type="range" min="0" max="1" step="1" value="0" class="slider" id="monetizeSlider">
-        <div class="monetize-label" id="monetizeLabel">Maximize privacy</div>
-        <div class="monetize-details" id="monetizeDetails">Details</div>
-      </div>
-    </div>
-
-    <div class="action-btn show" id="continueToRoles">Enter</div>
+    <div class="action-btn show" id="continueToLaunch">Next</div>
   </div>
 </div>
 
-<!-- ROLE + INTEREST SELECTION (INLINE) -->
-<div class="roles" id="roles">
-  <div class="card">
-    <div class="card-title">Which interests you most?</div>
-
-    
-    <!-- ROLE GRID -->
-    <div class="role-grid">
-      <div class="role-card" data-role="research">
-        <div class="role-title">Research</div>
-        <div class="role-desc">Exploration, discovery, modeling, experimentation.</div>
-      </div>
-      <div class="role-card" data-role="production">
-        <div class="role-title">Production</div>
-        <div class="role-desc">Building, shipping, deploying, scaling systems.</div>
-      </div>
-      <div class="role-card" data-role="services">
-        <div class="role-title">Services</div>
-        <div class="role-desc">Advisory, consulting, operations, quality control.</div>
-      </div>
-    </div>
-
-    <!-- INLINE INTERESTS -->
-    <div class="inline-interests" id="inlineInterests">
-      <div class="card-subtitle" style="margin-bottom:0;">
-        What are you interested in?
-      </div>
-
-      <div class="interest-grid" id="interestGrid"></div>
-
-      <div class="action-btn" id="continueToFeed">Continue</div>
-    </div>
-  </div>
-</div>
-
-<!-- FEED PREVIEW -->
-<div class="feed" id="feed">
-  <div class="feed-bg"></div>
-  <div class="feed-overlay"></div>
-
-  <div class="feed-content">
-    <div class="feed-title">Your Personalized Feed</div>
-    <div class="feed-subtitle">
-      Here’s a preview of the kind of content and opportunities you’ll see on Stellar.
-    </div>
-
-    <div class="video-frame">
-      <!-- Alex Hormozi business video (swap video ID anytime) -->
-      <iframe 
-        src="https://www.youtube.com/embed/aO7FZ9n5Y6U?rel=0&modestbranding=1&autoplay=1"
-        title="Alex Hormozi — Business Strategy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
-  </div>
+<!-- LAUNCH LOADING -->
+<div class="launch-screen" id="launchScreen">
+  <div class="rocket"></div>
+  <div class="launch-text">Finding opportunities for you...</div>
+  <div class="launch-subtext">Estimated wait time: under 24 hours</div>
+  <div class="launch-easter" id="easterEgg">Share your phone to get 3 access codes</div>
 </div>
 
 <script>
@@ -724,146 +436,48 @@ setInterval(() => {
   wordIndex = (wordIndex + 1) % words.length;
 }, 2400);
 
-// ---------- SPOOFED USER DATA ----------
-function getUserData() {
-  const screenData = window.screen;
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  return [
-    { label: "Approximate location", value: "Los Angeles, California" },
-    { label: "IP address", value: "192.168.42.87" },
-    { label: "Device", value: "MacBook Pro · macOS" },
-    { label: "Browser", value: "Chrome 121" },
-    { label: "Language & timezone", value: `English (US) · ${tz}` },
-    { label: "Display", value: `${screenData.width} × ${screenData.height} · ${window.devicePixelRatio || 1}x` }
-  ];
-}
-
 // ---------- CTA FLOW ----------
 const cta = document.getElementById('cta');
 const content = document.getElementById('content');
 const report = document.getElementById('report');
-const roles = document.getElementById('roles');
-const feed = document.getElementById('feed');
 const dataGrid = document.getElementById('dataGrid');
-const monetizeSlider = document.getElementById('monetizeSlider');
-const monetizeLabel = document.getElementById('monetizeLabel');
-const monetizeDetails = document.getElementById('monetizeDetails');
-const continueToRoles = document.getElementById('continueToRoles');
-const continueToFeed = document.getElementById('continueToFeed');
+const continueToLaunch = document.getElementById('continueToLaunch');
+const launchScreen = document.getElementById('launchScreen');
+const easterEgg = document.getElementById('easterEgg');
 
-cta.addEventListener('click', (e) => {
-  e.preventDefault();
-  stars.style.transform = 'scale(1.4) rotate(3deg)';
-  stars.style.opacity = '0.2';
+cta.addEventListener('click', () => {
   content.style.opacity = '0';
   content.style.transform = 'scale(0.96)';
-
-  const data = getUserData();
+  // Generate fake data
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const data = [
+    { label: "Approx. location", value: "Los Angeles, CA" },
+    { label: "IP address", value: "192.168.42.87" },
+    { label: "Device", value: "MacBook Pro · macOS" },
+    { label: "Browser", value: "Chrome 121" },
+    { label: "Language & timezone", value: `English (US) · ${tz}` },
+    { label: "Display", value: `${window.screen.width} × ${window.screen.height} · ${window.devicePixelRatio || 1}x` }
+  ];
   dataGrid.innerHTML = "";
   data.forEach(item => {
     const card = document.createElement('div');
     card.className = 'data-card';
-    card.innerHTML = `
-      <div class="data-label">${item.label}</div>
-      <div class="data-value">${item.value}</div>
-    `;
+    card.innerHTML = `<div class="data-label">${item.label}</div><div class="data-value">${item.value}</div>`;
     dataGrid.appendChild(card);
   });
-
-  setTimeout(() => {
-    report.classList.add('show');
-  }, 700);
+  setTimeout(() => report.classList.add('show'), 600);
 });
 
-// ---------- MONETIZATION ----------
-monetizeSlider.addEventListener('input', () => {
-  if (monetizeSlider.value === "1") {
-    monetizeLabel.textContent = "Increase earning potential";
-    monetizeLabel.style.color = "#9adfff";
-  } else {
-    monetizeLabel.textContent = "Maximize privacy";
-    monetizeLabel.style.color = "";
-  }
-});
-
-monetizeDetails.addEventListener('click', () => {
-  alert("If enabled, anonymized, aggregated usage patterns help match you with higher-value opportunities — never personal identity or private content.");
-});
-
-// ---------- ROLES FLOW ----------
-continueToRoles.addEventListener('click', () => {
+// ---------- NEXT TO LAUNCH ----------
+continueToLaunch.addEventListener('click', () => {
   report.classList.remove('show');
-  roles.classList.add('show');
+  launchScreen.classList.add('show');
 });
 
-// ---------- ROLE MODE SLIDER ----------
-const roleModeTrack = document.getElementById('roleModeTrack');
-let roleMode = "help"; // help or hire
-
-roleModeTrack.addEventListener('click', () => {
-  roleModeTrack.classList.toggle('right');
-  roleMode = roleModeTrack.classList.contains('right') ? "hire" : "help";
-});
-
-// ---------- ROLE SELECTION ----------
-const inlineInterests = document.getElementById('inlineInterests');
-document.querySelectorAll('.role-card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.role-card').forEach(c => {
-      c.classList.remove('selected');
-      c.style.opacity = "0.4";
-    });
-    card.classList.add('selected');
-    card.style.opacity = "1";
-
-    inlineInterests.classList.add('show');
-  });
-});
-
-// ---------- INTERESTS ----------
-const interestsList = [
-  "Technology",
-  "Design",
-  "Business",
-  "Science",
-  "Health",
-  "Finance",
-  "Education",
-  "Media",
-  "Environment",
-  "Government",
-  "Operations",
-  "Strategy"
-];
-
-const interestGrid = document.getElementById('interestGrid');
-interestsList.forEach(interest => {
-  const pill = document.createElement('div');
-  pill.className = 'interest-pill';
-  pill.textContent = interest;
-  pill.addEventListener('click', () => {
-    pill.classList.toggle('active');
-    updateContinueVisibility();
-  });
-  interestGrid.appendChild(pill);
-});
-
-function updateContinueVisibility() {
-  const anyActive = document.querySelectorAll('.interest-pill.active').length > 0;
-  if (anyActive) {
-    continueToFeed.classList.add('show');
-  } else {
-    continueToFeed.classList.remove('show');
-  }
-}
-
-// ---------- CONTINUE TO FEED ----------
-continueToFeed.addEventListener('click', () => {
-  roles.classList.remove('show');
-  feed.classList.add('show');
+// ---------- EASTER EGG ----------
+easterEgg.addEventListener('click', () => {
+  alert("Send your phone number to unlock 3 exclusive beta access codes!");
 });
 </script>
-
 </body>
 </html>
