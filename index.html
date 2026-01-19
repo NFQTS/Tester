@@ -17,11 +17,12 @@ body {
   place-items: center;
 }
 
-/* STARFIELD */
+/* ––––– STARFIELD ––––– */
 .stars {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  transition: transform 1.2s ease, opacity 1.2s ease;
 }
 
 .star {
@@ -54,13 +55,31 @@ body {
   100% { opacity: 0; transform: translateY(140vh) translateX(-90vw) rotate(35deg); }
 }
 
-/* HERO */
+/* ––––– HERO ––––– */
 .content {
   text-align: center;
   z-index: 10;
   padding: 24px;
   max-width: 820px;
   transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+h1 {
+  font-size: clamp(3.5rem, 8vw, 7.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  margin-bottom: 0.6rem;
+  background: linear-gradient(120deg, #d4e6ff, #9adfff, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientFlow 10s linear infinite;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
 
 .subtitle {
@@ -70,6 +89,7 @@ body {
   margin-bottom: 2.4rem;
 }
 
+/* ––––– FIXED TAGLINE ––––– */
 .tagline {
   display: flex;
   flex-direction: column;
@@ -79,6 +99,7 @@ body {
   font-weight: 500;
   letter-spacing: -0.02em;
   min-height: 4rem;
+  overflow: visible;
 }
 
 .flip-line {
@@ -118,7 +139,7 @@ body {
   font-weight: 400;
 }
 
-/* PAYWALL */
+/* ––––– PAYWALL ––––– */
 .paywall {
   margin-top: 3.8rem;
   display: flex;
@@ -168,7 +189,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* REPORT */
+/* ––––– REPORT ––––– */
 .report {
   position: fixed;
   inset: 0;
@@ -215,7 +236,7 @@ body {
   line-height: 1.65;
 }
 
-/* DATA GRID */
+/* ––––– DATA GRID ––––– */
 .data-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -250,7 +271,7 @@ body {
   opacity: 0.92;
 }
 
-/* MONETIZATION */
+/* ––––– MONETIZATION ––––– */
 .monetize-section {
   margin-bottom: 3rem;
   padding-top: 1.6rem;
@@ -324,7 +345,7 @@ body {
   border: none;
 }
 
-/* CONTINUE BUTTON */
+/* ––––– CONTINUE BUTTON ––––– */
 .action-btn {
   margin-top: 2.2rem;
   font-size: 0.85rem;
@@ -358,7 +379,53 @@ body {
   opacity: 0.35;
 }
 
-/* ROLE SELECTION */
+/* ––––– LAUNCH LOADING SCREEN ––––– */
+.launch-screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  background: radial-gradient(ellipse at center, #0b0018 0%, #020006 75%, #000 100%);
+  z-index: 50;
+  text-align: center;
+  color: #9adfff;
+  font-family: Inter, sans-serif;
+}
+
+.launch-screen.show {
+  display: grid;
+}
+
+.launch-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.launch-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+  z-index: 10;
+}
+
+.launch-subtext {
+  font-size: 0.85rem;
+  opacity: 0.65;
+  margin-bottom: 1rem;
+  z-index: 10;
+}
+
+.launch-easter {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  cursor: pointer;
+  text-decoration: underline;
+  z-index: 10;
+}
+
+/* ––––– ROLE SELECTION SCREEN ––––– */
 .role-screen {
   position: fixed;
   inset: 0;
@@ -409,72 +476,7 @@ body {
   50% { transform: translateY(-6px); }
 }
 
-/* LAUNCH SCREEN STARS */
-.launch-screen {
-  position: fixed;
-  inset: 0;
-  display: none;
-  grid-template-rows: 1fr auto;
-  place-items: center;
-  background: radial-gradient(ellipse at center, #0b0018 0%, #020006 75%, #000 100%);
-  z-index: 50;
-  text-align: center;
-  color: #9adfff;
-  font-family: Inter, sans-serif;
-}
-
-.launch-screen.show {
-  display: grid;
-}
-
-.launch-stars {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.launch-stars .star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0;
-  animation: twinkle 7s infinite;
-}
-
-.launch-stars .shooting-star {
-  position: absolute;
-  width: 3px;
-  height: 90px;
-  background: linear-gradient(transparent, #9adfff, #ffffff, transparent);
-  transform: rotate(35deg);
-  filter: blur(1px);
-  animation: fall linear infinite;
-}
-
-/* LAUNCH TEXT */
-.launch-text {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 0.6rem;
-  z-index: 10;
-}
-
-.launch-subtext {
-  font-size: 0.85rem;
-  opacity: 0.65;
-  margin-bottom: 1rem;
-  z-index: 10;
-}
-
-.launch-easter {
-  font-size: 0.75rem;
-  opacity: 0.5;
-  cursor: pointer;
-  text-decoration: underline;
-  z-index: 10;
-}
-
+/* ––––– RESPONSIVE FIXES ––––– */
 @media (max-width: 500px) {
   .flip-inline { min-width: 220px; }
   .role-btn { width: 100%; }
@@ -497,6 +499,8 @@ body {
     </div>
     <div class="static">on demand</div>
   </div>
+
+  <!-- PAYWALL -->
   <div class="paywall">
     <div class="paywall-title">Private access.</div>
     <div class="paywall-subtitle">Explore beta for free.</div>
@@ -512,6 +516,7 @@ body {
       This is the essential information your browser and our servers receive when you visit.
     </div>
     <div class="data-grid" id="dataGrid"></div>
+
     <div class="monetize-section">
       <div class="monetize-title">Want to monetize your data?</div>
       <div class="slider-wrap">
@@ -520,11 +525,12 @@ body {
         <div class="monetize-details" id="monetizeDetails">Details</div>
       </div>
     </div>
+
     <div class="action-btn show" id="continueToLaunch">Next</div>
   </div>
 </div>
 
-<!-- ROLE SELECTION -->
+<!-- ROLE SELECTION SCREEN -->
 <div class="role-screen" id="roleScreen">
   <div class="card">
     <div class="card-title">Which would you enjoy?</div>
@@ -536,32 +542,99 @@ body {
   </div>
 </div>
 
-<!-- LAUNCH SCREEN -->
+<!-- LAUNCH LOADING -->
 <div class="launch-screen" id="launchScreen">
   <div class="launch-stars" id="launchStars"></div>
-  <div class="launch-text">Finding opportunities for you...</div>
-  <div class="launch-subtext">Estimated wait time: under 24 hours</div>
-  <div class="launch-easter" id="easterEgg">Share your # to get 3 early access codes</div>
+  <div>
+    <div class="launch-text">Finding opportunities for you...</div>
+    <div class="launch-subtext">Estimated wait time: under 24 hours</div>
+    <div class="launch-easter" id="easterEgg">Share your # to get 3 early access codes</div>
+  </div>
 </div>
 
 <script>
-// STARFIELD
+// ---------- STARFIELD ----------
 const stars = document.getElementById('stars');
-for (let i=0;i<200;i++){
-  const s=document.createElement('div');s.className='star';const size=Math.random()*3+0.5;s.style.width=size+'px';s.style.height=size+'px';s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';s.style.animationDelay=Math.random()*7+'s';stars.appendChild(s);
+for (let i = 0; i < 200; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 3 + 0.5;
+  s.style.width = size + 'px';
+  s.style.height = size + 'px';
+  s.style.left = Math.random() * 100 + 'vw';
+  s.style.top = Math.random() * 100 + 'vh';
+  s.style.animationDelay = Math.random() * 7 + 's';
+  stars.appendChild(s);
 }
-function spawnShootingStar(){const star=document.createElement('div');star.className='shooting-star';star.style.left=Math.random()*120+'vw';star.style.animationDuration=(Math.random()*2.5+2.8)+'s';document.body.appendChild(star);star.addEventListener('animationend',()=>star.remove());}
-setInterval(spawnShootingStar,1400);spawnShootingStar();
 
-// WORD FLIP
-const words=document.querySelectorAll('.flip-inline .word');let wordIndex=0;
-setInterval(()=>{words.forEach(w=>w.classList.remove('active'));words[wordIndex].classList.add('active');wordIndex=(wordIndex+1)%words.length;},2400);
+function spawnShootingStar() {
+  const star = document.createElement('div');
+  star.className = 'shooting-star';
+  star.style.left = Math.random() * 120 + 'vw';
+  star.style.animationDuration = (Math.random() * 2.5 + 2.8) + 's';
+  document.body.appendChild(star);
+  star.addEventListener('animationend', () => star.remove());
+}
+setInterval(spawnShootingStar, 1400);
+spawnShootingStar();
 
-// SPOOFED USER DATA
-function getUserData(){const screenData=window.screen;const tz=Intl.DateTimeFormat().resolvedOptions().timeZone;return[{label:"Approximate location",value:"Los Angeles, California"},{label:"IP address",value:"192.168.42.87"},{label:"Device",value:"MacBook Pro · macOS"},{label:"Browser",value:"Chrome 121"},{label:"Language & timezone",value:`English (US) · ${tz}`},{label:"Display",value:`${screenData.width} × ${screenData.height} · ${window.devicePixelRatio||1}x`}];}
+// ---------- LAUNCH SCREEN STARS ----------
+const launchStars = document.getElementById('launchStars');
+function initLaunchStars() {
+  launchStars.innerHTML = '';
+  for (let i = 0; i < 150; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 0.5;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top = Math.random() * 100 + 'vh';
+    s.style.animationDelay = Math.random() * 7 + 's';
+    launchStars.appendChild(s);
+  }
+}
 
-// CTA FLOW
-const cta=document.getElementById('cta');const content=document.getElementById('content');const report=document.getElementById('report');const dataGrid=document.getElementById('dataGrid');const monetizeSlider
+function spawnLaunchShootingStar() {
+  const star = document.createElement('div');
+  star.className = 'shooting-star';
+  star.style.left = Math.random() * 120 + 'vw';
+  star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+  launchStars.appendChild(star);
+  star.addEventListener('animationend', () => star.remove());
+}
+
+let launchInterval;
+
+// ---------- WORD FLIP ----------
+const words = document.querySelectorAll('.flip-inline .word');
+let wordIndex = 0;
+setInterval(() => {
+  words.forEach(w => w.classList.remove('active'));
+  words[wordIndex].classList.add('active');
+  wordIndex = (wordIndex + 1) % words.length;
+}, 2400);
+
+// ---------- SPOOFED USER DATA ----------
+function getUserData() {
+  const screenData = window.screen;
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  return [
+    { label: "Approximate location", value: "Los Angeles, California" },
+    { label: "IP address", value: "192.168.42.87" },
+    { label: "Device", value: "MacBook Pro · macOS" },
+    { label: "Browser", value: "Chrome 121" },
+    { label: "Language & timezone", value: `English (US) · ${tz}` },
+    { label: "Display", value: `${screenData.width} × ${screenData.height} · ${window.devicePixelRatio || 1}x` }
+  ];
+}
+
+// ---------- CTA FLOW ----------
+const cta = document.getElementById('cta');
+const content = document.getElementById('content');
+const report = document.getElementById('report');
+const dataGrid = document.getElementById('dataGrid');
 const monetizeSlider = document.getElementById('monetizeSlider');
 const monetizeLabel = document.getElementById('monetizeLabel');
 const monetizeDetails = document.getElementById('monetizeDetails');
@@ -571,11 +644,10 @@ const easterEgg = document.getElementById('easterEgg');
 const roleScreen = document.getElementById('roleScreen');
 const roleButtons = document.querySelectorAll('.role-btn');
 
-// CTA click: show report/privacy screen
 cta.addEventListener('click', () => {
   content.style.opacity = '0';
   content.style.transform = 'scale(0.96)';
-
+  
   const data = getUserData();
   dataGrid.innerHTML = "";
   data.forEach(item => {
@@ -587,11 +659,11 @@ cta.addEventListener('click', () => {
     `;
     dataGrid.appendChild(card);
   });
-
+  
   setTimeout(() => report.classList.add('show'), 600);
 });
 
-// Monetization slider
+// ---------- MONETIZATION ----------
 monetizeSlider.addEventListener('input', () => {
   if (monetizeSlider.value === "1") {
     monetizeLabel.textContent = "Pay me for my data, please!";
@@ -606,56 +678,28 @@ monetizeDetails.addEventListener('click', () => {
   alert("If enabled, anonymized, aggregated usage patterns help match you with higher-value opportunities — never personal identity or private content. We also have developed a fun new way to use it to make advertising enjoyable for you 🤫.");
 });
 
-// Continue to role selection screen
+// ---------- NEXT TO ROLE SELECTION ----------
 continueToLaunch.addEventListener('click', () => {
   report.classList.remove('show');
   roleScreen.classList.add('show');
 });
 
-// Role selection buttons
+// ---------- ROLE SELECTION ----------
 roleButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     const selectedRole = btn.getAttribute('data-role');
-    console.log("Selected Role:", selectedRole); // can be sent to backend
+    console.log("Selected Role:", selectedRole);
 
     roleScreen.classList.remove('show');
     launchScreen.classList.add('show');
-    startLaunchStars();
+    
+    // Initialize launch screen stars and shooting stars
+    initLaunchStars();
+    launchInterval = setInterval(spawnLaunchShootingStar, 800);
   });
 });
 
-// Launch screen star animation
-function startLaunchStars() {
-  const launchStars = document.getElementById('launchStars');
-  launchStars.innerHTML = "";
-
-  // Add twinkling stars
-  for (let i=0;i<150;i++){
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 3 + 0.5;
-    s.style.width = size + 'px';
-    s.style.height = size + 'px';
-    s.style.left = Math.random() * 100 + 'vw';
-    s.style.top = Math.random() * 100 + 'vh';
-    s.style.animationDelay = Math.random() * 7 + 's';
-    launchStars.appendChild(s);
-  }
-
-  // Shooting stars
-  function spawnLaunchShootingStar(){
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
-    star.style.left = Math.random() * 120 + 'vw';
-    star.style.animationDuration = (Math.random() * 2.5 + 2.8) + 's';
-    launchStars.appendChild(star);
-    star.addEventListener('animationend', () => star.remove());
-  }
-  setInterval(spawnLaunchShootingStar, 1200);
-  spawnLaunchShootingStar();
-}
-
-// Easter egg
+// ---------- EASTER EGG ----------
 easterEgg.addEventListener('click', () => {
   alert("Send your # to unlock 3 exclusive early access codes!");
 });
