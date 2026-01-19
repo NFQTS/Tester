@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stellar Beta Launch</title>
+<title>Unprincipled Inc.</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -476,7 +476,7 @@ text-decoration: underline;
     </div>
     <div class="data-grid" id="dataGrid"></div>
 
-```
+
 <div class="monetize-section">
   <div class="monetize-title">Want to monetize your data?</div>
   <div class="slider-wrap">
@@ -487,7 +487,7 @@ text-decoration: underline;
 </div>
 
 <div class="action-btn show" id="continueToLaunch">Next</div>
-```
+
 
   </div>
 </div>
@@ -498,7 +498,7 @@ text-decoration: underline;
   <div class="rocket"></div>
   <div class="launch-text">Finding opportunities for you...</div>
   <div class="launch-subtext">Estimated wait time: under 24 hours</div>
-  <div class="launch-easter" id="easterEgg">Share your phone to get 3 access codes</div>
+  <div class="launch-easter" id="easterEgg">Share your # to get 3 early access codes</div>
 </div>
 
 <script>
@@ -585,7 +585,7 @@ cta.addEventListener('click', () => {
 // ---------- MONETIZATION ----------
 monetizeSlider.addEventListener('input', () => {
   if (monetizeSlider.value === "1") {
-    monetizeLabel.textContent = "Increase earning potential";
+    monetizeLabel.textContent = "Pay me for my data, please!";
     monetizeLabel.style.color = "#9adfff";
   } else {
     monetizeLabel.textContent = "Maximize privacy";
@@ -594,7 +594,7 @@ monetizeSlider.addEventListener('input', () => {
 });
 
 monetizeDetails.addEventListener('click', () => {
-  alert("If enabled, anonymized, aggregated usage patterns help match you with higher-value opportunities — never personal identity or private content.");
+  alert("If enabled, anonymized, aggregated usage patterns help match you with higher-value opportunities — never personal identity or private content. We also have developed a fun new way to use it to make advertising enjoyable for you 🤫.");
 });
 
 // ---------- NEXT TO LAUNCH ----------
@@ -605,7 +605,7 @@ continueToLaunch.addEventListener('click', () => {
 
 // ---------- EASTER EGG ----------
 easterEgg.addEventListener('click', () => {
-  alert("Send your phone number to unlock 3 exclusive beta access codes!");
+  alert("Send your # to unlock 3 exclusive early access codes!");
 });
 </script>
 
