@@ -1,10 +1,239 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Investors</title>
-  </head>
-  <body>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unprincipled — Investor Access</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      height: 100vh;
+      background: radial-gradient(ellipse at bottom, #0b0018 0%, #020006 60%, #000 100%);
+      color: #f4f7ff;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    /* -------- STARFIELD -------- */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 7s infinite;
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity: 0; }
+      50% { opacity: 0.9; }
+    }
+
+    /* -------- CARD -------- */
+    .card {
+      max-width: 720px;
+      width: 92%;
+      padding: 56px 48px;
+      border-radius: 32px;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 50px 140px rgba(0,0,0,0.65);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .title {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(120deg, #d4e6ff, #9adfff, #ffffff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      opacity: 0.78;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    /* -------- INPUTS -------- */
+    .bid-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 2.2rem;
+    }
+
+    @media (max-width: 640px) {
+      .bid-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      text-align: left;
+    }
+
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-bottom: 0.4rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(154,223,255,0.2);
+      background: rgba(154,223,255,0.06);
+      color: #f4f7ff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input::placeholder { color: rgba(244,247,255,0.4); }
+
+    input:focus {
+      border-color: rgba(154,223,255,0.6);
+      box-shadow: 0 0 0 2px rgba(154,223,255,0.15);
+    }
+
+    /* -------- OUTPUT -------- */
+    .result {
+      margin-top: 1.6rem;
+      padding-top: 1.6rem;
+      border-top: 1px solid rgba(154,223,255,0.12);
+    }
+
+    .result-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 0.4rem;
+    }
+
+    .result-value {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 600;
+      color: #9adfff;
+    }
+
+    /* -------- CTA -------- */
+    .cta {
+      margin-top: 2.4rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .cta span {
+      color: #9adfff;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: opacity 0.3s ease;
+    }
+
+    .cta span:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="card">
+  <div class="title">Investor Access</div>
+  <div class="subtitle">
+    It will be a bid war for the top champion.<br><br>
+    Our goal is to create the world’s first overnight trillionaire
+    through clever use of AI and applied mathematics.
+  </div>
+
+  <div class="bid-grid">
+    <div class="field">
+      <div class="label">Your bid amount (USD)</div>
+      <input type="number" id="bidAmount" placeholder="e.g. 5,000,000" min="0" step="1000">
+    </div>
+
+    <div class="field">
+      <div class="label">Equity offered (%)</div>
+      <input type="number" id="equityPercent" placeholder="e.g. 5" min="0.01" max="100" step="0.01">
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-label">Implied market cap</div>
+    <div class="result-value" id="marketCap">$ —</div>
+  </div>
+
+  <div class="cta">
+    Adjust freely. No commitment. <span id="submitBid">Submit interest</span>
+  </div>
+</div>
+
+<script>
+  // -------- STARFIELD --------
+  const stars = document.getElementById('stars');
+  for (let i = 0; i < 180; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 0.5;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top = Math.random() * 100 + 'vh';
+    s.style.animationDelay = Math.random() * 7 + 's';
+    stars.appendChild(s);
+  }
+
+  // -------- CALCULATOR --------
+  const bidInput = document.getElementById('bidAmount');
+  const equityInput = document.getElementById('equityPercent');
+  const marketCapEl = document.getElementById('marketCap');
+
+  function formatMoney(num) {
+    return num.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    });
+  }
+
+  function updateMarketCap() {
+    const bid = parseFloat(bidInput.value);
+    const equity = parseFloat(equityInput.value);
+
+    if (!bid || !equity || equity <= 0) {
+      marketCapEl.textContent = '$ —';
+      return;
+    }
+
+    const valuation = bid / (equity / 100);
+    marketCapEl.textContent = formatMoney(valuation);
+  }
+
+  bidInput.addEventListener('input', updateMarketCap);
+  equityInput.addEventListener('input', updateMarketCap);
+
+  // -------- SUBMIT --------
+  document.getElementById('submitBid').addEventListener('click', () => {
+    alert("Thanks — your interest has been recorded. We’ll reach out if you’re the top champion.");
+  });
+</script>
+
+</body>
 </html>
