@@ -481,6 +481,26 @@ h1 {
   .flip-inline { min-width: 220px; }
   .role-btn { width: 100%; }
 }
+.investor-cta {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  margin-top: 1rem;
+  cursor: default;
+  text-align: center;
+  color: #cfefff;
+}
+
+#investorLink {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #9adfff;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#investorLink:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
 </style>
 </head>
 <body>
@@ -549,6 +569,9 @@ h1 {
     <div class="launch-text">Finding opportunities for you...</div>
     <div class="launch-subtext">Estimated wait time: under 24 hours</div>
     <div class="launch-easter" id="easterEgg">Share your # to get 3 early access codes</div>
+    <div class="investor-cta" id="investorCTA">
+  Our product is our pitch — if you enjoy it, <span id="investorLink">click here</span>.
+</div>
   </div>
 </div>
 
