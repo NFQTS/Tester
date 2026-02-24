@@ -3,117 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pattern Guard</title>
+<title>Pattern & Sustainability Demo</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
   body {
-    margin: 0;
+    margin:0;
     font-family: 'Inter', sans-serif;
-    background: #0d1117;
-    color: #fff;
+    background:#000;
+    color:#fff;
   }
   header {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #4f46e5, #6d28d9);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    overflow:hidden;
+    background:#000;
   }
   header h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    font-size:3rem;
+    font-weight:700;
+    margin-bottom:1rem;
   }
   header p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    max-width: 700px;
-    line-height: 1.5;
+    font-size:1.25rem;
+    margin-bottom:2rem;
+    max-width:700px;
+    line-height:1.5;
   }
-  .cta-button {
-    padding: 0.75rem 2rem;
-    border-radius: 9999px;
-    font-weight: 600;
-    font-size: 1rem;
-    background: #fff;
-    color: #6d28d9;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
+  .pattern-dropdown {
+    background:#111;
+    color:#fff;
+    padding:0.75rem 1.5rem;
+    font-size:1rem;
+    border-radius:9999px;
+    border:none;
+    cursor:pointer;
+    transition: all 0.3s;
+    margin-bottom:4rem;
   }
-  .cta-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  .pattern-dropdown:hover {
+    background:#222;
   }
-  svg {
-    display: block;
-    margin: auto;
+  svg#graph {
+    width:100%;
+    height:400px;
   }
-  section.form-section {
-    padding: 4rem 1rem;
+
+  section.sustainability {
+    padding:4rem 1rem;
     display:flex;
     flex-direction:column;
     align-items:center;
     background:#111;
   }
-  section.form-section h2 {
+  section.sustainability h2 {
     font-size:2rem;
     font-weight:700;
     margin-bottom:1rem;
-    text-align:center;
   }
-  section.form-section p {
+  section.sustainability p {
     font-size:1rem;
     color:#bbb;
     margin-bottom:2rem;
     max-width:600px;
     text-align:center;
   }
-  .form-container iframe {
+  .sustainability-canvas {
     width:100%;
     max-width:700px;
-    height:800px;
-    border:none;
+    height:300px;
+    background:#000;
     border-radius:12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    box-shadow:0 10px 40px rgba(255,255,255,0.1);
   }
+
   footer {
     text-align:center;
     padding:2rem 1rem;
     font-size:0.875rem;
     color:#777;
-    background:#0b0d11;
+    background:#000;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>See the Patterns. Stop the Spread.</h1>
-  <p>Help AI detect systemic behavioral patterns before they escalate. Explore the network below to see how patterns connect.</p>
-  <button class="cta-button" onclick="document.getElementById('report').scrollIntoView({behavior:'smooth'});">Report a Pattern</button>
-  <svg id="graph" width="100%" height="400"></svg>
+  <h1>See the Patterns. Start Small.</h1>
+  <p>Explore systemic behavior patterns in society. Select a type below to contribute to understanding patterns in a lightweight, elegant way.</p>
+
+  <select class="pattern-dropdown">
+    <option value="">Select a Pattern</option>
+    <option value="Misinformation">Misinformation</option>
+    <option value="Harassment">Harassment</option>
+    <option value="Coordination">Coordinated Behavior</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <svg id="graph"></svg>
 </header>
 
-<section class="form-section" id="report">
-  <h2>Submit Observed Behavior</h2>
-  <p>Provide public, observable patterns. Your submission is anonymous and analyzed safely to detect systemic harm.</p>
-  <div class="form-container">
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfDUMMY_FORM_URL/viewform?embedded=true">Loading…</iframe>
-  </div>
+<section class="sustainability">
+  <h2>Our Sustainability & Energy Work</h2>
+  <p>Visualizing a closed-loop large-scale system that combines water desalination, composting, and solar-powered operations.</p>
+  <canvas class="sustainability-canvas" id="sustainCanvas"></canvas>
 </section>
 
 <footer>
-  &copy; 2026 Pattern Guard. All rights reserved. Designed to visualize systemic behavioral patterns safely.
+  &copy; 2026 Pattern & Sustainability Demo. All rights reserved.
 </footer>
 
 <script>
-// Sample data for force-directed graph
+// --- Cluster graph in header ---
 const nodes = [
   {id:'Pattern A'},
   {id:'Pattern B'},
@@ -122,24 +126,21 @@ const nodes = [
   {id:'Pattern E'},
   {id:'Pattern F'}
 ];
-
 const links = [
   {source:'Pattern A', target:'Pattern B'},
   {source:'Pattern A', target:'Pattern C'},
   {source:'Pattern B', target:'Pattern D'},
   {source:'Pattern C', target:'Pattern D'},
   {source:'Pattern D', target:'Pattern E'},
-  {source:'Pattern E', target:'Pattern F'},
-  {source:'Pattern B', target:'Pattern F'}
+  {source:'Pattern E', target:'Pattern F'}
 ];
 
 const width = document.getElementById('graph').clientWidth;
 const height = 400;
-
 const svg = d3.select('#graph');
 
 const simulation = d3.forceSimulation(nodes)
-  .force('link', d3.forceLink(links).id(d => d.id).distance(150).strength(1))
+  .force('link', d3.forceLink(links).id(d=>d.id).distance(150))
   .force('charge', d3.forceManyBody().strength(-500))
   .force('center', d3.forceCenter(width/2, height/2));
 
@@ -158,55 +159,99 @@ const node = svg.append('g')
   .data(nodes)
   .join('circle')
   .attr('r',20)
-  .attr('fill','#4f46e5')
+  .attr('fill','#fff')
   .call(drag(simulation));
 
 const label = svg.append('g')
   .selectAll('text')
   .data(nodes)
   .join('text')
-  .text(d => d.id)
-  .attr('fill','#fff')
+  .text(d=>d.id)
+  .attr('fill','#000')
   .attr('font-size','12px')
   .attr('text-anchor','middle')
   .attr('dy',4);
 
-simulation.on('tick', () => {
+simulation.on('tick', ()=>{
   link
     .attr('x1', d=>d.source.x)
     .attr('y1', d=>d.source.y)
     .attr('x2', d=>d.target.x)
     .attr('y2', d=>d.target.y);
-
   node
     .attr('cx', d=>d.x)
     .attr('cy', d=>d.y);
-
   label
     .attr('x', d=>d.x)
     .attr('y', d=>d.y);
 });
 
-function drag(simulation) {
-  function dragstarted(event,d) {
-    if(!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
+function drag(sim){
+  function dragstarted(event,d){
+    if(!event.active) sim.alphaTarget(0.3).restart();
+    d.fx = d.x; d.fy = d.y;
   }
-  function dragged(event,d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
-  function dragended(event,d) {
-    if(!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
+  function dragged(event,d){ d.fx = event.x; d.fy = event.y; }
+  function dragended(event,d){
+    if(!event.active) sim.alphaTarget(0);
+    d.fx = null; d.fy = null;
   }
   return d3.drag()
     .on('start', dragstarted)
     .on('drag', dragged)
     .on('end', dragended);
 }
+
+// --- Sustainability canvas animation ---
+const canvas = document.getElementById('sustainCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
+let particles = [];
+for(let i=0;i<50;i++){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    radius: 2 + Math.random()*3,
+    dx: (Math.random()-0.5)*1.5,
+    dy: (Math.random()-0.5)*1.5
+  });
+}
+
+function animate(){
+  ctx.fillStyle='rgba(0,0,0,0.15)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.strokeStyle='rgba(255,255,255,0.2)';
+  for(let i=0;i<particles.length;i++){
+    let p = particles[i];
+    p.x += p.dx; p.y += p.dy;
+    if(p.x<0 || p.x>canvas.width) p.dx*=-1;
+    if(p.y<0 || p.y>canvas.height) p.dy*=-1;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.fill();
+    ctx.closePath();
+
+    // draw lines
+    for(let j=i+1;j<particles.length;j++){
+      let p2 = particles[j];
+      let dist = Math.hypot(p.x-p2.x, p.y-p2.y);
+      if(dist<80){
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(p2.x,p2.y);
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
+  }
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
