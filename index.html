@@ -1,171 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pattern Guard: Stop Harm Before It Escalates</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* --- Reset & Base --- */
-    * {margin:0; padding:0; box-sizing:border-box;}
-    body {font-family: 'Inter', sans-serif; background: #f5f7fa; color:#1a1a1a;}
-    a {text-decoration:none; color:inherit;}
-    button {cursor:pointer;}
-
-    /* --- Hero Section --- */
-    header {
-      height: 100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      background: linear-gradient(135deg, #4f46e5, #6d28d9);
-      color: #fff;
-      text-align:center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    header::after {
-      content:'';
-      position:absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
-      animation: rotate 60s linear infinite;
-      top:-50%;
-      left:-50%;
-    }
-
-    @keyframes rotate {
-      0% {transform: rotate(0deg);}
-      100% {transform: rotate(360deg);}
-    }
-
-    header h1 {
-      font-size:3rem;
-      font-weight:700;
-      margin-bottom:1rem;
-      opacity:0;
-      animation: fadeIn 1s forwards 0.3s;
-    }
-
-    header p {
-      font-size:1.25rem;
-      margin-bottom:2rem;
-      opacity:0;
-      animation: fadeIn 1s forwards 0.6s;
-    }
-
-    @keyframes fadeIn {
-      to {opacity:1;}
-    }
-
-    .cta-button {
-      background: #fff;
-      color: #6d28d9;
-      padding: 0.75rem 2rem;
-      border-radius: 9999px;
-      font-weight:600;
-      font-size:1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-      opacity:0;
-      animation: fadeIn 1s forwards 0.9s;
-    }
-
-    .cta-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    /* --- Form Section --- */
-    section.form-section {
-      padding: 5rem 1rem;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      background: #fff;
-    }
-
-    section.form-section h2 {
-      font-size:2rem;
-      font-weight:700;
-      margin-bottom:1rem;
-      text-align:center;
-    }
-
-    section.form-section p {
-      font-size:1rem;
-      color:#555;
-      margin-bottom:2rem;
-      max-width:600px;
-      text-align:center;
-    }
-
-    .form-container {
-      width:100%;
-      max-width:700px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-      border-radius:12px;
-      overflow:hidden;
-    }
-
-    .form-container iframe {
-      width:100%;
-      height:800px;
-      border:none;
-    }
-
-    /* --- Footer --- */
-    footer {
-      padding:2rem 1rem;
-      text-align:center;
-      font-size:0.875rem;
-      color:#777;
-    }
-
-    /* --- Smooth Fade-in for Sections --- */
-    .fade-up {
-      opacity:0;
-      transform: translateY(20px);
-      animation: fadeUp 1s forwards;
-    }
-
-    @keyframes fadeUp {
-      to {opacity:1; transform: translateY(0);}
-    }
-
-    @media(max-width:768px){
-      header h1 {font-size:2.25rem;}
-      header p {font-size:1rem;}
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern Guard</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0d1117;
+    color: #fff;
+  }
+  header {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4f46e5, #6d28d9);
+  }
+  header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  }
+  header p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    line-height: 1.5;
+  }
+  .cta-button {
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 1rem;
+    background: #fff;
+    color: #6d28d9;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+  svg {
+    display: block;
+    margin: auto;
+  }
+  section.form-section {
+    padding: 4rem 1rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#111;
+  }
+  section.form-section h2 {
+    font-size:2rem;
+    font-weight:700;
+    margin-bottom:1rem;
+    text-align:center;
+  }
+  section.form-section p {
+    font-size:1rem;
+    color:#bbb;
+    margin-bottom:2rem;
+    max-width:600px;
+    text-align:center;
+  }
+  .form-container iframe {
+    width:100%;
+    max-width:700px;
+    height:800px;
+    border:none;
+    border-radius:12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  }
+  footer {
+    text-align:center;
+    padding:2rem 1rem;
+    font-size:0.875rem;
+    color:#777;
+    background:#0b0d11;
+  }
+</style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <header>
-    <h1>Stop Harm Before It Escalates</h1>
-    <p>Help AI detect coordinated misinformation and harmful behavior patterns — keeping communities safer and stronger.</p>
-    <a href="#report" class="cta-button">Report a Pattern</a>
-  </header>
+<header>
+  <h1>See the Patterns. Stop the Spread.</h1>
+  <p>Help AI detect systemic behavioral patterns before they escalate. Explore the network below to see how patterns connect.</p>
+  <button class="cta-button" onclick="document.getElementById('report').scrollIntoView({behavior:'smooth'});">Report a Pattern</button>
+  <svg id="graph" width="100%" height="400"></svg>
+</header>
 
-  <!-- Form Section -->
-  <section class="form-section" id="report">
-    <h2>Submit Observed Behavior</h2>
-    <p>Provide public, observable patterns. Your submission is anonymous and analyzed safely to detect systemic harm.</p>
-    <div class="form-container fade-up">
-      <!-- Replace this iframe URL with your Google Form URL -->
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfDUMMY_FORM_URL/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-    </div>
-  </section>
+<section class="form-section" id="report">
+  <h2>Submit Observed Behavior</h2>
+  <p>Provide public, observable patterns. Your submission is anonymous and analyzed safely to detect systemic harm.</p>
+  <div class="form-container">
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfDUMMY_FORM_URL/viewform?embedded=true">Loading…</iframe>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2026 Pattern Guard. All rights reserved.  
-    <br>Designed to detect behavior patterns safely and responsibly.
-  </footer>
+<footer>
+  &copy; 2026 Pattern Guard. All rights reserved. Designed to visualize systemic behavioral patterns safely.
+</footer>
+
+<script>
+// Sample data for force-directed graph
+const nodes = [
+  {id:'Pattern A'},
+  {id:'Pattern B'},
+  {id:'Pattern C'},
+  {id:'Pattern D'},
+  {id:'Pattern E'},
+  {id:'Pattern F'}
+];
+
+const links = [
+  {source:'Pattern A', target:'Pattern B'},
+  {source:'Pattern A', target:'Pattern C'},
+  {source:'Pattern B', target:'Pattern D'},
+  {source:'Pattern C', target:'Pattern D'},
+  {source:'Pattern D', target:'Pattern E'},
+  {source:'Pattern E', target:'Pattern F'},
+  {source:'Pattern B', target:'Pattern F'}
+];
+
+const width = document.getElementById('graph').clientWidth;
+const height = 400;
+
+const svg = d3.select('#graph');
+
+const simulation = d3.forceSimulation(nodes)
+  .force('link', d3.forceLink(links).id(d => d.id).distance(150).strength(1))
+  .force('charge', d3.forceManyBody().strength(-500))
+  .force('center', d3.forceCenter(width/2, height/2));
+
+const link = svg.append('g')
+  .attr('stroke','#fff')
+  .attr('stroke-opacity',0.6)
+  .selectAll('line')
+  .data(links)
+  .join('line')
+  .attr('stroke-width',2);
+
+const node = svg.append('g')
+  .attr('stroke','#fff')
+  .attr('stroke-width',1.5)
+  .selectAll('circle')
+  .data(nodes)
+  .join('circle')
+  .attr('r',20)
+  .attr('fill','#4f46e5')
+  .call(drag(simulation));
+
+const label = svg.append('g')
+  .selectAll('text')
+  .data(nodes)
+  .join('text')
+  .text(d => d.id)
+  .attr('fill','#fff')
+  .attr('font-size','12px')
+  .attr('text-anchor','middle')
+  .attr('dy',4);
+
+simulation.on('tick', () => {
+  link
+    .attr('x1', d=>d.source.x)
+    .attr('y1', d=>d.source.y)
+    .attr('x2', d=>d.target.x)
+    .attr('y2', d=>d.target.y);
+
+  node
+    .attr('cx', d=>d.x)
+    .attr('cy', d=>d.y);
+
+  label
+    .attr('x', d=>d.x)
+    .attr('y', d=>d.y);
+});
+
+function drag(simulation) {
+  function dragstarted(event,d) {
+    if(!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  function dragged(event,d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+  function dragended(event,d) {
+    if(!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+  return d3.drag()
+    .on('start', dragstarted)
+    .on('drag', dragged)
+    .on('end', dragended);
+}
+</script>
 
 </body>
 </html>
