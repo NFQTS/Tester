@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerald — Experiments</title>
+
+<title>Gerald — Systems & Experiments</title>
 
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
 *{
 margin:0;
@@ -16,11 +17,10 @@ box-sizing:border-box;
 }
 
 body{
-font-family:'Inter',sans-serif;
 background:#000;
 color:#fff;
-overflow-x:hidden;
-line-height:1.6;
+font-family:Inter, sans-serif;
+overflow:hidden;
 }
 
 /* STARFIELD */
@@ -32,96 +32,96 @@ left:0;
 z-index:-1;
 }
 
-/* MAIN */
+/* CENTER */
+
+.wrapper{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:30px;
+}
 
 .container{
-max-width:780px;
-margin:auto;
-padding:120px 24px;
+max-width:720px;
 }
 
-.hero{
-opacity:0;
-transform:translateY(20px);
-animation:fadeUp 1.4s ease forwards;
-}
+/* TYPOGRAPHY */
 
 h1{
 font-weight:300;
 font-size:48px;
 letter-spacing:-1px;
-margin-bottom:16px;
+margin-bottom:14px;
 }
 
 .subtitle{
-opacity:.7;
-margin-bottom:60px;
+opacity:.6;
+margin-bottom:55px;
 }
 
-.section{
-margin-bottom:60px;
-opacity:0;
-transform:translateY(20px);
-animation:fadeUp 1.2s ease forwards;
-animation-delay:.5s;
-}
-
-/* PROJECT LIST */
+/* PROJECTS */
 
 .project{
-padding:18px 0;
+padding:16px 0;
 border-bottom:1px solid rgba(255,255,255,.1);
 transition:.3s;
-cursor:pointer;
 }
 
 .project:hover{
-padding-left:10px;
+transform:translateX(6px);
 opacity:.8;
 }
 
 .project span{
-opacity:.5;
 font-size:14px;
+opacity:.5;
 }
 
-/* LIKE BUTTON */
+/* BUTTON */
 
-.like{
-margin-top:60px;
+.button{
 display:inline-block;
-padding:12px 20px;
+margin-top:35px;
+padding:12px 22px;
 border:1px solid white;
 border-radius:40px;
 cursor:pointer;
 transition:.3s;
+user-select:none;
 }
 
-.like:hover{
+.button:hover{
 background:white;
 color:black;
 }
 
-.counter{
-opacity:.6;
-margin-left:10px;
+.disabled{
+opacity:.4;
+cursor:default;
+}
+
+/* SYSTEM TEXT */
+
+.system{
+margin-top:20px;
+opacity:0;
+transition:.8s;
+font-size:14px;
+color:#aaa;
+}
+
+.show{
+opacity:1;
 }
 
 /* FOOTER */
 
 footer{
-margin-top:120px;
-opacity:.5;
-font-size:14px;
-}
-
-/* ANIMATION */
-
-@keyframes fadeUp{
-to{
-opacity:1;
-transform:translateY(0);
-}
+margin-top:70px;
+opacity:.45;
+font-size:13px;
 }
 
 </style>
@@ -131,89 +131,121 @@ transform:translateY(0);
 
 <canvas id="stars"></canvas>
 
+<div class="wrapper">
+
 <div class="container">
 
-<div class="hero">
 <h1>Gerald</h1>
+
 <p class="subtitle">
-Independent builder exploring AI systems, music, and experimental interfaces.
-</p>
-</div>
-
-<div class="section">
-
-<h3>Selected Experiments</h3>
-
-<div class="project">
-AI Music Generation Systems<br>
-<span>human taste + machine scale</span>
-</div>
-
-<div class="project">
-Conversational Persona Architectures<br>
-<span>identity modeling experiments</span>
-</div>
-
-<div class="project">
-Synthetic Creative Pipelines<br>
-<span>AI assisted production workflows</span>
-</div>
-
-<div class="project">
-Minimal AI Interaction Design<br>
-<span>interfaces that disappear</span>
-</div>
-
-</div>
-
-<div class="section">
-
-<p>
-If you're here recruiting — thank you for taking the time.
-This page is intentionally minimal.
-Most of my work exists as evolving systems rather than static products.
+Independent builder exploring AI systems,
+creative tooling, and human-machine interaction.
 </p>
 
-<div class="like" onclick="like()">
-Appreciate the design?
-<span class="counter" id="count">17</span>
+<div class="project">
+AI Creative Systems<br>
+<span>taste guided generation</span>
 </div>
 
+<div class="project">
+Conversational Architectures<br>
+<span>personality + reasoning experiments</span>
+</div>
+
+<div class="project">
+Synthetic Production Pipelines<br>
+<span>human intuition at machine scale</span>
+</div>
+
+<div class="project">
+Minimal Interface Experiments<br>
+<span>software that feels calm</span>
+</div>
+
+<div id="inviteBtn" class="button">
+ask Claude to schedule an interview?
+</div>
+
+<div id="denied" class="system">
+access denied → humans still make that decision.
+</div>
+
+<div id="observer" class="system">
+observer.note → sustained attention detected.<br>
+thank you for being curious.
 </div>
 
 <footer>
-Built quietly with AI assistance · 2026
+built quietly with ai assistance · 2026
 </footer>
 
+</div>
 </div>
 
 <script>
 
-/* LIKE BUTTON */
+/* MODEL NAME — change per company */
 
-let count = 17;
+const MODEL_NAME = "Claude";
 
-function like(){
-count++;
-document.getElementById("count").innerText = count;
-}
+document.getElementById("inviteBtn")
+.innerText = `ask ${MODEL_NAME} to schedule an interview?`;
+
+
+/* BUTTON INTERACTION */
+
+const btn = document.getElementById("inviteBtn");
+const denied = document.getElementById("denied");
+
+let clicked = false;
+
+btn.addEventListener("click",()=>{
+
+if(clicked) return;
+
+clicked = true;
+
+btn.classList.add("disabled");
+
+setTimeout(()=>{
+denied.classList.add("show");
+},400);
+
+});
+
+
+/* OBSERVER MODE */
+
+setTimeout(()=>{
+
+document
+.getElementById("observer")
+.classList.add("show");
+
+},22000);
+
 
 /* STARFIELD */
 
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 
+function resize(){
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+}
 
-let stars = [];
+resize();
+window.addEventListener("resize",resize);
+
+let stars=[];
 
 for(let i=0;i<120;i++){
 stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
 r:Math.random()*1.2,
-v:Math.random()*0.3
+v:Math.random()*0.25
 });
 }
 
@@ -224,27 +256,25 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.fillStyle="white";
 
 stars.forEach(s=>{
-s.y += s.v;
 
-if(s.y > canvas.height){
-s.y = 0;
-s.x = Math.random()*canvas.width;
+s.y+=s.v;
+
+if(s.y>canvas.height){
+s.y=0;
+s.x=Math.random()*canvas.width;
 }
 
 ctx.beginPath();
 ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
 ctx.fill();
+
 });
 
 requestAnimationFrame(animate);
+
 }
 
 animate();
-
-window.addEventListener("resize",()=>{
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-});
 
 </script>
 
