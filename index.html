@@ -64,6 +64,36 @@
         transform: scale(0.97);
     }
 
+    /* Quick Exit Button */
+    .exit-btn {
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        padding: 12px 24px;
+        font-size: 1rem;
+        border-radius: 25px;
+        
+        background: rgba(255, 255, 255, 0.6);
+        color: #555;
+        text-decoration: none;
+        
+        backdrop-filter: blur(6px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        
+        transition: all 0.25s ease;
+    }
+
+    .exit-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateX(-50%) translateY(-2px);
+    }
+
+    .exit-btn:active {
+        transform: translateX(-50%) scale(0.96);
+    }
+
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -78,14 +108,16 @@
 
 <body>
 
-<div class="container">
-   <a href="https://www.google.com" style="position:absolute; top:15px; right:20px; font-size:0.9rem; color:#777; text-decoration:none;">
-Leave site
+<!-- Quick Exit -->
+<a href="https://www.google.com" class="exit-btn">
+    Quick Exit
 </a>
+
+<div class="container">
     <h1>You are safe here.</h1>
     <p>Get help. Talk to someone.<br>Support for you and your children.</p>
     
-    <!-- Replace this link with your Google Form -->
+    <!-- Replace with your Google Form -->
     <a href="https://forms.gle/YOUR-FORM-LINK" class="btn">
         Request Help
     </a>
