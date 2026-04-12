@@ -3,282 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Gerald — Systems & Experiments</title>
+<title>Safe Support</title>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+    body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ffd6e7, #ffeaf3);
+        overflow: hidden;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+    .container {
+        text-align: center;
+        max-width: 400px;
+        padding: 20px;
+        animation: fadeIn 1.5s ease;
+    }
 
-body{
-background:#000;
-color:#fff;
-font-family:Inter, sans-serif;
-overflow:hidden;
-}
+    h1 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 10px;
+        animation: float 4s ease-in-out infinite;
+    }
 
-/* STARFIELD */
+    p {
+        color: #555;
+        margin-bottom: 30px;
+        font-size: 1rem;
+        line-height: 1.4;
+    }
 
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
-}
+    .btn {
+        display: inline-block;
+        padding: 14px 28px;
+        font-size: 1rem;
+        border-radius: 30px;
+        background: #ff6fa5;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 10px 25px rgba(255, 111, 165, 0.3);
+        transition: all 0.3s ease;
+    }
 
-/* CENTER */
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(255, 111, 165, 0.4);
+    }
 
-.wrapper{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:30px;
-}
+    .btn:active {
+        transform: scale(0.97);
+    }
 
-.container{
-max-width:720px;
-}
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-/* TYPOGRAPHY */
-
-h1{
-font-weight:300;
-font-size:48px;
-letter-spacing:-1px;
-margin-bottom:14px;
-}
-
-.subtitle{
-opacity:.6;
-margin-bottom:55px;
-}
-
-/* PROJECTS */
-
-.project{
-padding:16px 0;
-border-bottom:1px solid rgba(255,255,255,.1);
-transition:.3s;
-}
-
-.project:hover{
-transform:translateX(6px);
-opacity:.8;
-}
-
-.project span{
-font-size:14px;
-opacity:.5;
-}
-
-/* BUTTON */
-
-.button{
-display:inline-block;
-margin-top:35px;
-padding:12px 22px;
-border:1px solid white;
-border-radius:40px;
-cursor:pointer;
-transition:.3s;
-user-select:none;
-}
-
-.button:hover{
-background:white;
-color:black;
-}
-
-.disabled{
-opacity:.4;
-cursor:default;
-}
-
-/* SYSTEM TEXT */
-
-.system{
-margin-top:20px;
-opacity:0;
-transition:.8s;
-font-size:14px;
-color:#aaa;
-}
-
-.show{
-opacity:1;
-}
-
-/* FOOTER */
-
-footer{
-margin-top:70px;
-opacity:.45;
-font-size:13px;
-}
-
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
 </style>
 </head>
 
 <body>
 
-<canvas id="stars"></canvas>
-
-<div class="wrapper">
-
 <div class="container">
-
-<h1>Gerald</h1>
-
-<p class="subtitle">
-Independent builder exploring AI systems,
-creative tooling, and human-machine interaction.
-</p>
-
-<div class="project">
-AI/Blockchain assisted transparent supply chain tracking<br>
-<span>Public ledgers to track contribution and payouts</span>
+    <h1>You are safe here.</h1>
+    <p>Get help. Talk to someone.<br>Support for you and your children.</p>
+    
+    <!-- Replace this link with your Google Form -->
+    <a href="https://forms.gle/YOUR-FORM-LINK" class="btn">
+        Request Help
+    </a>
 </div>
-
-<div class="project">
-Pre Grok AI private messaging assistant<br>
-<span>Meant to provide my art collectors with futuristic tools</span>
-</div>
-
-<div class="project">
-AI Assisted "Auto CEO"<br>
-<span>Agent for autonomously managing brands in any language/industry</span>
-</div>
-
-<div class="project">
-Quantum Capture tech<br>
-<span>Proprietary clean energy systems</span>
-</div>
-
-<div id="inviteBtn" class="button">
-ask Claude to schedule an interview?
-</div>
-
-<div id="denied" class="system">
-access denied → humans still make that decision.<br>
-have a human email me at: guitarfiend2002@gmail.com
-</div>
-
-<div id="observer" class="system">
-observer.note → sustained attention detected.<br>
-thank you for being curious.
-but uh... r u ok? lol.
-</div>
-
-<footer>
-built with ai assistance · 2026
-</footer>
-
-</div>
-</div>
-
-<script>
-
-/* MODEL NAME — change per company */
-
-const MODEL_NAME = "Claude";
-
-document.getElementById("inviteBtn")
-.innerText = `ask ${MODEL_NAME} to schedule an interview?`;
-
-
-/* BUTTON INTERACTION */
-
-const btn = document.getElementById("inviteBtn");
-const denied = document.getElementById("denied");
-
-let clicked = false;
-
-btn.addEventListener("click",()=>{
-
-if(clicked) return;
-
-clicked = true;
-
-btn.classList.add("disabled");
-
-setTimeout(()=>{
-denied.classList.add("show");
-},400);
-
-});
-
-
-/* OBSERVER MODE */
-
-setTimeout(()=>{
-
-document
-.getElementById("observer")
-.classList.add("show");
-
-},22000);
-
-
-/* STARFIELD */
-
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
-
-function resize(){
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-
-resize();
-window.addEventListener("resize",resize);
-
-let stars=[];
-
-for(let i=0;i<120;i++){
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*1.2,
-v:Math.random()*0.25
-});
-}
-
-function animate(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle="white";
-
-stars.forEach(s=>{
-
-s.y+=s.v;
-
-if(s.y>canvas.height){
-s.y=0;
-s.x=Math.random()*canvas.width;
-}
-
-ctx.beginPath();
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-ctx.fill();
-
-});
-
-requestAnimationFrame(animate);
-
-}
-
-animate();
-
-</script>
 
 </body>
 </html>
