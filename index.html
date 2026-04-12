@@ -38,19 +38,53 @@
 
     p {
         color: #555;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         font-size: 1rem;
         line-height: 1.4;
     }
 
-    .btn {
-        display: inline-block;
-        padding: 14px 28px;
-        font-size: 1rem;
+    /* Quick Exit Button (larger + near CTA) */
+    .exit-btn {
+        display: block;
+        width: 100%;
+        padding: 16px;
+        margin-bottom: 12px;
+
+        font-size: 1.1rem;
         border-radius: 30px;
+
+        background: rgba(255, 255, 255, 0.85);
+        color: #444;
+        text-decoration: none;
+
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        backdrop-filter: blur(6px);
+
+        transition: all 0.25s ease;
+    }
+
+    .exit-btn:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: translateY(-2px);
+    }
+
+    .exit-btn:active {
+        transform: scale(0.97);
+    }
+
+    /* Main CTA */
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 16px;
+
+        font-size: 1.1rem;
+        border-radius: 30px;
+
         background: #ff6fa5;
         color: white;
         text-decoration: none;
+
         box-shadow: 0 10px 25px rgba(255, 111, 165, 0.3);
         transition: all 0.3s ease;
     }
@@ -62,36 +96,6 @@
 
     .btn:active {
         transform: scale(0.97);
-    }
-
-    /* Quick Exit Button */
-    .exit-btn {
-        position: absolute;
-        top: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-        
-        padding: 12px 24px;
-        font-size: 1rem;
-        border-radius: 25px;
-        
-        background: rgba(255, 255, 255, 0.6);
-        color: #555;
-        text-decoration: none;
-        
-        backdrop-filter: blur(6px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        
-        transition: all 0.25s ease;
-    }
-
-    .exit-btn:hover {
-        background: rgba(255, 255, 255, 0.9);
-        transform: translateX(-50%) translateY(-2px);
-    }
-
-    .exit-btn:active {
-        transform: translateX(-50%) scale(0.96);
     }
 
     @keyframes fadeIn {
@@ -108,16 +112,16 @@
 
 <body>
 
-<!-- Quick Exit -->
-<a href="https://www.google.com" class="exit-btn">
-    Quick Exit
-</a>
-
 <div class="container">
     <h1>You are safe here.</h1>
     <p>Get help. Talk to someone.<br>Support for you and your children.</p>
-    
-    <!-- Replace with your Google Form -->
+
+    <!-- Quick Exit (now big + right above CTA) -->
+    <a href="https://www.google.com" class="exit-btn">
+        Quick Exit
+    </a>
+
+    <!-- Main Action -->
     <a href="https://forms.gle/YOUR-FORM-LINK" class="btn">
         Request Help
     </a>
