@@ -26,6 +26,10 @@
       --radius: 28px;
     }
 
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
     body {
       min-height: 100vh;
       background: linear-gradient(135deg, var(--bg1), var(--bg2));
@@ -84,16 +88,22 @@
 
     .exit-btn,
     .btn,
-    .mini-btn {
+    .mini-btn,
+    .tab-btn {
       display: block;
       width: 100%;
       text-decoration: none;
       text-align: center;
       border: 0;
       cursor: pointer;
-      border-radius: 999px;
       transition: all 0.25s ease;
       font-weight: 600;
+    }
+
+    .exit-btn,
+    .btn,
+    .mini-btn {
+      border-radius: 999px;
     }
 
     .exit-btn {
@@ -120,7 +130,8 @@
 
     .exit-btn:hover,
     .btn:hover,
-    .mini-btn:hover {
+    .mini-btn:hover,
+    .tab-btn:hover {
       transform: translateY(-2px);
     }
 
@@ -145,10 +156,6 @@
       -ms-overflow-style: none;
     }
 
-    .slider::-webkit-scrollbar {
-      display: none;
-    }
-
     .card {
       min-width: 100%;
       height: 100%;
@@ -160,7 +167,6 @@
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       overflow: hidden;
     }
 
@@ -214,6 +220,7 @@
       box-shadow: 0 8px 22px rgba(0,0,0,0.12);
       aspect-ratio: 9 / 16;
       background: #000;
+      flex-shrink: 0;
     }
 
     .yt-wrap iframe {
@@ -240,22 +247,9 @@
       gap: 10px;
     }
 
-    .row-left {
-      min-width: 0;
-    }
-
     .row strong {
-      display: block;
       font-size: 0.9rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .meta {
-      font-size: 0.8rem;
-      color: #777;
-      margin-top: 2px;
+      display: block;
     }
 
     .pill {
@@ -268,6 +262,84 @@
       white-space: nowrap;
     }
 
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 10px 0 12px;
+      padding-bottom: 2px;
+    }
+
+    .tab-btn {
+      width: auto;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.7);
+      color: #444;
+      font-size: 0.84rem;
+      flex-shrink: 0;
+    }
+
+    .tab-btn.active {
+      background: var(--pink);
+      color: white;
+      box-shadow: 0 8px 18px rgba(255,111,165,0.22);
+    }
+
+    .hub-body {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1;
+    }
+
+    .hub-copy {
+      flex-shrink: 0;
+    }
+
+    .hub-copy h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .hub-copy p {
+      margin-bottom: 0;
+    }
+
+    .hub-actions {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+      overflow-y: auto;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--glass);
+      border-radius: 16px;
+      padding: 10px 12px;
+    }
+
+    .action-row span {
+      font-size: 0.88rem;
+      color: #444;
+    }
+
+    .action-row button {
+      border: 0;
+      background: white;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -276,12 +348,6 @@
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50%      { transform: translateY(-5px); }
-    }
-
-    @media (max-height: 760px) {
-      .hero p { font-size: 0.92rem; }
-      .card { padding: 15px; }
-      .row { padding: 10px; }
     }
   </style>
 </head>
@@ -306,7 +372,7 @@
           <section class="card">
             <span class="tag">Listen</span>
             <h2>Music & Recovery</h2>
-            <p>Listen to our music, find your breath again, and reconnect with something softer.</p>
+            <p>Listen to our music, reset your nervous system, and reconnect with something softer.</p>
 
             <div class="yt-wrap">
               <iframe
@@ -324,72 +390,34 @@
 
           <!-- Slide 2 -->
           <section class="card">
-            <span class="tag">Support</span>
-            <h2>Donate Crypto / NFT Support</h2>
-            <p>Support the mission through crypto, NFT patronage, and direct decentralized giving.</p>
+            <span class="tag">Support Hub</span>
+            <h2>Women’s Support Hub</h2>
 
-            <div class="list">
-              <div class="row">
-                <div class="row-left">
-                  <strong>0x8F3C7A9D4E2B1C6F5A8D3E7B9C1A4F2D6E8B7C1A</strong>
-                  <div class="meta">$420 • USDC</div>
-                </div>
-                <span class="pill">Contributor</span>
+            <div class="tabs" id="hubTabs"></div>
+
+            <div class="hub-body">
+              <div class="hub-copy">
+                <h3 id="hubTitle">Diet & Recovery</h3>
+                <p id="hubText">Nutrition, hormone support, and simple routines that restore energy fast.</p>
               </div>
 
-              <div class="row">
-                <div class="row-left">
-                  <strong>0x4B7D9E2C8A1F3D6E5C9B7A2D1E4F8C6A3B9D2E7F</strong>
-                  <div class="meta">69 ETH • Ethereum</div>
-                </div>
-                <span class="pill">Whale</span>
+              <div class="yt-wrap" style="margin-top:12px;">
+                <iframe
+                  id="hubVideo"
+                  src="https://www.youtube.com/embed/GAUSUlGpzqo"
+                  title="Support Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen>
+                </iframe>
               </div>
 
-              <div class="row">
-                <div class="row-left">
-                  <strong>0xA2E7C9D4B8F1A6E3D5C7B9A2F4E1D8C6B3A7E9D2</strong>
-                  <div class="meta">333 IQ • Reputation</div>
-                </div>
-                <span class="pill">Scholar</span>
-              </div>
+              <div class="hub-actions" id="hubActions"></div>
 
-              <div class="row">
-                <div class="row-left">
-                  <strong>0xC6A1D8E4B2F9C7A3E5D1B8F6A2C9E4D7B3A1F6C8</strong>
-                  <div class="meta">$420 • DAI</div>
-                </div>
-                <span class="pill">Patron</span>
-              </div>
-
-              <div class="row">
-                <div class="row-left">
-                  <strong>0xE1B7D3A9C4F8E2A6D1C7B5F9A3E4D8C2B6A1F7D3</strong>
-                  <div class="meta">69 ETH • L2</div>
-                </div>
-                <span class="pill">Angel</span>
-              </div>
+              <a href="#" class="mini-btn" id="hubCTA">Open Support</a>
             </div>
-
-            <a href="#" class="mini-btn">Support the Project</a>
           </section>
 
           <!-- Slide 3 -->
-          <section class="card">
-            <span class="tag">Empower</span>
-            <h2>Self Defense & Tutoring</h2>
-            <p>Book women’s self defense, confidence training, and practical personal safety sessions.</p>
-
-            <div class="list">
-              <div class="row"><strong>Private Self Defense Coaching</strong><span class="pill">1:1</span></div>
-              <div class="row"><strong>Women’s Group Classes</strong><span class="pill">Group</span></div>
-              <div class="row"><strong>Teen Confidence & Safety</strong><span class="pill">Youth</span></div>
-              <div class="row"><strong>Situational Awareness Tutoring</strong><span class="pill">Skills</span></div>
-            </div>
-
-            <a href="#" class="mini-btn">Book a Session</a>
-          </section>
-
-          <!-- Slide 4 -->
           <section class="card">
             <span class="tag">Leaderboard</span>
             <h2>Nice List</h2>
@@ -406,11 +434,11 @@
             <a href="#" class="mini-btn">View Full Leaderboard</a>
           </section>
 
-          <!-- Slide 5 -->
+          <!-- Slide 4 -->
           <section class="card">
             <span class="tag">Watchlist</span>
             <h2>Naughty List</h2>
-            <p>Public watchlist, open-source accountability, and tip routing for verified leads. The FBI does not rank its “Ten Most Wanted,” but these are among the most prominent names currently listed.  [oai_citation:0‡Unanswered](https://unanswered.io/guide/fbi-ten-most-wanted-fugitives?utm_source=chatgpt.com)</p>
+            <p>Public watchlist, open-source accountability, and tip routing for verified leads.</p>
 
             <div class="list">
               <div class="row"><strong>Ruja Ignatova</strong><span class="pill">$4 tips</span></div>
@@ -427,7 +455,6 @@
 
         <div class="dots" id="dots">
           <span class="dot active"></span>
-          <span class="dot"></span>
           <span class="dot"></span>
           <span class="dot"></span>
           <span class="dot"></span>
@@ -456,6 +483,112 @@
         });
       });
     });
+
+    const hubData = {
+      diet: {
+        label: "Diet",
+        title: "Diet & Recovery",
+        text: "Nutrition, hormone support, and simple routines that restore energy fast.",
+        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
+        cta: "Open Nutrition",
+        link: "#",
+        actions: ["Hormone Balance", "Simple Meal Plans", "Energy Reset"]
+      },
+      fitness: {
+        label: "Fitness",
+        title: "Fitness & Strength",
+        text: "Short, practical movement routines for confidence, safety, and resilience.",
+        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
+        cta: "Start Training",
+        link: "#",
+        actions: ["At Home Routines", "Strength", "Self Defense Basics"]
+      },
+      tutoring: {
+        label: "Tutoring",
+        title: "Tutoring & Learning",
+        text: "Private guidance for academics, confidence, study structure, and skill building.",
+        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
+        cta: "Book Tutoring",
+        link: "#",
+        actions: ["Study Help", "Private Coaching", "Confidence Building"]
+      },
+      business: {
+        label: "Business",
+        title: "Business Support",
+        text: "Branding, digital support, strategy, and practical help building income streams.",
+        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
+        cta: "Build Income",
+        link: "#",
+        actions: ["Brand Help", "Launch Support", "Digital Strategy"]
+      },
+      money: {
+        label: "Make $",
+        title: "Activate Income",
+        text: "Turn your existing accounts, content, and signals into opt-in earning streams.",
+        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
+        cta: "Activate Data",
+        link: "#",
+        actions: [
+          "Email",
+          "X Account",
+          "Crypto Wallet",
+          "Driving Data",
+          "SMS",
+          "Art / Content",
+          "Purchase History (Soon)",
+          "Crime Reports"
+        ]
+      },
+      help: {
+        label: "Get Help",
+        title: "Private Help Access",
+        text: "Safe routing for housing, legal, child support, crisis support, and intake.",
+        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
+        cta: "Get Support",
+        link: "#",
+        actions: ["Emergency Exit", "Housing", "Legal", "Child Support", "Private Intake"]
+      }
+    };
+
+    const tabs = document.getElementById("hubTabs");
+    const title = document.getElementById("hubTitle");
+    const text = document.getElementById("hubText");
+    const video = document.getElementById("hubVideo");
+    const cta = document.getElementById("hubCTA");
+    const actions = document.getElementById("hubActions");
+
+    function renderHub(key) {
+      const item = hubData[key];
+
+      title.textContent = item.title;
+      text.textContent = item.text;
+      video.src = item.video;
+      cta.textContent = item.cta;
+      cta.href = item.link;
+
+      actions.innerHTML = "";
+      item.actions.forEach(action => {
+        const row = document.createElement("div");
+        row.className = "action-row";
+        row.innerHTML = `<span>${action}</span><button>Open</button>`;
+        actions.appendChild(row);
+      });
+
+      [...document.querySelectorAll(".tab-btn")].forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.key === key);
+      });
+    }
+
+    Object.keys(hubData).forEach((key, index) => {
+      const btn = document.createElement("button");
+      btn.className = "tab-btn" + (index === 0 ? " active" : "");
+      btn.dataset.key = key;
+      btn.textContent = hubData[key].label;
+      btn.addEventListener("click", () => renderHub(key));
+      tabs.appendChild(btn);
+    });
+
+    renderHub("diet");
   </script>
 </body>
 </html>
