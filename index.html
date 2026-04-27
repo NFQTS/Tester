@@ -1,131 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safe Support</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Safe Support</title>
 
-<style>
+  <style>
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    :root {
+      --bg1: #ffd6e7;
+      --bg2: #ffeaf3;
+      --card: rgba(255, 255, 255, 0.78);
+      --glass: rgba(255, 255, 255, 0.88);
+      --text: #2f2f35;
+      --muted: #666;
+      --pink: #ff6fa5;
+      --pink-dark: #ef4e8c;
+      --shadow: 0 12px 30px rgba(0,0,0,0.10);
+      --radius: 28px;
     }
 
     body {
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #ffd6e7, #ffeaf3);
-        overflow: hidden;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      overflow: hidden;
     }
 
-    .container {
-        text-align: center;
-        max-width: 400px;
-        padding: 20px;
-        animation: fadeIn 1.5s ease;
+    .page {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 460px;
+      height: min(94vh, 860px);
+      border-radius: 34px;
+      padding: 18px;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 8px 6px 0;
+      animation: fadeIn 1s ease;
     }
 
     h1 {
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 10px;
-        animation: float 4s ease-in-out infinite;
+      font-size: clamp(1.9rem, 5vw, 2.5rem);
+      color: #333;
+      margin-bottom: 8px;
+      animation: float 4s ease-in-out infinite;
     }
 
-    p {
-        color: #555;
-        margin-bottom: 25px;
-        font-size: 1rem;
-        line-height: 1.4;
+    .hero p {
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.45;
+      margin-bottom: 14px;
     }
 
-    /* Quick Exit Button (larger + near CTA) */
+    .cta-stack {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .exit-btn,
+    .btn,
+    .mini-btn {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      text-align: center;
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      font-weight: 600;
+    }
+
     .exit-btn {
-        display: block;
-        width: 100%;
-        padding: 16px;
-        margin-bottom: 12px;
-
-        font-size: 1.1rem;
-        border-radius: 30px;
-
-        background: rgba(255, 255, 255, 0.85);
-        color: #444;
-        text-decoration: none;
-
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        backdrop-filter: blur(6px);
-
-        transition: all 0.25s ease;
+      padding: 15px;
+      background: rgba(255,255,255,0.9);
+      color: #444;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
     }
 
-    .exit-btn:hover {
-        background: rgba(255, 255, 255, 1);
-        transform: translateY(-2px);
-    }
-
-    .exit-btn:active {
-        transform: scale(0.97);
-    }
-
-    /* Main CTA */
     .btn {
-        display: block;
-        width: 100%;
-        padding: 16px;
-
-        font-size: 1.1rem;
-        border-radius: 30px;
-
-        background: #ff6fa5;
-        color: white;
-        text-decoration: none;
-
-        box-shadow: 0 10px 25px rgba(255, 111, 165, 0.3);
-        transition: all 0.3s ease;
+      padding: 15px;
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(255,111,165,0.32);
     }
 
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 30px rgba(255, 111, 165, 0.4);
+    .mini-btn {
+      padding: 12px;
+      background: var(--pink);
+      color: white;
+      font-size: 0.95rem;
+      margin-top: 10px;
     }
 
-    .btn:active {
-        transform: scale(0.97);
+    .exit-btn:hover,
+    .btn:hover,
+    .mini-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .slider-wrap {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .slider {
+      flex: 1;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 4px 2px 8px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      min-width: 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--pink-dark);
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.95rem;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding-top: 10px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.16);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      width: 24px;
+      background: var(--pink);
+    }
+
+    .yt-wrap {
+      margin-top: 12px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+      aspect-ratio: 9 / 16;
+      background: #000;
+    }
+
+    .yt-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .list {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .row {
+      background: var(--glass);
+      border-radius: 18px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .row-left {
+      min-width: 0;
+    }
+
+    .row strong {
+      display: block;
+      font-size: 0.9rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .meta {
+      font-size: 0.8rem;
+      color: #777;
+      margin-top: 2px;
+    }
+
+    .pill {
+      background: #fff;
+      color: #444;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-5px); }
     }
-</style>
+
+    @media (max-height: 760px) {
+      .hero p { font-size: 0.92rem; }
+      .card { padding: 15px; }
+      .row { padding: 10px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="page">
+    <div class="shell">
 
-<div class="container">
-    <h1>You are safe here.</h1>
-    <p>Get help. Talk to someone.<br>Support for you and your children.</p>
+      <div class="hero">
+        <h1>You are safe here.</h1>
+        <p>Get help. Talk to someone.<br>Support for you and your children.</p>
 
-    <!-- Quick Exit (now big + right above CTA) -->
-    <a href="https://www.google.com" class="exit-btn">
-        Quick Exit
-    </a>
+        <div class="cta-stack">
+          <a href="https://www.google.com" class="exit-btn">Quick Exit</a>
+          <a href="https://forms.gle/2SzQm9HHSQqrLtp59" class="btn">Request Help</a>
+        </div>
+      </div>
 
-    <!-- Main Action -->
-    <a href="https://forms.gle/2SzQm9HHSQqrLtp59" class="btn">
-        Request Help
-    </a>
-</div>
+      <div class="slider-wrap">
+        <div class="slider" id="slider">
 
+          <!-- Slide 1 -->
+          <section class="card">
+            <span class="tag">Listen</span>
+            <h2>Music & Recovery</h2>
+            <p>Listen to our music, find your breath again, and reconnect with something softer.</p>
+
+            <div class="yt-wrap">
+              <iframe
+                src="https://www.youtube.com/embed/GAUSUlGpzqo"
+                title="YouTube Shorts"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            </div>
+
+            <a href="https://youtube.com/shorts/GAUSUlGpzqo?si=roU_Al4_fpOG_hAv" class="mini-btn">
+              Listen on YouTube
+            </a>
+          </section>
+
+          <!-- Slide 2 -->
+          <section class="card">
+            <span class="tag">Support</span>
+            <h2>Donate Crypto / NFT Support</h2>
+            <p>Support the mission through crypto, NFT patronage, and direct decentralized giving.</p>
+
+            <div class="list">
+              <div class="row">
+                <div class="row-left">
+                  <strong>0x8F3C7A9D4E2B1C6F5A8D3E7B9C1A4F2D6E8B7C1A</strong>
+                  <div class="meta">$420 • USDC</div>
+                </div>
+                <span class="pill">Contributor</span>
+              </div>
+
+              <div class="row">
+                <div class="row-left">
+                  <strong>0x4B7D9E2C8A1F3D6E5C9B7A2D1E4F8C6A3B9D2E7F</strong>
+                  <div class="meta">69 ETH • Ethereum</div>
+                </div>
+                <span class="pill">Whale</span>
+              </div>
+
+              <div class="row">
+                <div class="row-left">
+                  <strong>0xA2E7C9D4B8F1A6E3D5C7B9A2F4E1D8C6B3A7E9D2</strong>
+                  <div class="meta">333 IQ • Reputation</div>
+                </div>
+                <span class="pill">Scholar</span>
+              </div>
+
+              <div class="row">
+                <div class="row-left">
+                  <strong>0xC6A1D8E4B2F9C7A3E5D1B8F6A2C9E4D7B3A1F6C8</strong>
+                  <div class="meta">$420 • DAI</div>
+                </div>
+                <span class="pill">Patron</span>
+              </div>
+
+              <div class="row">
+                <div class="row-left">
+                  <strong>0xE1B7D3A9C4F8E2A6D1C7B5F9A3E4D8C2B6A1F7D3</strong>
+                  <div class="meta">69 ETH • L2</div>
+                </div>
+                <span class="pill">Angel</span>
+              </div>
+            </div>
+
+            <a href="#" class="mini-btn">Support the Project</a>
+          </section>
+
+          <!-- Slide 3 -->
+          <section class="card">
+            <span class="tag">Empower</span>
+            <h2>Self Defense & Tutoring</h2>
+            <p>Book women’s self defense, confidence training, and practical personal safety sessions.</p>
+
+            <div class="list">
+              <div class="row"><strong>Private Self Defense Coaching</strong><span class="pill">1:1</span></div>
+              <div class="row"><strong>Women’s Group Classes</strong><span class="pill">Group</span></div>
+              <div class="row"><strong>Teen Confidence & Safety</strong><span class="pill">Youth</span></div>
+              <div class="row"><strong>Situational Awareness Tutoring</strong><span class="pill">Skills</span></div>
+            </div>
+
+            <a href="#" class="mini-btn">Book a Session</a>
+          </section>
+
+          <!-- Slide 4 -->
+          <section class="card">
+            <span class="tag">Leaderboard</span>
+            <h2>Nice List</h2>
+            <p>Top contributors, visible receipts, public gratitude, and reputation earned in real time.</p>
+
+            <div class="list">
+              <div class="row"><strong>House of Dawn</strong><span class="pill">+333 IQ</span></div>
+              <div class="row"><strong>QuietSignal.eth</strong><span class="pill">69 ETH</span></div>
+              <div class="row"><strong>SoftArmor DAO</strong><span class="pill">$420</span></div>
+              <div class="row"><strong>NorthStar Fund</strong><span class="pill">+222 IQ</span></div>
+              <div class="row"><strong>VelvetHammer</strong><span class="pill">+108 IQ</span></div>
+            </div>
+
+            <a href="#" class="mini-btn">View Full Leaderboard</a>
+          </section>
+
+          <!-- Slide 5 -->
+          <section class="card">
+            <span class="tag">Watchlist</span>
+            <h2>Naughty List</h2>
+            <p>Public watchlist, open-source accountability, and tip routing for verified leads. The FBI does not rank its “Ten Most Wanted,” but these are among the most prominent names currently listed.  [oai_citation:0‡Unanswered](https://unanswered.io/guide/fbi-ten-most-wanted-fugitives?utm_source=chatgpt.com)</p>
+
+            <div class="list">
+              <div class="row"><strong>Ruja Ignatova</strong><span class="pill">$4 tips</span></div>
+              <div class="row"><strong>Bhadreshkumar Patel</strong><span class="pill">$4 tips</span></div>
+              <div class="row"><strong>Yulan Archaga Carias</strong><span class="pill">$4 tips</span></div>
+              <div class="row"><strong>Omar Alexander Cardenas</strong><span class="pill">$4 tips</span></div>
+              <div class="row"><strong>Giovanni Vicente Mosquera</strong><span class="pill">$4 tips</span></div>
+            </div>
+
+            <a href="#" class="mini-btn">Submit a Tip</a>
+          </section>
+
+        </div>
+
+        <div class="dots" id="dots">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById("slider");
+    const dots = [...document.querySelectorAll(".dot")];
+
+    function updateDots() {
+      const index = Math.round(slider.scrollLeft / slider.clientWidth);
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+    }
+
+    slider.addEventListener("scroll", updateDots);
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        slider.scrollTo({
+          left: slider.clientWidth * i,
+          behavior: "smooth"
+        });
+      });
+    });
+  </script>
 </body>
 </html>
