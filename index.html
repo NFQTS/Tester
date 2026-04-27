@@ -16,8 +16,8 @@
     :root {
       --bg1: #ffd6e7;
       --bg2: #ffeaf3;
-      --card: rgba(255, 255, 255, 0.78);
-      --glass: rgba(255, 255, 255, 0.88);
+      --card: rgba(255, 255, 255, 0.80);
+      --glass: rgba(255, 255, 255, 0.9);
       --text: #2f2f35;
       --muted: #666;
       --pink: #ff6fa5;
@@ -26,9 +26,7 @@
       --radius: 28px;
     }
 
-    *::-webkit-scrollbar {
-      display: none;
-    }
+    *::-webkit-scrollbar { display: none; }
 
     body {
       min-height: 100vh;
@@ -42,13 +40,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 18px;
+      padding: 14px;
     }
 
     .shell {
       width: 100%;
-      max-width: 460px;
-      height: min(94vh, 860px);
+      max-width: 560px;
+      height: min(95vh, 900px);
       border-radius: 34px;
       padding: 18px;
       background: rgba(255,255,255,0.18);
@@ -89,9 +87,9 @@
     .exit-btn,
     .btn,
     .mini-btn,
-    .tab-btn {
+    .tab-btn,
+    .action-btn {
       display: block;
-      width: 100%;
       text-decoration: none;
       text-align: center;
       border: 0;
@@ -103,12 +101,13 @@
     .exit-btn,
     .btn,
     .mini-btn {
+      width: 100%;
       border-radius: 999px;
     }
 
     .exit-btn {
       padding: 15px;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
       color: #444;
       box-shadow: 0 8px 18px rgba(0,0,0,0.08);
     }
@@ -131,7 +130,8 @@
     .exit-btn:hover,
     .btn:hover,
     .mini-btn:hover,
-    .tab-btn:hover {
+    .tab-btn:hover,
+    .action-btn:hover {
       transform: translateY(-2px);
     }
 
@@ -181,7 +181,7 @@
     }
 
     .card h2 {
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       margin-bottom: 8px;
       line-height: 1.15;
     }
@@ -218,7 +218,7 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 8px 22px rgba(0,0,0,0.12);
-      aspect-ratio: 9 / 16;
+      aspect-ratio: 16 / 9;
       background: #000;
       flex-shrink: 0;
     }
@@ -262,28 +262,23 @@
       white-space: nowrap;
     }
 
-    .tabs {
+    .hub-tabs {
       display: flex;
-      gap: 8px;
-      overflow-x: auto;
+      gap: 10px;
       margin: 10px 0 12px;
-      padding-bottom: 2px;
     }
 
     .tab-btn {
-      width: auto;
-      white-space: nowrap;
-      border-radius: 999px;
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.7);
-      color: #444;
-      font-size: 0.84rem;
-      flex-shrink: 0;
+      flex: 1;
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(255,255,255,0.72);
+      font-size: 1.4rem;
+      line-height: 1;
     }
 
     .tab-btn.active {
       background: var(--pink);
-      color: white;
       box-shadow: 0 8px 18px rgba(255,111,165,0.22);
     }
 
@@ -294,50 +289,53 @@
       flex: 1;
     }
 
-    .hub-copy {
-      flex-shrink: 0;
-    }
-
     .hub-copy h3 {
       font-size: 1.15rem;
       margin-bottom: 6px;
       line-height: 1.2;
     }
 
-    .hub-copy p {
-      margin-bottom: 0;
-    }
-
-    .hub-actions {
+    .hub-grid {
       margin-top: 12px;
       display: grid;
-      gap: 8px;
+      gap: 10px;
       overflow-y: auto;
     }
 
-    .action-row {
+    .hub-item {
+      background: var(--glass);
+      border-radius: 18px;
+      padding: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      background: var(--glass);
-      border-radius: 16px;
-      padding: 10px 12px;
     }
 
-    .action-row span {
-      font-size: 0.88rem;
-      color: #444;
+    .hub-item-left {
+      min-width: 0;
     }
 
-    .action-row button {
-      border: 0;
-      background: white;
-      border-radius: 999px;
-      padding: 8px 10px;
+    .hub-item-left strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .hub-item-left span {
+      display: block;
       font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
+      color: #777;
+      line-height: 1.35;
+    }
+
+    .action-btn {
+      background: white;
+      color: #444;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      white-space: nowrap;
     }
 
     @keyframes fadeIn {
@@ -348,6 +346,21 @@
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50%      { transform: translateY(-5px); }
+    }
+
+    @media (max-width: 480px) {
+      .shell {
+        max-width: 100%;
+        padding: 14px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .tab-btn {
+        font-size: 1.25rem;
+      }
     }
   </style>
 </head>
@@ -390,18 +403,18 @@
 
           <!-- Slide 2 -->
           <section class="card">
-            <span class="tag">Support Hub</span>
+            <span class="tag">Support</span>
             <h2>Women’s Support Hub</h2>
 
-            <div class="tabs" id="hubTabs"></div>
+            <div class="hub-tabs" id="hubTabs"></div>
 
             <div class="hub-body">
               <div class="hub-copy">
-                <h3 id="hubTitle">Diet & Recovery</h3>
-                <p id="hubText">Nutrition, hormone support, and simple routines that restore energy fast.</p>
+                <h3 id="hubTitle">Health & Recovery</h3>
+                <p id="hubText">Nutrition, movement, recovery, and practical wellness support built for real life.</p>
               </div>
 
-              <div class="yt-wrap" style="margin-top:12px;">
+              <div class="yt-wrap">
                 <iframe
                   id="hubVideo"
                   src="https://www.youtube.com/embed/GAUSUlGpzqo"
@@ -411,9 +424,9 @@
                 </iframe>
               </div>
 
-              <div class="hub-actions" id="hubActions"></div>
+              <div class="hub-grid" id="hubGrid"></div>
 
-              <a href="#" class="mini-btn" id="hubCTA">Open Support</a>
+              <a href="#" class="mini-btn" id="hubCTA">Open Health</a>
             </div>
           </section>
 
@@ -460,7 +473,6 @@
           <span class="dot"></span>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -485,68 +497,51 @@
     });
 
     const hubData = {
-      diet: {
-        label: "Diet",
-        title: "Diet & Recovery",
-        text: "Nutrition, hormone support, and simple routines that restore energy fast.",
+      health: {
+        icon: "🚑",
+        title: "Health & Recovery",
+        text: "Nutrition, movement, recovery, and practical wellness support built for real life.",
         video: "https://www.youtube.com/embed/GAUSUlGpzqo",
-        cta: "Open Nutrition",
+        cta: "Open Health",
         link: "#",
-        actions: ["Hormone Balance", "Simple Meal Plans", "Energy Reset"]
-      },
-      fitness: {
-        label: "Fitness",
-        title: "Fitness & Strength",
-        text: "Short, practical movement routines for confidence, safety, and resilience.",
-        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
-        cta: "Start Training",
-        link: "#",
-        actions: ["At Home Routines", "Strength", "Self Defense Basics"]
-      },
-      tutoring: {
-        label: "Tutoring",
-        title: "Tutoring & Learning",
-        text: "Private guidance for academics, confidence, study structure, and skill building.",
-        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
-        cta: "Book Tutoring",
-        link: "#",
-        actions: ["Study Help", "Private Coaching", "Confidence Building"]
-      },
-      business: {
-        label: "Business",
-        title: "Business Support",
-        text: "Branding, digital support, strategy, and practical help building income streams.",
-        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
-        cta: "Build Income",
-        link: "#",
-        actions: ["Brand Help", "Launch Support", "Digital Strategy"]
-      },
-      money: {
-        label: "Make $",
-        title: "Activate Income",
-        text: "Turn your existing accounts, content, and signals into opt-in earning streams.",
-        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
-        cta: "Activate Data",
-        link: "#",
-        actions: [
-          "Email",
-          "X Account",
-          "Crypto Wallet",
-          "Driving Data",
-          "SMS",
-          "Art / Content",
-          "Purchase History (Soon)",
-          "Crime Reports"
+        items: [
+          { title: "Diet", desc: "Meal structure, hormones, and sustainable recovery." },
+          { title: "Exercise", desc: "Simple routines for strength, mobility, and energy." },
+          { title: "Recovery", desc: "Stress regulation, sleep, and nervous system support." },
+          { title: "Get Help", desc: "Private access to support, intake, and safe referrals." }
         ]
       },
-      help: {
-        label: "Get Help",
-        title: "Private Help Access",
-        text: "Safe routing for housing, legal, child support, crisis support, and intake.",
+      education: {
+        icon: "♾️",
+        title: "Education & Practice",
+        text: "Private and group learning for mind, body, discipline, and long-term confidence.",
         video: "https://www.youtube.com/embed/GAUSUlGpzqo",
-        cta: "Get Support",
+        cta: "Open Education",
         link: "#",
-        actions: ["Emergency Exit", "Housing", "Legal", "Child Support", "Private Intake"]
+        items: [
+          { title: "1:1 Tutoring", desc: "Private academic, confidence, and personal development support." },
+          { title: "Group Fitness", desc: "Structured group movement, conditioning, and discipline." },
+          { title: "Self Defense", desc: "Practical awareness, prevention, and physical safety." },
+          { title: "Spirituality", desc: "Grounding, ritual, reflection, and inner stability." }
+        ]
+      },
+      wealth: {
+        icon: "🤑",
+        title: "Wealth Activation",
+        text: "Monetize useful information, existing accounts, and private signals through opt-in sharing.",
+        video: "https://www.youtube.com/embed/GAUSUlGpzqo",
+        cta: "Activate Wealth",
+        link: "#",
+        items: [
+          { title: "Email", desc: "License inbox signal and trend intelligence." },
+          { title: "X Account", desc: "Monetize audience, reach, and social signal value." },
+          { title: "Crypto Wallet", desc: "Verify holdings, behavior, and chain activity." },
+          { title: "Driving Data", desc: "Connect Uber, Lyft, Tesla, DoorDash, and logistics." },
+          { title: "SMS", desc: "Opt in to anonymized message signal analysis." },
+          { title: "Art / Content", desc: "Tokenize content and earn from digital reuse." },
+          { title: "Purchase History", desc: "Private retail trend licensing. Coming soon." },
+          { title: "Crime Reports", desc: "Anonymous reporting through Snitches Get Statues." }
+        ]
       }
     };
 
@@ -555,7 +550,7 @@
     const text = document.getElementById("hubText");
     const video = document.getElementById("hubVideo");
     const cta = document.getElementById("hubCTA");
-    const actions = document.getElementById("hubActions");
+    const grid = document.getElementById("hubGrid");
 
     function renderHub(key) {
       const item = hubData[key];
@@ -566,12 +561,18 @@
       cta.textContent = item.cta;
       cta.href = item.link;
 
-      actions.innerHTML = "";
-      item.actions.forEach(action => {
+      grid.innerHTML = "";
+      item.items.forEach(entry => {
         const row = document.createElement("div");
-        row.className = "action-row";
-        row.innerHTML = `<span>${action}</span><button>Open</button>`;
-        actions.appendChild(row);
+        row.className = "hub-item";
+        row.innerHTML = `
+          <div class="hub-item-left">
+            <strong>${entry.title}</strong>
+            <span>${entry.desc}</span>
+          </div>
+          <button class="action-btn">Open</button>
+        `;
+        grid.appendChild(row);
       });
 
       [...document.querySelectorAll(".tab-btn")].forEach(btn => {
@@ -583,12 +584,12 @@
       const btn = document.createElement("button");
       btn.className = "tab-btn" + (index === 0 ? " active" : "");
       btn.dataset.key = key;
-      btn.textContent = hubData[key].label;
+      btn.textContent = hubData[key].icon;
       btn.addEventListener("click", () => renderHub(key));
       tabs.appendChild(btn);
     });
 
-    renderHub("diet");
+    renderHub("health");
   </script>
 </body>
 </html>
