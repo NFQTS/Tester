@@ -16,10 +16,10 @@
     :root {
       --bg1: #ffdce8;
       --bg2: #fff4f8;
-      --glass: rgba(255,255,255,0.82);
-      --card: rgba(255,255,255,0.9);
+      --glass: rgba(255,255,255,0.84);
+      --card: rgba(255,255,255,0.94);
       --text: #2d2d34;
-      --muted: #6d6d76;
+      --muted: #6f6f78;
       --pink: #ff6fa5;
       --pink-dark: #ef4e8c;
       --shadow: 0 18px 40px rgba(0,0,0,0.10);
@@ -68,23 +68,24 @@
 
     .hero {
       text-align: center;
-      animation: fadeIn 0.8s ease;
     }
 
     h1 {
       font-size: clamp(2rem, 5vw, 2.6rem);
       line-height: 1.05;
-      color: #2f2f35;
       margin-bottom: 10px;
-      animation: float 4s ease-in-out infinite;
+      color: #2f2f35;
     }
 
-    .hero p {
-      font-size: 0.98rem;
-      color: #555;
+    .hero p,
+    .media p,
+    .board-shell p {
+      font-size: 0.95rem;
       line-height: 1.45;
-      margin-bottom: 14px;
+      color: var(--muted);
     }
+
+    .hero p { margin-bottom: 14px; }
 
     .cta-stack {
       display: grid;
@@ -102,7 +103,7 @@
       cursor: pointer;
       border-radius: 999px;
       font-weight: 700;
-      transition: all 0.25s ease;
+      transition: transform 0.2s ease;
     }
 
     .btn {
@@ -114,9 +115,8 @@
 
     .ghost-btn {
       padding: 15px;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.95);
       color: #444;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
     }
 
     .mini-btn {
@@ -133,37 +133,26 @@
       transform: translateY(-2px);
     }
 
-    .media {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
     .section-label {
+      display: inline-block;
       font-size: 0.76rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--pink-dark);
+      margin-bottom: 8px;
     }
 
     .media h2,
     .board-shell h2 {
       font-size: 1.25rem;
       line-height: 1.15;
-      margin-top: 4px;
-    }
-
-    .media p,
-    .board-shell p {
-      color: var(--muted);
-      font-size: 0.93rem;
-      line-height: 1.45;
-      margin-top: 6px;
+      margin-bottom: 6px;
     }
 
     .yt-wrap {
       width: 100%;
+      margin-top: 12px;
       border-radius: 22px;
       overflow: hidden;
       background: #000;
@@ -179,15 +168,18 @@
 
     .board-shell {
       flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      min-height: 0;
     }
 
     .boards {
-      display: grid;
-      gap: 12px;
       margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      min-height: 0;
       overflow-y: auto;
       padding-right: 2px;
     }
@@ -196,7 +188,7 @@
       background: var(--card);
       border-radius: 24px;
       padding: 14px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+      flex-shrink: 0;
     }
 
     .board-top {
@@ -217,13 +209,14 @@
       border-radius: 999px;
       background: rgba(255,111,165,0.12);
       color: var(--pink-dark);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 800;
       white-space: nowrap;
     }
 
     .list {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
     }
 
@@ -231,24 +224,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       padding: 12px;
       border-radius: 18px;
-      background: rgba(255,255,255,0.82);
-    }
-
-    .row-left {
-      min-width: 0;
-    }
-
-    .rank {
-      font-size: 0.74rem;
-      font-weight: 800;
-      color: var(--pink-dark);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      display: block;
+      background: rgba(255,255,255,0.88);
     }
 
     .name {
@@ -257,31 +236,16 @@
       line-height: 1.1;
     }
 
-    .sub {
-      display: block;
-      font-size: 0.78rem;
-      color: #7b7b84;
-      margin-top: 3px;
-    }
-
     .score {
-      padding: 8px 11px;
+      flex-shrink: 0;
+      min-width: 70px;
+      text-align: center;
+      padding: 8px 10px;
       border-radius: 999px;
       background: #fff;
-      font-size: 0.8rem;
+      font-size: 0.84rem;
       font-weight: 800;
       color: #333;
-      white-space: nowrap;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
     }
 
     @media (max-width: 480px) {
@@ -295,7 +259,7 @@
   <div class="page">
     <main class="shell">
 
-      <!-- HELP FIRST -->
+      <!-- HELP -->
       <section class="card hero">
         <h1>You are safe here.</h1>
         <p>
@@ -333,76 +297,50 @@
 
         <div class="boards">
 
-          <!-- NICE LIST -->
           <div class="board">
             <div class="board-top">
               <h3>Daily Nice List</h3>
-              <span class="badge">Family Based</span>
+              <span class="badge">Positive</span>
             </div>
 
             <div class="list">
               <div class="row">
-                <div class="row-left">
-                  <span class="rank">#1 Today</span>
-                  <div class="name">🐯🦁👑</div>
-                  <span class="sub">protection / logistics / shelter</span>
-                </div>
-                <span class="score">+333</span>
+                <div class="name">🥷🏻♾️🥷🏿</div>
+                <div class="score">+666</div>
               </div>
 
               <div class="row">
-                <div class="row-left">
-                  <span class="rank">#2 Today</span>
-                  <div class="name">🐻👑🐻</div>
-                  <span class="sub">food / transport / recovery</span>
-                </div>
-                <span class="score">+222</span>
+                <div class="name">🐯🦁👑</div>
+                <div class="score">+333</div>
               </div>
 
               <div class="row">
-                <div class="row-left">
-                  <span class="rank">#3 Today</span>
-                  <div class="name">🥷🏻♾️🥷🏿</div>
-                  <span class="sub">intel / safety / signal</span>
-                </div>
-                <span class="score">+108</span>
+                <div class="name">🐻🦅🐻</div>
+                <div class="score">0</div>
               </div>
             </div>
           </div>
 
-          <!-- NAUGHTY LIST -->
           <div class="board">
             <div class="board-top">
               <h3>All Time Naughty List</h3>
-              <span class="badge">Family Based</span>
+              <span class="badge">Permanent</span>
             </div>
 
             <div class="list">
               <div class="row">
-                <div class="row-left">
-                  <span class="rank">#1 All Time</span>
-                  <div class="name">Epstein</div>
-                  <span class="sub">women / children / trafficking</span>
-                </div>
-                <span class="score">∞</span>
+                <div class="name">Epstein</div>
+                <div class="score">∞</div>
               </div>
 
               <div class="row">
-                <div class="row-left">
-                  <span class="rank">#2 All Time</span>
-                  <div class="name">Savile</div>
-                  <span class="sub">institutional abuse</span>
-                </div>
-                <span class="score">∞</span>
+                <div class="name">Savile</div>
+                <div class="score">∞</div>
               </div>
 
               <div class="row">
-                <div class="row-left">
-                  <span class="rank">#3 All Time</span>
-                  <div class="name">Nassar</div>
-                  <span class="sub">systemic exploitation</span>
-                </div>
-                <span class="score">∞</span>
+                <div class="name">Nassar</div>
+                <div class="score">∞</div>
               </div>
             </div>
           </div>
