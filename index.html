@@ -1,362 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Safe Support</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    :root {
-      --bg1: #ffdce8;
-      --bg2: #fff4f8;
-      --glass: rgba(255,255,255,0.84);
-      --card: rgba(255,255,255,0.94);
-      --text: #2d2d34;
-      --muted: #6f6f78;
-      --pink: #ff6fa5;
-      --pink-dark: #ef4e8c;
-      --shadow: 0 18px 40px rgba(0,0,0,0.10);
-      --radius: 28px;
-    }
-
-    *::-webkit-scrollbar { display: none; }
-
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      color: var(--text);
-      overflow: hidden;
-    }
-
-    .page {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-    }
-
-    .shell {
-      width: 100%;
-      max-width: 560px;
-      height: min(95vh, 920px);
-      padding: 18px;
-      border-radius: 34px;
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.12);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      overflow: hidden;
-    }
-
-    .card {
-      background: var(--glass);
-      backdrop-filter: blur(14px);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-    }
-
-    .hero {
-      text-align: center;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 2.6rem);
-      line-height: 1.05;
-      margin-bottom: 10px;
-      color: #2f2f35;
-    }
-
-    .hero p,
-    .media p,
-    .board-shell p {
-      font-size: 0.95rem;
-      line-height: 1.45;
-      color: var(--muted);
-    }
-
-    .hero p { margin-bottom: 14px; }
-
-    .cta-stack {
-      display: grid;
-      gap: 10px;
-    }
-
-    .btn,
-    .ghost-btn,
-    .mini-btn {
-      display: block;
-      width: 100%;
-      border: 0;
-      text-decoration: none;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 999px;
-      font-weight: 700;
-      transition: transform 0.2s ease;
-    }
-
-    .btn {
-      padding: 15px;
-      background: var(--pink);
-      color: white;
-      box-shadow: 0 12px 24px rgba(255,111,165,0.28);
-    }
-
-    .ghost-btn {
-      padding: 15px;
-      background: rgba(255,255,255,0.95);
-      color: #444;
-    }
-
-    .mini-btn {
-      padding: 13px;
-      background: #111;
-      color: white;
-      font-size: 0.92rem;
-      margin-top: 14px;
-    }
-
-    .btn:hover,
-    .ghost-btn:hover,
-    .mini-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .section-label {
-      display: inline-block;
-      font-size: 0.76rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--pink-dark);
-      margin-bottom: 8px;
-    }
-
-    .media h2,
-    .board-shell h2 {
-      font-size: 1.25rem;
-      line-height: 1.15;
-      margin-bottom: 6px;
-    }
-
-    .yt-wrap {
-      width: 100%;
-      margin-top: 12px;
-      border-radius: 22px;
-      overflow: hidden;
-      background: #000;
-      aspect-ratio: 16 / 9;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.14);
-    }
-
-    .yt-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .board-shell {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .boards {
-      margin-top: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      padding-right: 2px;
-    }
-
-    .board {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 14px;
-      flex-shrink: 0;
-    }
-
-    .board-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .board-top h3 {
-      font-size: 1rem;
-      line-height: 1.1;
-    }
-
-    .badge {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,111,165,0.12);
-      color: var(--pink-dark);
-      font-size: 0.74rem;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.88);
-    }
-
-    .name {
-      font-size: 1rem;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-
-    .score {
-      flex-shrink: 0;
-      min-width: 70px;
-      text-align: center;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: #fff;
-      font-size: 0.84rem;
-      font-weight: 800;
-      color: #333;
-    }
-
-    @media (max-width: 480px) {
-      .shell { padding: 14px; }
-      .card { padding: 15px; }
-      .row { padding: 11px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMBLEM • Live Risk</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        :root {
+            --bg: #0a0a0a;
+            --accent: #00ffcc;
+        }
+        
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Press Start 2P', system-ui;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+        
+        header {
+            border-bottom: 4px solid var(--accent);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111;
+        }
+        
+        .logo {
+            font-size: 24px;
+            letter-spacing: 4px;
+            color: var(--accent);
+        }
+        
+        .signature {
+            font-size: 28px;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .panel {
+            background: #111;
+            border: 3px solid #222;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        h1, h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        button {
+            background: transparent;
+            border: 3px solid var(--accent);
+            color: white;
+            padding: 12px 20px;
+            font-family: 'Press Start 2P';
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: var(--accent);
+            color: black;
+        }
+        
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .daily-choices {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .choice-btn {
+            font-size: 60px;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+        }
+        
+        .map-container {
+            height: 420px;
+            background: #0a1f0a;
+            border: 4px solid #224422;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .territory {
+            position: absolute;
+            background: rgba(0, 255, 100, 0.2);
+            border: 3px solid #00ff88;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .territory:hover {
+            background: rgba(0, 255, 100, 0.6);
+            transform: scale(1.1);
+        }
+        
+        .territory.owned {
+            background: rgba(0, 200, 255, 0.5);
+            border-color: #00ccff;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat {
+            border: 2px solid #333;
+            padding: 12px;
+        }
+        
+        .mastery-bar {
+            height: 12px;
+            background: #222;
+            margin-top: 8px;
+            position: relative;
+        }
+        
+        .mastery-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffcc, #ff00cc);
+        }
+        
+        .emoji-picker {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .emoji-option {
+            font-size: 32px;
+            cursor: pointer;
+            padding: 8px;
+            text-align: center;
+            border: 2px solid #333;
+        }
+        
+        .emoji-option:hover {
+            background: #222;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-  <div class="page">
-    <main class="shell">
-
-      <!-- HELP -->
-      <section class="card hero">
-        <h1>You are safe here.</h1>
-        <p>
-          Quiet help. Real support.<br />
-          Private access for women, children, and families.
-        </p>
-
-        <div class="cta-stack">
-          <a href="https://forms.gle/2SzQm9HHSQqrLtp59" class="btn">Request Help</a>
-          <a href="https://www.google.com" class="ghost-btn">Quick Exit</a>
+    <header>
+        <div class="logo">EMBLEM</div>
+        <div onclick="changeSignature()" class="signature" id="player-sig">🐠🌲💕</div>
+        <div style="font-size:14px;">
+            <span id="crypto-balance">420.69</span> <span style="color:#ffcc00">◈</span>
         </div>
-      </section>
+    </header>
 
-      <!-- MUSIC -->
-      <section class="card media">
-        <span class="section-label">Listen</span>
-        <h2>Music & Recovery</h2>
-        <p>Regulate. Breathe. Reset your nervous system and come back to center.</p>
-
-        <div class="yt-wrap">
-          <iframe
-            src="https://www.youtube.com/embed/GAUSUlGpzqo"
-            title="Music & Recovery"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </section>
-
-      <!-- LEADERBOARDS -->
-      <section class="card board-shell">
-        <span class="section-label">Ledger</span>
-        <h2>Family Boards</h2>
-        <p>Quiet reputation. Visible receipts. Protection remembered.</p>
-
-        <div class="boards">
-
-          <div class="board">
-            <div class="board-top">
-              <h3>Daily Nice List</h3>
-              <span class="badge">Positive</span>
+    <div class="container">
+        <!-- Daily Choice -->
+        <div class="panel">
+            <h2>DAILY ALIGNMENT</h2>
+            <p id="daily-status" style="margin-bottom:15px; color:#00ff88;">You haven't chosen today</p>
+            <div class="daily-choices">
+                <button onclick="makeChoice('🐠')" class="choice-btn" id="btn-fish">🐠</button>
+                <button onclick="makeChoice('🌲')" class="choice-btn" id="btn-tree">🌲</button>
+                <button onclick="makeChoice('💕')" class="choice-btn" id="btn-heart">💕</button>
             </div>
-
-            <div class="list">
-              <div class="row">
-                <div class="name">🥷🏻♾️🥷🏿</div>
-                <div class="score">+666</div>
-              </div>
-
-              <div class="row">
-                <div class="name">🐯🦁👑</div>
-                <div class="score">+333</div>
-              </div>
-
-              <div class="row">
-                <div class="name">🐻🦅🐻</div>
-                <div class="score">0</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="board">
-            <div class="board-top">
-              <h3>All Time Naughty List</h3>
-              <span class="badge">Permanent</span>
-            </div>
-
-            <div class="list">
-              <div class="row">
-                <div class="name">Epstein</div>
-                <div class="score">∞</div>
-              </div>
-
-              <div class="row">
-                <div class="name">Savile</div>
-                <div class="score">∞</div>
-              </div>
-
-              <div class="row">
-                <div class="name">Nassar</div>
-                <div class="score">∞</div>
-              </div>
-            </div>
-          </div>
-
+            <small style="color:#666; margin-top:10px; display:block;">One alignment per day • Earns mastery</small>
         </div>
 
-        <a
-          href="https://x.com/unprincipledinc"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mini-btn">
-          ✅2E
-        </a>
-      </section>
+        <!-- Mastery -->
+        <div class="panel">
+            <h2>MASTERY</h2>
+            <div class="stats" id="mastery-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
 
-    </main>
-  </div>
+        <!-- The Map -->
+        <div class="panel">
+            <h2>LIVE RISK • GLOBAL THEATER</h2>
+            <div class="map-container" id="map">
+                <!-- Territories created by JS -->
+            </div>
+            <div style="margin-top:10px; display:flex; justify-content:space-between; font-size:12px;">
+                <div>Your Territories: <span id="owned-count">7</span></div>
+                <div>Global Players: <span id="global-players">1243</span></div>
+            </div>
+        </div>
+
+        <!-- Data Share -->
+        <div class="panel">
+            <h2>DATA VAULT • Share for Mastery</h2>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:12px;">
+                <button onclick="shareData(this)" style="text-align:left;">📧 Email</button>
+                <button onclick="shareData(this)" style="text-align:left;">📱 SMS #</button>
+                <button onclick="shareData(this)" style="text-align:left;">❤️ Interests</button>
+                <button onclick="shareData(this)" style="text-align:left;">📸 Selfies</button>
+                <button onclick="shareData(this)" style="text-align:left;">🎥 Video (15s)</button>
+                <button onclick="shareData(this)" style="text-align:left;">🌍 Country</button>
+                <button onclick="shareData(this)" style="text-align:left;">📊 Online Activity</button>
+                <button onclick="shareData(this)" style="text-align:left;">🎨 Art</button>
+                <button onclick="shareData(this)" style="text-align:left;">₿ Crypto Wallets</button>
+            </div>
+        </div>
+
+        <!-- Premium -->
+        <div class="panel">
+            <h2>CRYPTO TERMINAL</h2>
+            <button onclick="spendCrypto()" style="width:100%; padding:20px; font-size:18px;">SPEND 69 ◈ • UNLOCK PREMIUM SKIN</button>
+            <button onclick="claimCrypto()" style="width:100%; margin-top:10px; background:#ffcc00; color:black; border-color:#ffcc00;">CLAIM REWARDS TO WALLET</button>
+        </div>
+    </div>
+
+    <footer>
+        EM·BLEM Alpha v0.1 • Persistent Browser Game • All data fictional for demo
+    </footer>
+
+    <script>
+        // Player signature
+        let signature = ["🐠", "🌲", "💕"];
+        const emojis = ["🐠","🌲","💕","⭐","🔥","🌊","🦋","🍄","⚡","🧿","🪐","🐉","🦄","🍀","🌈"];
+        
+        // Game state
+        let gameState = {
+            dailyChosen: false,
+            mastery: {
+                fish: 42,
+                tree: 18,
+                heart: 67
+            },
+            territories: 7,
+            crypto: 420.69,
+            lastDaily: null
+        };
+        
+        // Load from localStorage
+        function loadGame() {
+            const saved = localStorage.getItem('emblemAlpha');
+            if (saved) {
+                gameState = JSON.parse(saved);
+            }
+            // Check if new day
+            const today = new Date().toDateString();
+            if (gameState.lastDaily !== today) {
+                gameState.dailyChosen = false;
+                gameState.lastDaily = today;
+            }
+            renderAll();
+        }
+        
+        function saveGame() {
+            localStorage.setItem('emblemAlpha', JSON.stringify(gameState));
+        }
+        
+        function renderAll() {
+            document.getElementById('player-sig').textContent = signature.join('');
+            document.getElementById('crypto-balance').textContent = gameState.crypto.toFixed(2);
+            
+            // Daily status
+            document.getElementById('daily-status').textContent = gameState.dailyChosen 
+                ? "✅ Alignment locked for today" 
+                : "Choose your alignment";
+            
+            // Mastery
+            renderMastery();
+            
+            // Map
+            renderMap();
+            
+            document.getElementById('owned-count').textContent = gameState.territories;
+        }
+        
+        function renderMastery() {
+            const grid = document.getElementById('mastery-grid');
+            grid.innerHTML = `
+                <div class="stat">
+                    <div>🐠 FISH</div>
+                    <div style="font-size:32px;">${gameState.mastery.fish}</div>
+                    <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.min(100, gameState.mastery.fish)}%"></div></div>
+                </div>
+                <div class="stat">
+                    <div>🌲 TREE</div>
+                    <div style="font-size:32px;">${gameState.mastery.tree}</div>
+                    <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.min(100, gameState.mastery.tree)}%"></div></div>
+                </div>
+                <div class="stat">
+                    <div>💕 HEART</div>
+                    <div style="font-size:32px;">${gameState.mastery.heart}</div>
+                    <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.min(100, gameState.mastery.heart)}%"></div></div>
+                </div>
+            `;
+        }
+        
+        function renderMap() {
+            const map = document.getElementById('map');
+            map.innerHTML = '';
+            
+            // Simple Risk-style territories
+            const territoriesData = [
+                {id:1, x:15, y:20, size:80, label:"NA", owner:true},
+                {id:2, x:35, y:25, size:65, label:"SA", owner:false},
+                {id:3, x:65, y:18, size:95, label:"EU", owner:true},
+                {id:4, x:82, y:35, size:70, label:"AF", owner:false},
+                {id:5, x:45, y:55, size:110, label:"AS", owner:true},
+                {id:6, x:75, y:65, size:85, label:"AU", owner:false},
+            ];
+            
+            territoriesData.forEach(t => {
+                const div = document.createElement('div');
+                div.className = `territory ${t.owner ? 'owned' : ''}`;
+                div.style.left = t.x + '%';
+                div.style.top = t.y + '%';
+                div.style.width = t.size + 'px';
+                div.style.height = t.size + 'px';
+                div.style.borderRadius = '50%';
+                div.textContent = t.label;
+                div.onclick = () => attackTerritory(t.id);
+                map.appendChild(div);
+            });
+        }
+        
+        function makeChoice(emoji) {
+            if (gameState.dailyChosen) {
+                alert("You've already aligned today!");
+                return;
+            }
+            
+            gameState.dailyChosen = true;
+            
+            // Random mastery gain
+            if (emoji === '🐠') gameState.mastery.fish += 8;
+            if (emoji === '🌲') gameState.mastery.tree += 8;
+            if (emoji === '💕') gameState.mastery.heart += 8;
+            
+            // Small crypto reward
+            gameState.crypto += 4.20;
+            
+            saveGame();
+            renderAll();
+            
+            alert(`Alignment chosen: ${emoji} • Mastery gained!`);
+        }
+        
+        function shareData(btn) {
+            btn.style.background = '#00ff88';
+            btn.style.color = 'black';
+            btn.textContent = '✓ SHARED';
+            btn.disabled = true;
+            
+            // Random mastery boost
+            const keys = Object.keys(gameState.mastery);
+            const randomKey = keys[Math.floor(Math.random()*keys.length)];
+            gameState.mastery[randomKey] += 3;
+            
+            gameState.crypto += 2.5;
+            
+            saveGame();
+            renderAll();
+        }
+        
+        function attackTerritory(id) {
+            if (Math.random() > 0.6) {
+                gameState.territories++;
+                alert("TERRITORY CONQUERED!");
+            } else {
+                alert("Attack repelled.");
+            }
+            saveGame();
+            renderAll();
+        }
+        
+        function spendCrypto() {
+            if (gameState.crypto < 69) {
+                alert("Not enough ◈");
+                return;
+            }
+            gameState.crypto -= 69;
+            alert("✅ Premium skin unlocked! (visual only in alpha)");
+            saveGame();
+            renderAll();
+        }
+        
+        function claimCrypto() {
+            const amount = (Math.random() * 20 + 5).toFixed(2);
+            gameState.crypto += parseFloat(amount);
+            alert(`✅ Claimed ${amount} ◈ to your wallet!`);
+            saveGame();
+            renderAll();
+        }
+        
+        function changeSignature() {
+            let newSig = [];
+            for (let i = 0; i < 3; i++) {
+                newSig.push(emojis[Math.floor(Math.random() * emojis.length)]);
+            }
+            signature = newSig;
+            renderAll();
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', e => {
+            if (e.key === 'r' || e.key === 'R') {
+                renderMap();
+            }
+        });
+        
+        // Init
+        window.onload = () => {
+            loadGame();
+            
+            // Fake live players counter
+            setInterval(() => {
+                let count = parseInt(document.getElementById('global-players').textContent);
+                document.getElementById('global-players').textContent = count + Math.floor(Math.random()*3) - 1;
+            }, 4500);
+        };
+    </script>
 </body>
 </html>
