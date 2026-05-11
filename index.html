@@ -18,7 +18,7 @@
             background: linear-gradient(#0a0a0a, #1a0033);
             color: #fff;
             font-family: 'VT323', monospace;
-            line-height: 1.4;
+            line-height: 1.5;
             text-align: center;
             overflow-x: hidden;
         }
@@ -43,12 +43,13 @@
         }
         
         .signature {
-            font-size: 36px;
+            font-size: 42px;
             cursor: pointer;
-            margin: 10px 0;
+            margin: 15px 0;
             display: inline-block;
-            padding: 10px 30px;
-            border: 3px dashed var(--neon);
+            padding: 12px 40px;
+            border: 4px dashed var(--neon);
+            background: rgba(0,0,0,0.4);
         }
         
         .container {
@@ -58,12 +59,12 @@
         }
         
         .hero {
-            margin: 40px 0;
+            margin: 30px 0 50px;
         }
         
         .hero h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 32px;
+            margin-bottom: 12px;
             color: var(--neon);
         }
         
@@ -81,11 +82,11 @@
         }
         
         .panel {
-            background: rgba(20,20,40,0.8);
+            background: rgba(20,20,40,0.85);
             border: 4px solid #333;
             padding: 25px;
             margin: 30px 0;
-            text-align: left;
+            text-align: center;
         }
         
         button {
@@ -94,9 +95,9 @@
             border: 4px solid var(--neon);
             color: white;
             padding: 15px 25px;
-            margin: 8px;
+            margin: 10px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 17px;
             transition: all 0.2s;
         }
         
@@ -109,21 +110,23 @@
         .love-bomb-btn {
             border-color: var(--pink);
             color: var(--pink);
-            font-size: 20px;
-            padding: 20px 40px;
+            font-size: 22px;
+            padding: 22px 50px;
+            margin: 15px;
         }
         
         .leaderboard {
-            max-height: 420px;
+            max-height: 380px;
             overflow-y: auto;
+            text-align: left;
         }
         
         .lb-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px;
+            padding: 14px 10px;
             border-bottom: 2px solid #222;
-            font-size: 18px;
+            font-size: 19px;
         }
         
         .lb-row:hover {
@@ -133,40 +136,85 @@
         .daily-choices {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 50px;
             flex-wrap: wrap;
             margin: 30px 0;
         }
         
         .choice {
-            font-size: 80px;
+            font-size: 85px;
             padding: 20px;
-            border: 5px solid #333;
+            border: 5px solid #444;
             transition: all 0.3s;
             cursor: pointer;
+            border-radius: 12px;
         }
         
         .choice:hover {
-            transform: scale(1.2) rotate(8deg);
+            transform: scale(1.15);
             border-color: var(--neon);
+        }
+        
+        /* Emoji Picker Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: #111;
+            border: 6px solid var(--neon);
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+        }
+        
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+        
+        .emoji-option {
+            font-size: 42px;
+            padding: 12px;
+            cursor: pointer;
+            border: 3px solid #333;
+            transition: all 0.2s;
+        }
+        
+        .emoji-option:hover {
+            background: #222;
+            border-color: var(--neon);
+            transform: scale(1.2);
+        }
+        
+        .selected-emojis {
+            font-size: 52px;
+            letter-spacing: 20px;
+            margin: 20px 0;
+            min-height: 70px;
         }
         
         footer {
             padding: 40px;
-            color: #555;
-            font-size: 14px;
-        }
-        
-        .neon-text {
-            text-shadow: 0 0 10px var(--neon), 0 0 20px var(--pink);
+            color: #666;
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">Ri$kEEE</div>
-        <div onclick="changeSignature()" class="signature" id="player-sig">🐠🌲💕</div>
-        <div style="font-size:22px; color:#ffcc00;">
+        <div onclick="openEmojiPicker()" class="signature" id="player-sig">🐠🌲💕</div>
+        <div style="font-size:24px; color:#ffcc00;">
             <span id="crypto-balance">842.33</span> ◈
         </div>
     </header>
@@ -174,16 +222,18 @@
     <div class="container">
         <!-- Hero -->
         <div class="hero">
-            <h1 class="neon-text">LOVE BOMB THE WORLD</h1>
-            <p style="font-size:22px; max-width:700px; margin:0 auto;">
-                Daily alignments • Global Risk • Send real aid through love bombs
+            <h1>LOVE BOMB THE WORLD</h1>
+            <p style="font-size:24px; max-width:720px; margin:0 auto;">
+                Pick your daily alignment.<br>
+                Control territory on the map.<br>
+                Send real aid with Love Bombs.
             </p>
         </div>
 
         <!-- Daily Alignment -->
         <div class="panel">
-            <h2 style="text-align:center; color:var(--neon); margin-bottom:20px;">DAILY ALIGNMENT</h2>
-            <p id="daily-status" style="text-align:center; font-size:20px; margin-bottom:20px;">Choose once today</p>
+            <h2 style="color:var(--neon); font-size:28px; margin-bottom:20px;">DAILY ALIGNMENT</h2>
+            <p id="daily-status" style="font-size:22px; margin-bottom:25px;">Choose one alignment per day</p>
             
             <div class="daily-choices">
                 <div onclick="makeChoice('🐠')" class="choice" id="fish">🐠</div>
@@ -192,68 +242,84 @@
             </div>
         </div>
 
-        <!-- Google Map -->
+        <!-- Map -->
         <div class="map-section">
-            <h2 style="text-align:center; margin-bottom:15px; color:var(--neon);">GLOBAL THEATER • LIVE</h2>
+            <h2 style="color:var(--neon); margin-bottom:15px;">GLOBAL MAP • LIVE</h2>
             <iframe 
                 id="google-map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596504356!2d-74.25986568748636!3d40.69714941932609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24ba5a7f937b9%3A0x9c8c4c2f3e4e4b0!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sus!4v1712345678901"
                 allowfullscreen="" 
                 loading="lazy">
             </iframe>
-            <div style="margin-top:15px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+            <div style="margin-top:20px;">
                 <button onclick="loveBombCountry()" class="love-bomb-btn">💕 LOVE BOMB A COUNTRY (69 ◈)</button>
             </div>
-            <small style="display:block; text-align:center; margin-top:10px; color:#888;">
-                Pay to send real aid • Watch the impact live
-            </small>
+            <small style="color:#aaa;">Pay crypto → Send real aid to that country</small>
         </div>
 
         <!-- Leaderboard -->
         <div class="panel">
-            <h2 style="color:var(--neon);">GLOBAL LEADERBOARD • TOP LOVE BOMBERS</h2>
-            <div class="leaderboard" id="leaderboard">
-                <!-- Populated by JS -->
-            </div>
+            <h2 style="color:var(--neon); margin-bottom:15px;">TOP LOVE BOMBERS</h2>
+            <div class="leaderboard" id="leaderboard"></div>
         </div>
 
-        <!-- Email Opt-in -->
+        <!-- Email -->
         <div class="panel">
-            <h2 style="text-align:center;">JOIN THE MOVEMENT</h2>
-            <p style="text-align:center; margin-bottom:20px;">Get daily alignment reminders + early access drops</p>
-            <div style="max-width:420px; margin:0 auto;">
+            <h2 style="color:var(--neon);">JOIN THE MOVEMENT</h2>
+            <p style="margin:15px 0 20px; font-size:20px;">Get daily reminders + starting bonus</p>
+            <div style="max-width:460px; margin:0 auto;">
                 <input type="email" id="email-input" placeholder="your@email.com" 
-                       style="width:100%; padding:18px; font-size:18px; background:#111; border:3px solid var(--neon); color:white; margin-bottom:10px;">
-                <button onclick="joinMovement()" style="width:100%;">OPT IN &amp; EARN STARTING BONUS</button>
+                       style="width:100%; padding:18px; font-size:19px; background:#111; border:4px solid var(--neon); color:white;">
+                <button onclick="joinMovement()" style="width:100%; margin-top:12px;">OPT IN — GET 50 ◈ BONUS</button>
             </div>
         </div>
 
         <!-- Crypto -->
         <div class="panel">
-            <h2>CRYPTO TERMINAL</h2>
-            <button onclick="spendCrypto()" style="width:48%;">SPEND ◈ • PREMIUM</button>
-            <button onclick="claimCrypto()" style="width:48%; background:#ffcc00; color:black; border-color:#ffcc00;">CLAIM TO WALLET</button>
+            <h2 style="color:var(--neon);">CRYPTO TERMINAL</h2>
+            <button onclick="spendCrypto()" style="width:45%;">Unlock Premium</button>
+            <button onclick="claimCrypto()" style="width:45%; background:#ffcc00; color:black; border-color:#ffcc00;">Claim Rewards</button>
+        </div>
+    </div>
+
+    <!-- Emoji Picker Modal -->
+    <div id="emoji-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="color:var(--neon);">CHOOSE YOUR CALL SIGN</h2>
+            <p style="margin:10px 0 20px;">Pick 3 different emojis</p>
+            
+            <div class="selected-emojis" id="selected-emojis">⬜ ⬜ ⬜</div>
+            
+            <div class="emoji-grid" id="emoji-grid"></div>
+            
+            <button onclick="confirmSignature()" style="width:100%; margin-top:20px;" id="confirm-btn" disabled>CONFIRM CALL SIGN</button>
+            <button onclick="closeModal()" style="width:100%; background:transparent; border-color:#666;">Cancel</button>
         </div>
     </div>
 
     <footer>
-        Ri$kEEE Alpha • Persistent Browser Game • Love bombs fund real aid partners • Demo only
+        Ri$kEEE Alpha • Browser Game Demo • Everything saves in your browser
     </footer>
 
     <script>
-        // Signature
         let signature = ["🐠", "🌲", "💕"];
-        const emojisPool = ["🐠","🌲","💕","⭐","🔥","🌊","🦋","🍄","⚡","🧿","🪐","🐉","🌍","💎","🚀"];
+        const emojiPool = ["🐠","🌲","💕","⭐","🔥","🌊","🦋","🍄","⚡","🧿","🪐","🐉","🌍","💎","🚀","🌈","🦄","🍀","⚔️","🛡️","📍","❤️","🌎","🎮"];
         
+        let selectedTemp = [];
         let gameState = {
             dailyChosen: false,
             crypto: 842.33,
-            lastDaily: null
+            lastDaily: null,
+            hasSignature: true
         };
         
         function loadGame() {
             const saved = localStorage.getItem('riskEEE');
-            if (saved) gameState = JSON.parse(saved);
+            if (saved) {
+                const data = JSON.parse(saved);
+                gameState = data;
+                if (data.signature) signature = data.signature;
+            }
             
             const today = new Date().toDateString();
             if (gameState.lastDaily !== today) {
@@ -264,6 +330,7 @@
         }
         
         function saveGame() {
+            gameState.signature = signature;
             localStorage.setItem('riskEEE', JSON.stringify(gameState));
         }
         
@@ -272,8 +339,8 @@
             document.getElementById('crypto-balance').textContent = gameState.crypto.toFixed(2);
             
             document.getElementById('daily-status').textContent = gameState.dailyChosen 
-                ? "✅ ALIGNED FOR TODAY • MASTERY +10" 
-                : "CHOOSE YOUR ALIGNMENT";
+                ? "✅ You've aligned today — come back tomorrow!" 
+                : "Choose your alignment for today";
             
             renderLeaderboard();
         }
@@ -290,54 +357,94 @@
             
             let html = '';
             leaders.forEach(l => {
-                html += `
-                    <div class="lb-row">
-                        <span>#${l.rank} ${l.sig}</span>
-                        <span>${l.bombs} bombs • ${l.country}</span>
-                    </div>
-                `;
+                html += `<div class="lb-row"><span>#${l.rank} ${l.sig}</span><span>${l.bombs} bombs • ${l.country}</span></div>`;
             });
             lb.innerHTML = html;
         }
         
+        function openEmojiPicker() {
+            selectedTemp = [];
+            updateSelectedDisplay();
+            renderEmojiGrid();
+            document.getElementById('emoji-modal').style.display = 'flex';
+            document.getElementById('confirm-btn').disabled = true;
+        }
+        
+        function renderEmojiGrid() {
+            const grid = document.getElementById('emoji-grid');
+            grid.innerHTML = '';
+            
+            emojiPool.forEach(emoji => {
+                const div = document.createElement('div');
+                div.className = 'emoji-option';
+                div.textContent = emoji;
+                div.onclick = () => toggleEmoji(emoji, div);
+                grid.appendChild(div);
+            });
+        }
+        
+        function toggleEmoji(emoji, element) {
+            if (selectedTemp.includes(emoji)) {
+                selectedTemp = selectedTemp.filter(e => e !== emoji);
+                element.style.background = '';
+                element.style.borderColor = '#333';
+            } else if (selectedTemp.length < 3) {
+                selectedTemp.push(emoji);
+                element.style.background = '#00ffcc22';
+                element.style.borderColor = 'var(--neon)';
+            }
+            updateSelectedDisplay();
+        }
+        
+        function updateSelectedDisplay() {
+            const display = document.getElementById('selected-emojis');
+            display.textContent = selectedTemp.length > 0 ? selectedTemp.join(' ') : '⬜ ⬜ ⬜';
+            document.getElementById('confirm-btn').disabled = selectedTemp.length !== 3;
+        }
+        
+        function confirmSignature() {
+            if (selectedTemp.length === 3) {
+                signature = [...selectedTemp];
+                closeModal();
+                renderAll();
+                saveGame();
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('emoji-modal').style.display = 'none';
+        }
+        
         function makeChoice(emoji) {
             if (gameState.dailyChosen) {
-                alert("You've already aligned today!");
+                alert("You've already made your choice today!");
                 return;
             }
             gameState.dailyChosen = true;
             gameState.crypto += 12.5;
             saveGame();
             renderAll();
-            alert(`Aligned with ${emoji} • Mastery earned!`);
-        }
-        
-        function changeSignature() {
-            signature = [];
-            for (let i = 0; i < 3; i++) {
-                signature.push(emojisPool[Math.floor(Math.random() * emojisPool.length)]);
-            }
-            renderAll();
+            alert(`Aligned with ${emoji} — Mastery gained!`);
         }
         
         function loveBombCountry() {
             if (gameState.crypto < 69) {
-                alert("Not enough ◈ for this love bomb!");
+                alert("You need at least 69 ◈ to send a Love Bomb.");
                 return;
             }
             gameState.crypto -= 69;
-            alert("💕 LOVE BOMB LAUNCHED!\n\nAid routed to selected region. Impact visible on map.");
+            alert("💕 LOVE BOMB SENT!\n\nReal aid has been routed. Thank you for making an impact.");
             saveGame();
             renderAll();
         }
         
         function joinMovement() {
             const email = document.getElementById('email-input').value.trim();
-            if (!email) {
-                alert("Enter your email to join!");
+            if (!email || !email.includes('@')) {
+                alert("Please enter a valid email address.");
                 return;
             }
-            alert(`✅ Welcome to Ri$kEEE, ${email.split('@')[0]}!\n\nStarting bonus: +50 ◈`);
+            alert(`Thank you for joining, ${email.split('@')[0]}!\n\n+50 ◈ added to your balance.`);
             gameState.crypto += 50;
             saveGame();
             renderAll();
@@ -345,9 +452,12 @@
         }
         
         function spendCrypto() {
-            if (gameState.crypto < 150) return alert("Need more ◈");
+            if (gameState.crypto < 150) {
+                alert("You need 150 ◈ for Premium.");
+                return;
+            }
             gameState.crypto -= 150;
-            alert("Premium unlocked • Neon signature + map filters");
+            alert("Premium unlocked!\n\nYou now have a glowing call sign and map filters.");
             saveGame();
             renderAll();
         }
@@ -355,19 +465,19 @@
         function claimCrypto() {
             const reward = (Math.random() * 45 + 25).toFixed(2);
             gameState.crypto += parseFloat(reward);
-            alert(`Claimed ${reward} ◈ to wallet!`);
+            alert(`Successfully claimed ${reward} ◈ to your wallet!`);
             saveGame();
             renderAll();
         }
         
-        // Init
+        // Initialize
         window.onload = () => {
             loadGame();
             
-            // Fake live updates
+            // Fake live leaderboard updates
             setInterval(() => {
                 renderLeaderboard();
-            }, 8000);
+            }, 7000);
         };
     </script>
 </body>
