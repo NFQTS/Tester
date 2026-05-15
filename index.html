@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orbit • Share • Earn</title>
+    <title>Ri$keee • Share. Earn.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        :root {
-            --primary: 59 130 246;
-        }
         
         body {
             font-family: 'Inter', system_ui, sans-serif;
@@ -38,19 +34,12 @@
             height: 28px;
         }
         
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
         
         .slider {
             position: absolute;
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: #334155;
             transition: .3s;
             border-radius: 9999px;
@@ -59,17 +48,15 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 22px;
-            width: 22px;
-            left: 3px;
-            bottom: 3px;
+            height: 22px; width: 22px;
+            left: 3px; bottom: 3px;
             background-color: white;
             transition: .3s;
             border-radius: 50%;
         }
         
         input:checked + .slider {
-            background-color: rgb(59 130 246);
+            background-color: rgb(234 179 8);
         }
         
         input:checked + .slider:before {
@@ -82,85 +69,66 @@
         
         .data-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        .reward-value {
-            font-size: 2.5rem;
-            line-height: 1;
-            font-weight: 700;
         }
     </style>
 </head>
-<body class="bg-black text-white min-h-screen overflow-hidden">
-    <!-- Starfield Background -->
+<body class="bg-black text-white min-h-screen overflow-x-hidden">
+    <!-- Starfield -->
     <canvas id="starCanvas" class="star-canvas"></canvas>
 
     <div class="relative z-10 min-h-screen flex flex-col">
-        <!-- Navbar -->
-        <nav class="border-b border-white/10 backdrop-blur-lg bg-black/50 fixed w-full z-50">
+        <!-- Minimal Navbar -->
+        <nav class="border-b border-white/10 backdrop-blur-lg bg-black/70 fixed w-full z-50">
             <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
                 <div class="flex items-center gap-x-3">
-                    <div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold">O</div>
-                    <span class="title-font text-2xl tracking-tighter font-semibold">Orbit</span>
+                    <div class="w-8 h-8 rounded-2xl bg-yellow-500 flex items-center justify-center text-black font-bold text-xl">$</div>
+                    <span class="title-font text-3xl tracking-tighter font-semibold">Ri$keee</span>
                 </div>
-                <div class="flex items-center gap-x-8 text-sm">
-                    <a href="#" class="hover:text-blue-400 transition-colors">How it works</a>
-                    <a href="#" class="hover:text-blue-400 transition-colors">Rewards</a>
-                    <button onclick="connectWallet()" 
-                            class="px-5 py-2 bg-white text-black rounded-2xl font-medium hover:bg-blue-400 hover:text-white transition-all text-sm">
-                        Connect Wallet
-                    </button>
-                </div>
+                <button onclick="connectWallet()" 
+                        class="px-6 py-2.5 bg-white text-black rounded-2xl font-semibold hover:bg-yellow-400 transition-all">
+                    Connect Wallet
+                </button>
             </div>
         </nav>
 
-        <main class="flex-1 flex items-center justify-center pt-20 px-6">
-            <div class="max-w-2xl mx-auto text-center">
+        <main class="flex-1 flex items-center justify-center pt-20 px-6 pb-12">
+            <div class="max-w-xl w-full mx-auto text-center">
                 <!-- Hero -->
-                <div class="mb-16">
-                    <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl text-sm mb-8">
-                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span class="text-emerald-300">Live on Base • Ethereum</span>
-                    </div>
-                    
-                    <h1 class="title-font text-7xl md:text-8xl font-semibold tracking-tighter mb-4 leading-none">
+                <div class="mb-12">
+                    <h1 class="title-font text-6xl md:text-7xl font-semibold tracking-tighter leading-none mb-6">
                         Share info.<br>
-                        <span class="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Get rewarded.</span>
+                        <span class="bg-gradient-to-r from-yellow-300 to-amber-300 bg-clip-text text-transparent">Get paid.</span>
                     </h1>
                     
-                    <p class="text-xl text-gray-400 max-w-md mx-auto">
-                        Own your data. Earn tokens for what you choose to share.
+                    <p class="text-lg md:text-xl text-gray-400 max-w-md mx-auto">
+                        Own your data. Earn USDT for what you choose to share.
                     </p>
                 </div>
 
                 <!-- Reward Meter -->
-                <div class="mb-12 bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl">
+                <div class="mb-10 bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl">
                     <div class="flex justify-between items-end mb-6">
                         <div class="text-left">
-                            <div class="text-sm text-gray-400">Your estimated monthly reward</div>
-                            <div id="rewardAmount" class="reward-value text-blue-400">420</div>
-                            <div class="text-sm text-emerald-400 font-medium flex items-center gap-x-1">
-                                <i class="fa-solid fa-arrow-trend-up"></i>
-                                ORBIT tokens
-                            </div>
+                            <div class="text-sm text-gray-400">Your estimated monthly earnings</div>
+                            <div id="rewardAmount" class="text-6xl md:text-7xl font-bold text-yellow-400 tracking-tighter">$428</div>
+                            <div class="text-emerald-400 font-medium">USDT</div>
                         </div>
                         <div class="text-right">
-                            <div class="text-xs uppercase tracking-widest text-gray-500">Based on your selections</div>
+                            <div class="text-xs uppercase tracking-widest text-gray-500">Selected</div>
                             <div id="toggleCount" class="text-5xl font-mono font-bold text-white/70">0/7</div>
                         </div>
                     </div>
                     
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div id="rewardBar" class="h-2 bg-gradient-to-r from-blue-400 to-cyan-300 rounded-full w-0 transition-all duration-700"></div>
+                    <div class="h-2.5 bg-white/10 rounded-full overflow-hidden">
+                        <div id="rewardBar" class="h-2.5 bg-gradient-to-r from-yellow-400 to-amber-300 rounded-full w-0 transition-all duration-700"></div>
                     </div>
                 </div>
 
-                <!-- Toggles Section -->
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl text-left">
+                <!-- Toggles -->
+                <div class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-xl text-left">
                     <div class="uppercase text-xs tracking-widest text-gray-400 mb-6 flex items-center gap-x-2">
                         <i class="fa-solid fa-shield-halved"></i>
-                        Choose what to share
+                        WHAT DO YOU WANT TO SHARE?
                     </div>
                     
                     <div id="toggles" class="space-y-4">
@@ -169,90 +137,49 @@
                 </div>
 
                 <!-- CTA -->
-                <div class="mt-12">
+                <div class="mt-10">
                     <button onclick="submitData()" 
-                            class="w-full max-w-sm mx-auto block py-6 px-10 bg-white hover:bg-blue-500 hover:text-white text-black font-semibold text-xl rounded-3xl transition-all duration-300 active:scale-95">
-                        Share selected data • Start earning
+                            class="w-full py-7 px-8 bg-white hover:bg-yellow-400 text-black font-semibold text-2xl rounded-3xl transition-all active:scale-95 shadow-xl">
+                        Share Selected • Start Earning USDT
                     </button>
-                    <p class="text-xs text-gray-500 mt-4">Your data is encrypted and only shared when you approve</p>
+                    <p class="text-xs text-gray-500 mt-5">🔒 Your data is encrypted • Only shared with your consent</p>
                 </div>
             </div>
         </main>
 
-        <!-- Footer hint -->
-        <div class="text-center py-8 text-xs text-gray-500 border-t border-white/10">
-            Prototype • Built for demo • Data stays yours
+        <div class="text-center py-8 text-xs text-gray-500">
+            Ri$keee Prototype • Data stays yours
         </div>
     </div>
 
     <script>
-        // Tailwind script already included via CDN
-        
-        // Data options
         const options = [
-            {
-                id: "email",
-                label: "Email Address",
-                icon: "fa-envelope",
-                value: 85
-            },
-            {
-                id: "sms",
-                label: "Phone / SMS",
-                icon: "fa-mobile-screen",
-                value: 65
-            },
-            {
-                id: "selfie",
-                label: "Verified Selfie",
-                icon: "fa-camera",
-                value: 120
-            },
-            {
-                id: "location",
-                label: "Location (GPS)",
-                icon: "fa-location-dot",
-                value: 95
-            },
-            {
-                id: "social",
-                label: "Social Handles",
-                icon: "fa-share-nodes",
-                value: 75
-            },
-            {
-                id: "wallet",
-                label: "Crypto Wallets",
-                icon: "fa-wallet",
-                value: 140
-            },
-            {
-                id: "content",
-                label: "Art / Content Reach",
-                icon: "fa-palette",
-                value: 110
-            }
+            { id: "email", label: "Email Address", icon: "fa-envelope", value: 65 },
+            { id: "sms", label: "Phone / SMS", icon: "fa-mobile-screen", value: 55 },
+            { id: "selfie", label: "Verified Selfie", icon: "fa-camera", value: 95 },
+            { id: "location", label: "Location (GPS)", icon: "fa-location-dot", value: 75 },
+            { id: "social", label: "Social Handles", icon: "fa-share-nodes", value: 60 },
+            { id: "wallet", label: "Crypto Wallets", icon: "fa-wallet", value: 110 },
+            { id: "content", label: "Art / Content Reach", icon: "fa-palette", value: 85 }
         ];
 
-        // Create toggles
         function createToggles() {
             const container = document.getElementById('toggles');
             container.innerHTML = '';
             
             options.forEach(opt => {
                 const div = document.createElement('div');
-                div.className = `data-card flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl px-6 py-5 group`;
+                div.className = `data-card flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl px-6 py-5`;
                 div.innerHTML = `
                     <div class="flex items-center gap-x-4">
-                        <div class="w-9 h-9 flex items-center justify-center text-blue-400 bg-white/10 rounded-xl group-hover:scale-110 transition-transform">
-                            <i class="fa-solid ${opt.icon} text-xl"></i>
+                        <div class="w-9 h-9 flex items-center justify-center text-yellow-400 bg-white/10 rounded-2xl">
+                            <i class="fa-solid ${opt.icon} text-2xl"></i>
                         </div>
                         <div>
-                            <div class="font-medium">${opt.label}</div>
-                            <div class="text-xs text-emerald-400">+${opt.value} ORBIT/mo</div>
+                            <div class="font-medium text-base">${opt.label}</div>
+                            <div class="text-emerald-400 text-sm">+$${opt.value} USDT/mo</div>
                         </div>
                     </div>
-                    
                     <label class="toggle-switch">
                         <input type="checkbox" id="${opt.id}" onchange="updateReward()">
                         <span class="slider"></span>
@@ -262,7 +189,6 @@
             });
         }
 
-        // Starfield animation
         function createStarfield() {
             const canvas = document.getElementById('starCanvas');
             const ctx = canvas.getContext('2d');
@@ -271,113 +197,86 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
-            
             window.addEventListener('resize', resize);
             resize();
             
-            // Stars
             let stars = [];
-            for (let i = 0; i < 800; i++) {
+            for (let i = 0; i < 900; i++) {
                 stars.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 2.2,
-                    speed: Math.random() * 0.8 + 0.3
+                    size: Math.random() * 2.4,
+                    speed: Math.random() * 0.9 + 0.4
                 });
             }
             
             function animate() {
-                ctx.fillStyle = 'rgba(0, 0, 20, 0.15)';
+                ctx.fillStyle = 'rgba(3, 3, 15, 0.18)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
                 ctx.fillStyle = '#ffffff';
-                
                 for (let star of stars) {
-                    ctx.globalAlpha = Math.random() * 0.6 + 0.4;
+                    ctx.globalAlpha = Math.random() * 0.7 + 0.5;
                     ctx.fillRect(star.x, star.y, star.size, star.size);
-                    
-                    // Move stars toward bottom (flying through space effect)
                     star.y += star.speed;
-                    
                     if (star.y > canvas.height) {
                         star.y = 0;
                         star.x = Math.random() * canvas.width;
                     }
                 }
-                
                 ctx.globalAlpha = 1;
                 requestAnimationFrame(animate);
             }
-            
             animate();
         }
 
-        // Reward calculation
-        let totalReward = 420;
-        
         function updateReward() {
             let sum = 0;
             let count = 0;
             
             options.forEach(opt => {
-                const checkbox = document.getElementById(opt.id);
-                if (checkbox && checkbox.checked) {
+                const cb = document.getElementById(opt.id);
+                if (cb && cb.checked) {
                     sum += opt.value;
                     count++;
                 }
             });
             
-            // Base reward even with 0 toggles
-            totalReward = 180 + sum;
+            const total = 180 + sum;
+            document.getElementById('rewardAmount').textContent = '$' + total;
+            document.getElementById('toggleCount').textContent = count + '/7';
             
-            document.getElementById('rewardAmount').textContent = totalReward;
-            document.getElementById('toggleCount').textContent = `${count}/7`;
-            
-            // Progress bar
-            const progress = Math.min(100, (count / 7) * 100 + 25);
-            document.getElementById('rewardBar').style.width = `${progress}%`;
+            const progress = Math.min(100, (count / 7) * 100 + 30);
+            document.getElementById('rewardBar').style.width = progress + '%';
         }
 
         function connectWallet() {
-            alert("🛰️ Wallet connected (demo)\n\nYou're now linked to Orbit rewards.");
+            alert("✅ Wallet connected (demo)");
         }
 
         function submitData() {
-            const checked = options.filter(opt => {
-                const cb = document.getElementById(opt.id);
-                return cb && cb.checked;
-            });
-            
-            if (checked.length === 0) {
-                alert("Select at least one data type to continue.");
+            const checkedCount = options.filter(opt => document.getElementById(opt.id).checked).length;
+            if (checkedCount === 0) {
+                alert("Please select at least one option.");
                 return;
             }
-            
-            const message = `✅ Data shared successfully!\n\nYou selected ${checked.length} sources.\nEstimated monthly reward: ${totalReward} ORBIT tokens.`;
-            alert(message);
-            
-            // Reset for demo replay
-            setTimeout(() => {
-                if (confirm("Want to try different selections?")) {
-                    window.location.reload();
-                }
-            }, 800);
+            const total = parseInt(document.getElementById('rewardAmount').textContent.replace('$',''));
+            alert(`✅ Success!\n\nYou are now earning ~$${total} USDT per month based on your shared data.`);
         }
 
-        // Initialize everything
-        window.onload = function() {
+        window.onload = () => {
             createToggles();
             createStarfield();
-            updateReward(); // initial value
+            updateReward();
             
-            // Demo: pre-check a couple
+            // Pre-select a few for demo
             setTimeout(() => {
-                const walletCheck = document.getElementById('wallet');
-                const contentCheck = document.getElementById('content');
-                if (walletCheck) walletCheck.checked = true;
-                if (contentCheck) contentCheck.checked = true;
+                ['wallet', 'selfie', 'content'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = true;
+                });
                 updateReward();
-            }, 900);
+            }, 600);
         };
     </script>
 </body>
