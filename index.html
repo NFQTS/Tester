@@ -1,283 +1,390 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ri$keee • Share. Earn.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        body {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-        
-        .title-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>War Strategy</title>
 
-        .star-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #0a0a1f 0%, #000000 70%);
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 52px;
-            height: 28px;
-        }
-        
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #334155;
-            transition: .3s;
-            border-radius: 9999px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 22px; width: 22px;
-            left: 3px; bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background-color: rgb(234 179 8);
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .data-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .data-card:hover {
-            transform: translateY(-4px);
-        }
-    </style>
+    :root {
+      --bg: #020305;
+      --panel: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.08);
+      --text: #f5f7ff;
+      --muted: rgba(255,255,255,0.55);
+      --glow: rgba(114, 137, 255, 0.35);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* SPACE BACKGROUND */
+
+    .space {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      background:
+        radial-gradient(circle at center, rgba(16,20,35,0.9) 0%, #020305 65%);
+    }
+
+    .stars,
+    .stars2,
+    .stars3 {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background-repeat: repeat;
+      animation: fly linear infinite;
+      transform: translateZ(0);
+    }
+
+    .stars {
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, white, transparent),
+        radial-gradient(1px 1px at 120px 80px, white, transparent),
+        radial-gradient(2px 2px at 200px 140px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 300px 220px, white, transparent),
+        radial-gradient(2px 2px at 420px 120px, rgba(255,255,255,0.9), transparent);
+      background-size: 500px 500px;
+      animation-duration: 45s;
+      opacity: 0.4;
+    }
+
+    .stars2 {
+      background-image:
+        radial-gradient(2px 2px at 50px 50px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 200px 100px, white, transparent),
+        radial-gradient(2px 2px at 350px 300px, white, transparent),
+        radial-gradient(1px 1px at 400px 180px, rgba(255,255,255,0.7), transparent);
+      background-size: 700px 700px;
+      animation-duration: 80s;
+      opacity: 0.25;
+    }
+
+    .stars3 {
+      background-image:
+        radial-gradient(3px 3px at 100px 100px, rgba(255,255,255,0.95), transparent),
+        radial-gradient(2px 2px at 500px 250px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 250px 400px, white, transparent);
+      background-size: 900px 900px;
+      animation-duration: 120s;
+      opacity: 0.18;
+    }
+
+    @keyframes fly {
+      from {
+        transform: translateY(0) scale(1);
+      }
+      to {
+        transform: translateY(-500px) scale(1.2);
+      }
+    }
+
+    /* CENTER PANEL */
+
+    .container {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+    }
+
+    .panel {
+      width: min(560px, 100%);
+      padding: 42px;
+      border-radius: 28px;
+
+      background: rgba(255,255,255,0.035);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border: 1px solid var(--border);
+
+      box-shadow:
+        0 0 60px rgba(255,255,255,0.03),
+        0 0 120px rgba(66, 99, 255, 0.08),
+        inset 0 0 0 1px rgba(255,255,255,0.02);
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.15),
+          transparent 30%,
+          transparent 70%,
+          rgba(255,255,255,0.06)
+        );
+
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .title {
+      text-align: center;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+
+      margin-bottom: 36px;
+
+      color: white;
+
+      text-shadow:
+        0 0 12px rgba(255,255,255,0.15),
+        0 0 35px rgba(114,137,255,0.18);
+    }
+
+    /* ACCORDION */
+
+    .accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    details {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+
+      border-radius: 18px;
+
+      overflow: hidden;
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+    }
+
+    details:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+    }
+
+    details[open] {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(114,137,255,0.35);
+
+      box-shadow:
+        0 0 30px rgba(114,137,255,0.08);
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+
+      padding: 22px 24px;
+
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .icon {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.7);
+      transition: transform 0.25s ease;
+    }
+
+    details[open] .icon {
+      transform: rotate(45deg);
+    }
+
+    .content {
+      padding: 0 24px 24px 24px;
+      color: var(--muted);
+
+      line-height: 1.7;
+      font-size: 0.95rem;
+
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* SUBTLE FLOATING LIGHT */
+
+    .orb {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(circle,
+        rgba(114,137,255,0.18) 0%,
+        rgba(114,137,255,0.04) 45%,
+        transparent 70%);
+
+      filter: blur(12px);
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      animation: pulse 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 640px) {
+      body {
+        overflow: auto;
+      }
+
+      .container {
+        min-height: 100vh;
+        height: auto;
+        padding: 20px;
+      }
+
+      .panel {
+        padding: 28px 20px;
+      }
+
+      .title {
+        margin-bottom: 28px;
+        letter-spacing: 0.14em;
+      }
+
+      summary {
+        padding: 18px 18px;
+      }
+
+      .content {
+        padding: 0 18px 18px 18px;
+      }
+    }
+  </style>
 </head>
-<body class="bg-black text-white min-h-screen overflow-x-hidden">
-    <!-- Starfield -->
-    <canvas id="starCanvas" class="star-canvas"></canvas>
 
-    <div class="relative z-10 min-h-screen flex flex-col">
-        <!-- Minimal Navbar -->
-        <nav class="border-b border-white/10 backdrop-blur-lg bg-black/70 fixed w-full z-50">
-            <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
-                <div class="flex items-center gap-x-3">
-                    <div class="w-8 h-8 rounded-2xl bg-yellow-500 flex items-center justify-center text-black font-bold text-xl">$</div>
-                    <span class="title-font text-3xl tracking-tighter font-semibold">Ri$keee</span>
-                </div>
-                <button onclick="connectWallet()" 
-                        class="px-6 py-2.5 bg-white text-black rounded-2xl font-semibold hover:bg-yellow-400 transition-all">
-                    Connect Wallet
-                </button>
-            </div>
-        </nav>
+<body>
 
-        <main class="flex-1 flex items-center justify-center pt-20 px-6 pb-12">
-            <div class="max-w-xl w-full mx-auto text-center">
-                <!-- Hero -->
-                <div class="mb-12">
-                    <h1 class="title-font text-6xl md:text-7xl font-semibold tracking-tighter leading-none mb-6">
-                        Share info<br>
-                        <span class="bg-gradient-to-r from-yellow-300 to-amber-300 bg-clip-text text-transparent">Get paid</span>
-                    </h1>
-                    
-                    <p class="text-lg md:text-xl text-gray-400 max-w-md mx-auto">
-                        Own your data <br> Earn rewards for sharing
-                    </p>
-                </div>
+  <div class="space">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+  </div>
 
-                <!-- Reward Meter -->
-                <div class="mb-10 bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl">
-                    <div class="flex justify-between items-end mb-6">
-                        <div class="text-left">
-                            <div class="text-sm text-gray-400">Your estimated monthly earnings</div>
-                            <div id="rewardAmount" class="text-6xl md:text-7xl font-bold text-yellow-400 tracking-tighter">$428</div>
-                            <div class="text-emerald-400 font-medium">USDT</div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-xs uppercase tracking-widest text-gray-500">Selected</div>
-                            <div id="toggleCount" class="text-5xl font-mono font-bold text-white/70">0/7</div>
-                        </div>
-                    </div>
-                    
-                    <div class="h-2.5 bg-white/10 rounded-full overflow-hidden">
-                        <div id="rewardBar" class="h-2.5 bg-gradient-to-r from-yellow-400 to-amber-300 rounded-full w-0 transition-all duration-700"></div>
-                    </div>
-                </div>
+  <div class="container">
 
-                <!-- Toggles -->
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-xl text-left">
-                    <div class="uppercase text-xs tracking-widest text-gray-400 mb-6 flex items-center gap-x-2">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        WHAT DO YOU WANT TO SHARE?
-                    </div>
-                    
-                    <div id="toggles" class="space-y-4">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
+    <div class="panel">
 
-                <!-- CTA -->
-                <div class="mt-10">
-                    <button onclick="submitData()" 
-                            class="w-full py-7 px-8 bg-white hover:bg-yellow-400 text-black font-semibold text-2xl rounded-3xl transition-all active:scale-95 shadow-xl">
-                        Share Selected • Start Earning USDT
-                    </button>
-                    <p class="text-xs text-gray-500 mt-5">🔒 Your data is encrypted • Only shared with your consent</p>
-                </div>
-            </div>
-        </main>
+      <div class="orb"></div>
 
-        <div class="text-center py-8 text-xs text-gray-500">
-            Ri$keee Prototype • Data stays yours
-        </div>
+      <h1 class="title">War Strategy</h1>
+
+      <div class="accordion">
+
+        <details>
+          <summary>
+            Training
+            <span class="icon">+</span>
+          </summary>
+
+          <div class="content">
+            Tactical preparation, simulations, personnel readiness, operational
+            doctrine, and strategic adaptation systems.
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Tech
+            <span class="icon">+</span>
+          </summary>
+
+          <div class="content">
+            Advanced systems architecture, AI integration, intelligence tools,
+            communications, surveillance, and modern infrastructure.
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Deployment
+            <span class="icon">+</span>
+          </summary>
+
+          <div class="content">
+            Coordinated execution pipelines, rapid mobilization, logistical
+            synchronization, and mission-level operational control.
+          </div>
+        </details>
+
+      </div>
+
     </div>
 
-    <script>
-        const options = [
-            { id: "email", label: "Email Address", icon: "fa-envelope", value: 65 },
-            { id: "sms", label: "Phone / SMS", icon: "fa-mobile-screen", value: 55 },
-            { id: "selfie", label: "Verified Selfie", icon: "fa-camera", value: 95 },
-            { id: "location", label: "Location (GPS)", icon: "fa-location-dot", value: 75 },
-            { id: "social", label: "Social Handles", icon: "fa-share-nodes", value: 60 },
-            { id: "wallet", label: "Crypto Wallets", icon: "fa-wallet", value: 110 },
-            { id: "content", label: "Art / Content Reach", icon: "fa-palette", value: 85 }
-        ];
+  </div>
 
-        function createToggles() {
-            const container = document.getElementById('toggles');
-            container.innerHTML = '';
-            
-            options.forEach(opt => {
-                const div = document.createElement('div');
-                div.className = `data-card flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl px-6 py-5`;
-                div.innerHTML = `
-                    <div class="flex items-center gap-x-4">
-                        <div class="w-9 h-9 flex items-center justify-center text-yellow-400 bg-white/10 rounded-2xl">
-                            <i class="fa-solid ${opt.icon} text-2xl"></i>
-                        </div>
-                        <div>
-                            <div class="font-medium text-base">${opt.label}</div>
-                            <div class="text-emerald-400 text-sm">+$${opt.value} USDT/mo</div>
-                        </div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="${opt.id}" onchange="updateReward()">
-                        <span class="slider"></span>
-                    </label>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function createStarfield() {
-            const canvas = document.getElementById('starCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-            
-            let stars = [];
-            for (let i = 0; i < 900; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2.4,
-                    speed: Math.random() * 0.9 + 0.4
-                });
-            }
-            
-            function animate() {
-                ctx.fillStyle = 'rgba(3, 3, 15, 0.18)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                ctx.fillStyle = '#ffffff';
-                for (let star of stars) {
-                    ctx.globalAlpha = Math.random() * 0.7 + 0.5;
-                    ctx.fillRect(star.x, star.y, star.size, star.size);
-                    star.y += star.speed;
-                    if (star.y > canvas.height) {
-                        star.y = 0;
-                        star.x = Math.random() * canvas.width;
-                    }
-                }
-                ctx.globalAlpha = 1;
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        function updateReward() {
-            let sum = 0;
-            let count = 0;
-            
-            options.forEach(opt => {
-                const cb = document.getElementById(opt.id);
-                if (cb && cb.checked) {
-                    sum += opt.value;
-                    count++;
-                }
-            });
-            
-            const total = 0 + sum;
-            document.getElementById('rewardAmount').textContent = '$' + total;
-            document.getElementById('toggleCount').textContent = count + '/7';
-            
-            const progress = Math.min(100, (count / 7) * 100 + 30);
-            document.getElementById('rewardBar').style.width = progress + '%';
-        }
-
-        function connectWallet() {
-            alert("✅ Wallet connected (demo)");
-        }
-
-        function submitData() {
-            const checkedCount = options.filter(opt => document.getElementById(opt.id).checked).length;
-            if (checkedCount === 0) {
-                alert("Please select at least one option.");
-                return;
-            }
-            const total = parseInt(document.getElementById('rewardAmount').textContent.replace('$',''));
-            alert(`✅ Success!\n\nYou are now earning ~$${total} USDT per month based on your shared data.`);
-        }
-
-        window.onload = () => {
-            createToggles();
-            createStarfield();
-            updateReward();
-            
-            // Pre-select a few for demo
-            setTimeout(() => {
-                ['wallet', 'selfie', 'content'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.checked = true;
-                });
-                updateReward();
-            }, 600);
-        };
-    </script>
 </body>
 </html>
