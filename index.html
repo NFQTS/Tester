@@ -6,26 +6,26 @@
   <title>War Strategy</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg: #0a0b12;
+      --panel: rgba(15, 18, 35, 0.65);
+      --accent: #7289ff;
+      --accent-glow: rgba(114, 137, 255, 0.45);
+      --text: #f0f3ff;
+      --muted: #a0a8c0;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    :root {
-      --bg: #020305;
-      --panel: rgba(255,255,255,0.05);
-      --border: rgba(255,255,255,0.08);
-      --text: #f5f7ff;
-      --muted: rgba(255,255,255,0.55);
-      --glow: rgba(114, 137, 255, 0.35);
-    }
-
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow: hidden;
@@ -34,100 +34,113 @@
       position: relative;
     }
 
-    /* SPACE BACKGROUND */
-
+    /* IMMERSIVE SPACE BACKGROUND */
     .space {
       position: fixed;
       inset: 0;
-      overflow: hidden;
       z-index: 0;
-      background:
-        radial-gradient(circle at center, rgba(16,20,35,0.9) 0%, #020305 65%);
+      background: 
+        radial-gradient(circle at 50% 40%, rgba(40, 60, 140, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 30% 70%, rgba(80, 40, 120, 0.18) 0%, transparent 55%);
     }
 
-    .stars,
-    .stars2,
-    .stars3 {
+    .stars, .stars2, .stars3, .stars4 {
       position: absolute;
-      width: 200%;
-      height: 200%;
+      width: 220%;
+      height: 220%;
       background-repeat: repeat;
       animation: fly linear infinite;
-      transform: translateZ(0);
+      opacity: 0;
     }
 
     .stars {
-      background-image:
-        radial-gradient(2px 2px at 20px 30px, white, transparent),
-        radial-gradient(1px 1px at 120px 80px, white, transparent),
-        radial-gradient(2px 2px at 200px 140px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 300px 220px, white, transparent),
-        radial-gradient(2px 2px at 420px 120px, rgba(255,255,255,0.9), transparent);
-      background-size: 500px 500px;
-      animation-duration: 45s;
-      opacity: 0.4;
+      background-image: 
+        radial-gradient(1.5px 1.5px at 30px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 140px 90px, #fff, transparent),
+        radial-gradient(2px 2px at 280px 160px, #fff, transparent),
+        radial-gradient(1px 1px at 420px 280px, #e0e7ff, transparent);
+      background-size: 420px 420px;
+      animation-duration: 35s;
+      opacity: 0.65;
     }
 
     .stars2 {
-      background-image:
-        radial-gradient(2px 2px at 50px 50px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 200px 100px, white, transparent),
-        radial-gradient(2px 2px at 350px 300px, white, transparent),
-        radial-gradient(1px 1px at 400px 180px, rgba(255,255,255,0.7), transparent);
-      background-size: 700px 700px;
-      animation-duration: 80s;
-      opacity: 0.25;
+      background-image: 
+        radial-gradient(2px 2px at 80px 120px, #c0d0ff, transparent),
+        radial-gradient(1px 1px at 250px 60px, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 380px 320px, #fff, transparent);
+      background-size: 650px 650px;
+      animation-duration: 65s;
+      opacity: 0.45;
     }
 
     .stars3 {
-      background-image:
-        radial-gradient(3px 3px at 100px 100px, rgba(255,255,255,0.95), transparent),
-        radial-gradient(2px 2px at 500px 250px, rgba(255,255,255,0.7), transparent),
-        radial-gradient(2px 2px at 250px 400px, white, transparent);
-      background-size: 900px 900px;
-      animation-duration: 120s;
-      opacity: 0.18;
+      background-image: 
+        radial-gradient(3px 3px at 150px 200px, #a0b0ff, transparent),
+        radial-gradient(2px 2px at 480px 150px, #e0e7ff, transparent),
+        radial-gradient(1px 1px at 620px 420px, #fff, transparent);
+      background-size: 850px 850px;
+      animation-duration: 110s;
+      opacity: 0.3;
+    }
+
+    .stars4 {
+      background-image: 
+        radial-gradient(1px 1px at 50px 300px, rgba(180,200,255,0.9), transparent),
+        radial-gradient(2.5px 2.5px at 320px 450px, #fff, transparent);
+      background-size: 520px 520px;
+      animation-duration: 48s;
+      opacity: 0.25;
     }
 
     @keyframes fly {
-      from {
-        transform: translateY(0) scale(1);
-      }
-      to {
-        transform: translateY(-500px) scale(1.2);
-      }
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-620px) scale(1.15); }
+    }
+
+    /* TWINKLE LAYER */
+    .twinkles {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      animation: twinkle 8s infinite alternate ease-in-out;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.4; }
+      100% { opacity: 0.85; }
     }
 
     /* CENTER PANEL */
-
     .container {
       position: relative;
-      z-index: 5;
+      z-index: 10;
       width: 100%;
       height: 100vh;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       padding: 24px;
     }
 
     .panel {
-      width: min(560px, 100%);
-      padding: 42px;
-      border-radius: 28px;
+      width: min(620px, 100%);
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 48px 42px;
+      border-radius: 32px;
 
-      background: rgba(255,255,255,0.035);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: var(--panel);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
 
-      border: 1px solid var(--border);
-
-      box-shadow:
-        0 0 60px rgba(255,255,255,0.03),
-        0 0 120px rgba(66, 99, 255, 0.08),
-        inset 0 0 0 1px rgba(255,255,255,0.02);
+      border: 1px solid rgba(140, 160, 255, 0.12);
+      box-shadow: 
+        0 0 80px rgba(114, 137, 255, 0.15),
+        0 25px 60px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(255,255,255,0.06);
 
       position: relative;
       overflow: hidden;
@@ -136,89 +149,89 @@
     .panel::before {
       content: "";
       position: absolute;
-      inset: -2px;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,0.15),
-          transparent 30%,
-          transparent 70%,
-          rgba(255,255,255,0.06)
-        );
-
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.08) 0%,
+        transparent 40%,
+        transparent 70%,
+        rgba(140,170,255,0.06) 100%
+      );
       border-radius: inherit;
       pointer-events: none;
+      z-index: 1;
     }
 
+    /* TITLE */
     .title {
+      font-family: 'Space Grotesk', sans-serif;
       text-align: center;
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 900;
-      letter-spacing: 0.22em;
+      font-size: clamp(2.8rem, 9vw, 5.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
       text-transform: uppercase;
+      margin-bottom: 48px;
+      color: #ffffff;
+      position: relative;
+      z-index: 2;
+      text-shadow: 
+        0 0 20px var(--accent-glow),
+        0 0 40px rgba(114, 137, 255, 0.3);
+    }
 
-      margin-bottom: 36px;
-
-      color: white;
-
-      text-shadow:
-        0 0 12px rgba(255,255,255,0.15),
-        0 0 35px rgba(114,137,255,0.18);
+    .title::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
     }
 
     /* ACCORDION */
-
     .accordion {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
+      position: relative;
+      z-index: 2;
     }
 
     details {
-      background: var(--panel);
-      border: 1px solid rgba(255,255,255,0.08);
-
-      border-radius: 18px;
-
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(140, 160, 255, 0.1);
+      border-radius: 22px;
       overflow: hidden;
-
-      transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        background 0.25s ease;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     details:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
+      border-color: var(--accent-glow);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(114, 137, 255, 0.12);
     }
 
     details[open] {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(114,137,255,0.35);
-
-      box-shadow:
-        0 0 30px rgba(114,137,255,0.08);
+      background: rgba(20, 25, 50, 0.7);
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(114, 137, 255, 0.25);
     }
 
     summary {
       list-style: none;
       cursor: pointer;
-
-      padding: 22px 24px;
-
-      font-size: 1rem;
+      padding: 26px 32px;
+      font-size: 1.1rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       user-select: none;
+      position: relative;
     }
 
     summary::-webkit-details-marker {
@@ -226,118 +239,94 @@
     }
 
     .icon {
-      font-size: 1.2rem;
-      color: rgba(255,255,255,0.7);
-      transition: transform 0.25s ease;
+      font-size: 1.6rem;
+      color: var(--accent);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      width: 28px;
+      text-align: center;
     }
 
     details[open] .icon {
-      transform: rotate(45deg);
+      transform: rotate(135deg);
     }
 
     .content {
-      padding: 0 24px 24px 24px;
+      padding: 0 32px 32px 32px;
       color: var(--muted);
-
-      line-height: 1.7;
-      font-size: 0.95rem;
-
-      animation: fadeIn 0.3s ease;
+      line-height: 1.75;
+      font-size: 1rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-4px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    details[open] .content {
+      max-height: 1200px; /* generous for future content */
     }
 
-    /* SUBTLE FLOATING LIGHT */
-
+    /* SUBTLE ORB */
     .orb {
       position: absolute;
-      width: 380px;
-      height: 380px;
+      width: 520px;
+      height: 520px;
       border-radius: 50%;
-
-      background:
-        radial-gradient(circle,
-        rgba(114,137,255,0.18) 0%,
-        rgba(114,137,255,0.04) 45%,
-        transparent 70%);
-
-      filter: blur(12px);
-
-      top: 50%;
+      background: radial-gradient(circle,
+        rgba(114,137,255,0.22) 0%,
+        rgba(80,100,220,0.08) 40%,
+        transparent 75%);
+      filter: blur(28px);
+      top: 45%;
       left: 50%;
-
       transform: translate(-50%, -50%);
-
-      animation: pulse 6s ease-in-out infinite;
+      animation: pulse 14s ease-in-out infinite;
+      z-index: 0;
       pointer-events: none;
     }
 
     @keyframes pulse {
-      0%, 100% {
-        opacity: 0.5;
-        transform: translate(-50%, -50%) scale(1);
-      }
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
+      50% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.12); }
+    }
 
-      50% {
-        opacity: 0.85;
-        transform: translate(-50%, -50%) scale(1.08);
-      }
+    /* SCROLLBAR */
+    .panel::-webkit-scrollbar {
+      width: 6px;
+    }
+    .panel::-webkit-scrollbar-thumb {
+      background: rgba(114, 137, 255, 0.3);
+      border-radius: 20px;
     }
 
     /* MOBILE */
-
     @media (max-width: 640px) {
-      body {
-        overflow: auto;
-      }
-
-      .container {
-        min-height: 100vh;
-        height: auto;
-        padding: 20px;
-      }
-
       .panel {
-        padding: 28px 20px;
+        padding: 36px 24px;
+        border-radius: 24px;
       }
-
-      .title {
-        margin-bottom: 28px;
-        letter-spacing: 0.14em;
-      }
-
       summary {
-        padding: 18px 18px;
+        padding: 22px 26px;
       }
-
       .content {
-        padding: 0 18px 18px 18px;
+        padding: 0 26px 26px 26px;
+      }
+      .title {
+        margin-bottom: 36px;
       }
     }
   </style>
 </head>
-
 <body>
 
   <div class="space">
     <div class="stars"></div>
     <div class="stars2"></div>
     <div class="stars3"></div>
+    <div class="stars4"></div>
+    <div class="twinkles"></div>
   </div>
 
   <div class="container">
-
     <div class="panel">
-
       <div class="orb"></div>
 
       <h1 class="title">War Strategy</h1>
@@ -349,22 +338,19 @@
             Training
             <span class="icon">+</span>
           </summary>
-
           <div class="content">
-            Tactical preparation, simulations, personnel readiness, operational
-            doctrine, and strategic adaptation systems.
+            Tactical preparation, simulations, personnel readiness, operational doctrine, and strategic adaptation systems.
+            <!-- Add more content here later -->
           </div>
         </details>
 
         <details>
           <summary>
-            Tech
+            Technology
             <span class="icon">+</span>
           </summary>
-
           <div class="content">
-            Advanced systems architecture, AI integration, intelligence tools,
-            communications, surveillance, and modern infrastructure.
+            Advanced systems architecture, AI integration, intelligence tools, communications, surveillance, and modern infrastructure.
           </div>
         </details>
 
@@ -373,18 +359,28 @@
             Deployment
             <span class="icon">+</span>
           </summary>
-
           <div class="content">
-            Coordinated execution pipelines, rapid mobilization, logistical
-            synchronization, and mission-level operational control.
+            Coordinated execution pipelines, rapid mobilization, logistical synchronization, and mission-level operational control.
           </div>
         </details>
 
+        <!-- Add new sections easily here -->
+
       </div>
-
     </div>
-
   </div>
 
+  <script>
+    // Optional: Close other details when one opens (accordion behavior)
+    document.querySelectorAll('details').forEach(detail => {
+      detail.addEventListener('toggle', () => {
+        if (detail.open) {
+          document.querySelectorAll('details').forEach(other => {
+            if (other !== detail) other.open = false;
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
