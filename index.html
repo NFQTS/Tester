@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>War Strategy</title>
+  <title>THE RAID</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg: #0a0b12;
-      --panel: rgba(15, 18, 35, 0.65);
       --accent: #7289ff;
-      --accent-glow: rgba(114, 137, 255, 0.45);
+      --accent-glow: rgba(114, 137, 255, 0.6);
       --text: #f0f3ff;
       --muted: #a0a8c0;
     }
@@ -32,286 +31,261 @@
       height: 100vh;
       width: 100%;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* IMMERSIVE SPACE BACKGROUND */
+    /* DEEP SPACE BACKGROUND */
     .space {
       position: fixed;
       inset: 0;
       z-index: 0;
       background: 
-        radial-gradient(circle at 50% 40%, rgba(40, 60, 140, 0.25) 0%, transparent 60%),
-        radial-gradient(circle at 30% 70%, rgba(80, 40, 120, 0.18) 0%, transparent 55%);
+        radial-gradient(circle at 40% 30%, rgba(60, 80, 180, 0.35) 0%, transparent 50%),
+        radial-gradient(circle at 70% 65%, rgba(100, 40, 160, 0.25) 0%, transparent 60%);
     }
 
     .stars, .stars2, .stars3, .stars4 {
       position: absolute;
-      width: 220%;
-      height: 220%;
+      width: 200%;
+      height: 200%;
       background-repeat: repeat;
       animation: fly linear infinite;
-      opacity: 0;
     }
 
     .stars {
       background-image: 
-        radial-gradient(1.5px 1.5px at 30px 40px, #fff, transparent),
-        radial-gradient(1px 1px at 140px 90px, #fff, transparent),
-        radial-gradient(2px 2px at 280px 160px, #fff, transparent),
-        radial-gradient(1px 1px at 420px 280px, #e0e7ff, transparent);
-      background-size: 420px 420px;
-      animation-duration: 35s;
-      opacity: 0.65;
+        radial-gradient(2px 2px at 40px 50px, #fff, transparent),
+        radial-gradient(1px 1px at 180px 120px, #fff, transparent),
+        radial-gradient(2.5px 2.5px at 320px 80px, #e0e7ff, transparent);
+      background-size: 380px 380px;
+      animation-duration: 40s;
+      opacity: 0.75;
     }
 
     .stars2 {
       background-image: 
-        radial-gradient(2px 2px at 80px 120px, #c0d0ff, transparent),
-        radial-gradient(1px 1px at 250px 60px, #fff, transparent),
-        radial-gradient(1.5px 1.5px at 380px 320px, #fff, transparent);
-      background-size: 650px 650px;
-      animation-duration: 65s;
-      opacity: 0.45;
+        radial-gradient(1.5px 1.5px at 90px 200px, #c0d0ff, transparent),
+        radial-gradient(2px 2px at 280px 340px, #fff, transparent);
+      background-size: 620px 620px;
+      animation-duration: 75s;
+      opacity: 0.5;
     }
 
     .stars3 {
       background-image: 
-        radial-gradient(3px 3px at 150px 200px, #a0b0ff, transparent),
-        radial-gradient(2px 2px at 480px 150px, #e0e7ff, transparent),
-        radial-gradient(1px 1px at 620px 420px, #fff, transparent);
-      background-size: 850px 850px;
-      animation-duration: 110s;
-      opacity: 0.3;
+        radial-gradient(3px 3px at 150px 280px, #a0b0ff, transparent),
+        radial-gradient(1px 1px at 450px 150px, #fff, transparent);
+      background-size: 780px 780px;
+      animation-duration: 120s;
+      opacity: 0.35;
     }
 
     .stars4 {
       background-image: 
-        radial-gradient(1px 1px at 50px 300px, rgba(180,200,255,0.9), transparent),
-        radial-gradient(2.5px 2.5px at 320px 450px, #fff, transparent);
-      background-size: 520px 520px;
-      animation-duration: 48s;
-      opacity: 0.25;
+        radial-gradient(1px 1px at 60px 420px, rgba(200,220,255,0.9), transparent),
+        radial-gradient(2px 2px at 380px 500px, #fff, transparent);
+      background-size: 480px 480px;
+      animation-duration: 55s;
+      opacity: 0.3;
     }
 
     @keyframes fly {
       from { transform: translateY(0) scale(1); }
-      to { transform: translateY(-620px) scale(1.15); }
+      to { transform: translateY(-800px) scale(1.25); }
     }
 
-    /* TWINKLE LAYER */
-    .twinkles {
+    .nebula {
       position: absolute;
       inset: 0;
-      background: transparent;
-      animation: twinkle 8s infinite alternate ease-in-out;
-      pointer-events: none;
+      background: radial-gradient(circle at 50% 40%, rgba(114, 137, 255, 0.12) 0%, transparent 70%);
+      animation: nebulaPulse 25s ease-in-out infinite;
       z-index: 1;
+      pointer-events: none;
     }
 
-    @keyframes twinkle {
-      0% { opacity: 0.4; }
-      100% { opacity: 0.85; }
+    @keyframes nebulaPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.95; }
     }
 
-    /* CENTER PANEL */
-    .container {
+    /* CENTRAL GLOW ORB */
+    .central-orb {
+      position: absolute;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(114,137,255,0.35) 0%, transparent 65%);
+      filter: blur(40px);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: orbPulse 8s ease-in-out infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @keyframes orbPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+      50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    }
+
+    /* MAIN CONTENT */
+    .content {
       position: relative;
       z-index: 10;
-      width: 100%;
-      height: 100vh;
+      width: min(520px, 92%);
+      text-align: center;
+      padding: 60px 40px;
+      background: rgba(15, 18, 35, 0.75);
+      backdrop-filter: blur(28px);
+      border-radius: 36px;
+      border: 1px solid rgba(114, 137, 255, 0.25);
+      box-shadow: 
+        0 0 120px rgba(114, 137, 255, 0.3),
+        0 40px 80px rgba(0, 0, 0, 0.7),
+        inset 0 0 40px rgba(255,255,255,0.05);
+    }
+
+    .emblem {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, #7289ff, #4a5dff);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      font-size: 48px;
+      box-shadow: 0 0 60px rgba(114, 137, 255, 0.7);
+      animation: emblemFloat 6s ease-in-out infinite;
     }
 
-    .panel {
-      width: min(620px, 100%);
-      max-height: 92vh;
-      overflow-y: auto;
-      padding: 48px 42px;
-      border-radius: 32px;
-
-      background: var(--panel);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-
-      border: 1px solid rgba(140, 160, 255, 0.12);
-      box-shadow: 
-        0 0 80px rgba(114, 137, 255, 0.15),
-        0 25px 60px rgba(0, 0, 0, 0.6),
-        inset 0 0 0 1px rgba(255,255,255,0.06);
-
-      position: relative;
-      overflow: hidden;
+    @keyframes emblemFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-18px) rotate(8deg); }
     }
 
-    .panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.08) 0%,
-        transparent 40%,
-        transparent 70%,
-        rgba(140,170,255,0.06) 100%
-      );
-      border-radius: inherit;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* TITLE */
-    .title {
+    h1 {
       font-family: 'Space Grotesk', sans-serif;
-      text-align: center;
-      font-size: clamp(2.8rem, 9vw, 5.2rem);
+      font-size: clamp(3.2rem, 10vw, 5.8rem);
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
-      margin-bottom: 48px;
-      color: #ffffff;
-      position: relative;
-      z-index: 2;
-      text-shadow: 
-        0 0 20px var(--accent-glow),
-        0 0 40px rgba(114, 137, 255, 0.3);
+      margin-bottom: 16px;
+      background: linear-gradient(90deg, #fff, #a0b0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px var(--accent-glow);
     }
 
-    .title::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--accent), transparent);
+    .tagline {
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 52px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    /* ACCORDION */
-    .accordion {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      position: relative;
-      z-index: 2;
+    /* CRYPTO SECTION */
+    .crypto-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(114, 137, 255, 0.3);
+      border-radius: 20px;
+      padding: 28px 24px;
+      margin-bottom: 42px;
+      transition: all 0.4s ease;
     }
 
-    details {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(140, 160, 255, 0.1);
-      border-radius: 22px;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    details:hover {
-      border-color: var(--accent-glow);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(114, 137, 255, 0.12);
-    }
-
-    details[open] {
-      background: rgba(20, 25, 50, 0.7);
+    .crypto-box:hover {
       border-color: var(--accent);
-      box-shadow: 0 0 40px rgba(114, 137, 255, 0.25);
+      box-shadow: 0 0 40px rgba(114, 137, 255, 0.3);
     }
 
-    summary {
-      list-style: none;
+    .label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .address {
+      font-family: monospace;
+      font-size: 1.05rem;
+      word-break: break-all;
+      color: #c0d0ff;
+      background: rgba(0,0,0,0.3);
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      user-select: all;
+    }
+
+    .copy-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 10px 28px;
+      border-radius: 9999px;
+      font-weight: 600;
       cursor: pointer;
-      padding: 26px 32px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    /* X SUPPORT */
+    .x-section {
+      margin-top: 20px;
+    }
+
+    .x-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: #000;
+      color: white;
+      border: none;
+      padding: 16px 42px;
+      border-radius: 9999px;
       font-size: 1.1rem;
       font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      user-select: none;
-      position: relative;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    summary::-webkit-details-marker {
-      display: none;
+    .x-btn:hover {
+      transform: scale(1.05) translateY(-4px);
+      box-shadow: 0 0 50px rgba(114, 137, 255, 0.5);
     }
 
-    .icon {
-      font-size: 1.6rem;
-      color: var(--accent);
-      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    .x-btn svg {
       width: 28px;
-      text-align: center;
+      height: 28px;
     }
 
-    details[open] .icon {
-      transform: rotate(135deg);
+    .footer {
+      margin-top: 60px;
+      font-size: 0.85rem;
+      color: rgba(160, 168, 192, 0.6);
+      letter-spacing: 0.05em;
     }
 
-    .content {
-      padding: 0 32px 32px 32px;
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 1rem;
-      max-height: 0;
-      overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    details[open] .content {
-      max-height: 1200px; /* generous for future content */
-    }
-
-    /* SUBTLE ORB */
-    .orb {
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 50%;
-      background: radial-gradient(circle,
-        rgba(114,137,255,0.22) 0%,
-        rgba(80,100,220,0.08) 40%,
-        transparent 75%);
-      filter: blur(28px);
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: pulse 14s ease-in-out infinite;
-      z-index: 0;
+    /* PARTICLE OVERLAY */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
       pointer-events: none;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
-      50% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.12); }
-    }
-
-    /* SCROLLBAR */
-    .panel::-webkit-scrollbar {
-      width: 6px;
-    }
-    .panel::-webkit-scrollbar-thumb {
-      background: rgba(114, 137, 255, 0.3);
-      border-radius: 20px;
-    }
-
-    /* MOBILE */
-    @media (max-width: 640px) {
-      .panel {
-        padding: 36px 24px;
-        border-radius: 24px;
-      }
-      summary {
-        padding: 22px 26px;
-      }
-      .content {
-        padding: 0 26px 26px 26px;
-      }
-      .title {
-        margin-bottom: 36px;
-      }
+      background: transparent;
     }
   </style>
 </head>
@@ -322,65 +296,80 @@
     <div class="stars2"></div>
     <div class="stars3"></div>
     <div class="stars4"></div>
-    <div class="twinkles"></div>
+    <div class="nebula"></div>
+    <div class="central-orb"></div>
   </div>
 
-  <div class="container">
-    <div class="panel">
-      <div class="orb"></div>
+  <div class="content">
+    <div class="emblem">👑</div>
+    
+    <h1>THE RAID</h1>
+    <p class="tagline">Support the mission. Fuel the resistance.</p>
 
-      <h1 class="title">War Strategy</h1>
+    <!-- ETHEREUM -->
+    <div class="crypto-box">
+      <div class="label">Send Ethereum</div>
+      <div class="address" id="eth-address">0x73Fe0f0Fa44035607b9ddB5Ba560301Ae7C96a54</div>
+      <button class="copy-btn" onclick="copyAddress()">COPY ADDRESS</button>
+    </div>
 
-      <div class="accordion">
+    <!-- X SUPPORT -->
+    <div class="x-section">
+      <button class="x-btn" onclick="shareOnX()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25l-7.955 9.487L3 2.25h4.5L12 9.75l4.5-7.5H21L14.244 12l7.5 10.5H18L12 13.5 5.755 22.5H3L11.244 12 3 2.25z"/></svg>
+        RAID ON X
+      </button>
+    </div>
 
-        <details>
-          <summary>
-            Training
-            <span class="icon">+</span>
-          </summary>
-          <div class="content">
-            Tactical preparation, simulations, personnel readiness, operational doctrine, and strategic adaptation systems.
-            <!-- Add more content here later -->
-          </div>
-        </details>
-
-        <details>
-          <summary>
-            Technology
-            <span class="icon">+</span>
-          </summary>
-          <div class="content">
-            Advanced systems architecture, AI integration, intelligence tools, communications, surveillance, and modern infrastructure.
-          </div>
-        </details>
-
-        <details>
-          <summary>
-            Deployment
-            <span class="icon">+</span>
-          </summary>
-          <div class="content">
-            Coordinated execution pipelines, rapid mobilization, logistical synchronization, and mission-level operational control.
-          </div>
-        </details>
-
-        <!-- Add new sections easily here -->
-
-      </div>
+    <div class="footer">
+      Every contribution accelerates the vision.<br>
+      No kings. Only creators.
     </div>
   </div>
 
   <script>
-    // Optional: Close other details when one opens (accordion behavior)
-    document.querySelectorAll('details').forEach(detail => {
-      detail.addEventListener('toggle', () => {
-        if (detail.open) {
-          document.querySelectorAll('details').forEach(other => {
-            if (other !== detail) other.open = false;
-          });
-        }
+    // Copy Ethereum address
+    function copyAddress() {
+      const addr = document.getElementById('eth-address').textContent;
+      navigator.clipboard.writeText(addr).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const originalText = btn.textContent;
+        btn.textContent = 'COPIED ✓';
+        btn.style.background = '#22c55e';
+        btn.style.color = 'white';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'transparent';
+          btn.style.color = '#7289ff';
+        }, 2200);
       });
+    }
+
+    // Share on X (custom message + profile link)
+    function shareOnX() {
+      const text = encodeURIComponent("Join the raid with Unprincipled Inc. — real creators building the future. Support the mission 👑");
+      const url = encodeURIComponent("https://x.com/UnprincipledInc");
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    }
+
+    // Keyboard shortcut (C to copy address)
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'c') {
+        copyAddress();
+      }
     });
+
+    // Subtle random star twinkle effect
+    setInterval(() => {
+      const stars = document.querySelectorAll('.stars, .stars2, .stars3');
+      stars.forEach(s => {
+        s.style.opacity = Math.random() * 0.4 + 0.6;
+        setTimeout(() => {
+          s.style.opacity = '';
+        }, 800);
+      });
+    }, 2400);
   </script>
 </body>
 </html>
