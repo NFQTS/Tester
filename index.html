@@ -1,263 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SASA</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Life Builder</title>
 
 <style>
-:root{
-	--bg:#07070c;
-	--card:#141420;
-	--text:#f5f5f7;
-	--muted:#8a8aa3;
-	--border:#23233a;
-	--accent:#6c7cff;
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+	font-family:Inter,Arial,sans-serif;
 }
 
 body{
-	margin:0;
-	font-family:system-ui;
-	background:var(--bg);
-	color:var(--text);
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	min-height:100vh;
+	background:#020617;
+	color:white;
+	height:100vh;
+	overflow:hidden;
 }
 
-.container{
-	width:100%;
-	max-width:420px;
-	padding:20px;
+.space{
+	position:fixed;
+	inset:0;
+	background:
+		radial-gradient(circle at 20% 20%,rgba(59,130,246,.25),transparent 30%),
+		radial-gradient(circle at 80% 20%,rgba(168,85,247,.2),transparent 35%),
+		radial-gradient(circle at 50% 100%,rgba(34,211,238,.15),transparent 40%),
+		#020617;
+	z-index:-3;
+}
+
+.stars{
+	position:fixed;
+	inset:0;
+	z-index:-2;
+}
+
+.star{
+	position:absolute;
+	width:2px;
+	height:2px;
+	background:white;
+	border-radius:50%;
+	opacity:.5;
+	animation:float linear infinite;
+}
+
+@keyframes float{
+	from{
+		transform:translateY(0px);
+	}
+	to{
+		transform:translateY(-100vh);
+	}
+}
+
+.glow{
+	position:fixed;
+	width:700px;
+	height:700px;
+	background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);
+	filter:blur(80px);
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	z-index:-1;
+	animation:pulse 8s infinite ease-in-out;
+}
+
+@keyframes pulse{
+	50%{
+		transform:translate(-50%,-50%) scale(1.1);
+	}
+}
+
+.wrapper{
+	height:100vh;
 	display:flex;
-	flex-direction:column;
 	align-items:center;
-	gap:12px;
+	justify-content:center;
+	padding:20px;
+}
+
+.panel{
+	width:min(1000px,95vw);
+	background:rgba(255,255,255,.04);
+	backdrop-filter:blur(25px);
+	border:1px solid rgba(255,255,255,.08);
+	border-radius:30px;
+	padding:40px;
+	box-shadow:0 0 50px rgba(0,0,0,.4);
+}
+
+.step{
+	display:none;
 	text-align:center;
 }
 
-h1{
-	margin:0;
-	font-size:20px;
+.step.active{
+	display:block;
+	animation:fade .5s ease;
 }
 
-.sub{
-	font-size:11px;
-	color:var(--muted);
+@keyframes fade{
+	from{
+		opacity:0;
+		transform:translateY(15px);
+	}
+	to{
+		opacity:1;
+		transform:translateY(0);
+	}
+}
+
+.logo{
+	font-size:.75rem;
+	letter-spacing:.4em;
+	opacity:.5;
+	margin-bottom:30px;
+}
+
+.title{
+	font-size:clamp(2rem,5vw,4rem);
+	font-weight:200;
 	margin-bottom:10px;
 }
 
-.card{
-	width:100%;
-	background:rgba(20,20,32,0.85);
-	border:1px solid var(--border);
-	border-radius:14px;
-	padding:16px;
-	cursor:pointer;
-	transition:transform .1s ease, border .15s ease;
+.subtitle{
+	opacity:.55;
+	margin-bottom:40px;
 }
 
-.card:active{
-	transform:scale(0.98);
+.grid{
+	display:grid;
+	grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+	gap:16px;
+}
+
+.card{
+	background:rgba(255,255,255,.04);
+	border:1px solid rgba(255,255,255,.08);
+	border-radius:24px;
+	padding:30px 20px;
+	cursor:pointer;
+	transition:.3s;
 }
 
 .card:hover{
-	border-color:var(--accent);
+	transform:translateY(-5px);
+	background:rgba(255,255,255,.08);
 }
 
-.row{
-	font-size:16px;
+.emoji{
+	font-size:2.5rem;
+	margin-bottom:12px;
+}
+
+.label{
+	font-size:1rem;
+	opacity:.9;
+}
+
+.dashboard{
+	display:grid;
+	grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+	gap:16px;
+	margin-top:25px;
+}
+
+.widget{
+	background:rgba(255,255,255,.04);
+	border:1px solid rgba(255,255,255,.08);
+	border-radius:20px;
+	padding:25px;
+	text-align:left;
+}
+
+.widget h3{
+	font-weight:400;
+	margin-bottom:10px;
+}
+
+.progress{
+	height:8px;
+	background:rgba(255,255,255,.08);
+	border-radius:999px;
+	margin-top:15px;
+	overflow:hidden;
+}
+
+.progress span{
+	display:block;
+	height:100%;
+	background:white;
+	border-radius:999px;
+}
+
+.slider-box{
+	margin-top:30px;
+	padding:25px;
+	background:rgba(255,255,255,.04);
+	border:1px solid rgba(255,255,255,.08);
+	border-radius:20px;
+}
+
+.slide{
+	font-size:1.3rem;
+	font-weight:300;
+	min-height:40px;
+}
+
+input[type=range]{
+	width:100%;
+	margin-top:20px;
+}
+
+.share-btn{
+	margin-top:25px;
+	padding:16px 30px;
+	background:white;
+	color:black;
+	border:none;
+	border-radius:999px;
+	cursor:pointer;
 	font-weight:600;
 }
 
-.sw{
-	font-size:12px;
-	color:var(--muted);
-	margin-top:4px;
-}
-
-/* MODAL */
 .modal{
 	position:fixed;
 	inset:0;
-	background:rgba(0,0,0,0.7);
 	display:none;
 	align-items:center;
 	justify-content:center;
+	background:rgba(0,0,0,.75);
+	backdrop-filter:blur(10px);
 }
 
-.box{
-	width:90%;
-	max-width:320px;
-	background:var(--card);
-	border:1px solid var(--border);
-	border-radius:14px;
-	padding:14px;
-	display:flex;
-	flex-direction:column;
-	gap:8px;
+.modal-content{
+	width:min(500px,90vw);
+	background:#0f172a;
+	border:1px solid rgba(255,255,255,.1);
+	border-radius:25px;
+	padding:30px;
+	text-align:center;
 }
 
-input{
-	padding:10px;
-	border-radius:10px;
-	border:1px solid var(--border);
-	background:#0f0f18;
-	color:var(--text);
-	font-size:13px;
+.modal-content h2{
+	font-weight:300;
+	margin-bottom:20px;
 }
 
-button{
-	padding:10px;
+.modal-grid{
+	display:grid;
+	grid-template-columns:1fr 1fr;
+	gap:12px;
+	margin-top:20px;
+}
+
+.option{
+	padding:15px;
+	background:rgba(255,255,255,.05);
+	border:1px solid rgba(255,255,255,.08);
+	border-radius:16px;
+	cursor:pointer;
+}
+
+.close{
+	margin-top:20px;
+	padding:12px 25px;
 	border:none;
-	border-radius:10px;
-	background:var(--accent);
-	color:white;
-	font-size:13px;
+	border-radius:999px;
 	cursor:pointer;
 }
 
 .small{
-	font-size:11px;
-	color:var(--muted);
+	opacity:.5;
+	font-size:.85rem;
+	margin-top:15px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="space"></div>
+<div class="stars" id="stars"></div>
+<div class="glow"></div>
 
-	<h1>SASA</h1>
-	<div class="sub">chagua tatizo</div>
+<div class="wrapper">
 
-	<div class="card" onclick="submitFixed('💸','money')">
-		<div class="row">💸 Pesa</div>
-		<div class="sw">Money / Income</div>
-	</div>
+	<div class="panel">
 
-	<div class="card" onclick="submitFixed('⏳','time')">
-		<div class="row">⏳ Muda</div>
-		<div class="sw">Time / Efficiency</div>
-	</div>
+		<div class="step active" id="step1">
 
-	<div class="card" onclick="submitFixed('📚','learning')">
-		<div class="row">📚 Elimu</div>
-		<div class="sw">Learning / Skills</div>
-	</div>
+			<div class="logo">DREAM LIFE BUILDER</div>
 
-	<div class="card" onclick="openIdea()">
-		<div class="row">➕ Wazo</div>
-		<div class="sw">Other Ideas</div>
-	</div>
+			<div class="title">Home</div>
 
-	<div class="card" onclick="openMap()">
-		<div class="row">🗺 Ramani</div>
-		<div class="sw">Needy Areas</div>
+			<div class="subtitle">Choose your future.</div>
+
+			<div class="grid">
+
+				<div class="card" onclick="nextStep(2)">
+					<div class="emoji">🏡</div>
+					<div class="label">House</div>
+				</div>
+
+				<div class="card" onclick="nextStep(2)">
+					<div class="emoji">🏙️</div>
+					<div class="label">Penthouse</div>
+				</div>
+
+				<div class="card" onclick="nextStep(2)">
+					<div class="emoji">🏖️</div>
+					<div class="label">Beach</div>
+				</div>
+
+				<div class="card" onclick="nextStep(2)">
+					<div class="emoji">🌲</div>
+					<div class="label">Cabin</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="step" id="step2">
+
+			<div class="logo">TRANSPORT</div>
+
+			<div class="title">Travel</div>
+
+			<div class="subtitle">Choose your ride.</div>
+
+			<div class="grid">
+
+				<div class="card" onclick="nextStep(3)">
+					<div class="emoji">🚗</div>
+					<div class="label">Car</div>
+				</div>
+
+				<div class="card" onclick="nextStep(3)">
+					<div class="emoji">🏍️</div>
+					<div class="label">Motorcycle</div>
+				</div>
+
+				<div class="card" onclick="nextStep(3)">
+					<div class="emoji">✈️</div>
+					<div class="label">Jet</div>
+				</div>
+
+				<div class="card" onclick="nextStep(3)">
+					<div class="emoji">🚐</div>
+					<div class="label">RV</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="step" id="step3">
+
+			<div class="logo">YOUR PLAN</div>
+
+			<div class="title">Dashboard</div>
+
+			<div class="subtitle">Today's focus.</div>
+
+			<div class="dashboard">
+
+				<div class="widget">
+					<h3>💰 Money</h3>
+					<p>$6,000/mo</p>
+					<div class="progress">
+						<span style="width:72%"></span>
+					</div>
+				</div>
+
+				<div class="widget">
+					<h3>⏰ Time</h3>
+					<p>2 hrs/day</p>
+					<div class="progress">
+						<span style="width:48%"></span>
+					</div>
+				</div>
+
+				<div class="widget">
+					<h3>📚 Education</h3>
+					<p>15 mins/day</p>
+					<div class="progress">
+						<span style="width:60%"></span>
+					</div>
+				</div>
+
+				<div class="widget">
+					<h3>✨ Other</h3>
+					<p>Custom Goal</p>
+					<div class="progress">
+						<span style="width:35%"></span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="slider-box">
+
+				<div class="slide" id="slideText">
+					Remote AI Opportunity
+				</div>
+
+				<input
+					type="range"
+					min="0"
+					max="4"
+					value="0"
+					oninput="changeSlide(this.value)"
+				>
+
+			</div>
+
+			<button class="share-btn" onclick="openModal()">
+				Unlock More Opportunities
+			</button>
+
+		</div>
+
 	</div>
 
 </div>
 
-<!-- IDEA MODAL -->
-<div class="modal" id="ideaModal">
-	<div class="box">
-		<input id="emoji" placeholder="emoji (mf. 💡)"/>
-		<input id="word" placeholder="wazo (neno moja)"/>
-		<button onclick="submitIdea()">Submit/Tuma</button>
-	</div>
-</div>
+<div class="modal" id="modal">
 
-<!-- MAP MODAL -->
-<div class="modal" id="mapModal">
-	<div class="box">
-		<div class="row">🗺 Ramani</div>
-		<div class="small">ramani ya mahitaji inakuja hivi karibuni</div>
-		<button onclick="closeMap()">funga</button>
+	<div class="modal-content">
+
+		<h2>Share What You Choose</h2>
+
+		<div class="modal-grid">
+
+			<div class="option">📧 Email</div>
+			<div class="option">📱 SMS</div>
+			<div class="option">🌐 Social</div>
+			<div class="option">📸 Selfie</div>
+
+		</div>
+
+		<div class="small">
+			Optional sharing for personalized recommendations.
+		</div>
+
+		<button class="close" onclick="closeModal()">
+			Close
+		</button>
+
 	</div>
+
 </div>
 
 <script>
 
-let regionCache = null;
+for(let i=0;i<120;i++){
 
-/* ---------------- IP GEO ---------------- */
+	let star=document.createElement("div");
 
-async function getRegion(){
-	if(regionCache) return regionCache;
+	star.className="star";
 
-	try{
-		const res = await fetch("https://ipapi.co/json/");
-		const data = await res.json();
+	star.style.left=Math.random()*100+"%";
+	star.style.top=Math.random()*100+"%";
+	star.style.animationDuration=(20+Math.random()*40)+"s";
 
-		regionCache = {
-			country: data.country_name,
-			region: data.region,
-			city: data.city
-		};
-
-		return regionCache;
-	}catch(e){
-		return {country:"unknown",region:"unknown",city:"unknown"};
-	}
+	document.getElementById("stars").appendChild(star);
 }
 
-/* ---------------- SUBMIT FIXED ---------------- */
+function nextStep(step){
 
-async function submitFixed(emoji, category){
+	document
+		.querySelectorAll(".step")
+		.forEach(s=>s.classList.remove("active"));
 
-	const loc = await getRegion();
-
-	const payload = {
-		emoji,
-		category,
-		location: loc,
-		timestamp: Date.now()
-	};
-
-	console.log("EVENT:", payload);
-
-	alert(`Saved: ${emoji} ${category}`);
+	document
+		.getElementById("step"+step)
+		.classList.add("active");
 }
 
-/* ---------------- IDEA ---------------- */
+const slides=[
+	"Remote AI Opportunity",
+	"Learn High Income Skills",
+	"Local Business Partnership",
+	"Community Project",
+	"Personalized Recommendations"
+];
 
-function openIdea(){
-	document.getElementById("ideaModal").style.display="flex";
+function changeSlide(value){
+
+	document.getElementById("slideText").innerText=
+		slides[value];
 }
 
-function submitIdea(){
-	const emoji = document.getElementById("emoji").value.trim();
-	const word = document.getElementById("word").value.trim();
+function openModal(){
 
-	if(!emoji || !word) return;
-
-	console.log("CUSTOM IDEA:", {
-		emoji,
-		word
-	});
-
-	document.getElementById("emoji").value="";
-	document.getElementById("word").value="";
-	document.getElementById("ideaModal").style.display="none";
+	document.getElementById("modal").style.display="flex";
 }
 
-/* ---------------- MAP ---------------- */
+function closeModal(){
 
-function openMap(){
-	document.getElementById("mapModal").style.display="flex";
+	document.getElementById("modal").style.display="none";
 }
-
-function closeMap(){
-	document.getElementById("mapModal").style.display="none";
-}
-
-/* close modal click */
-window.onclick = (e)=>{
-	if(e.target.classList.contains("modal")){
-		e.target.style.display="none";
-	}
-};
 
 </script>
 
