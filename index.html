@@ -1,431 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dream Life Builder</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Signal MVP</title>
 
 <style>
-*{
-	margin:0;
-	padding:0;
-	box-sizing:border-box;
-	font-family:Arial, sans-serif;
-}
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: black;
+    color: white;
+    overflow: hidden;
+  }
 
-body{
-	height:100vh;
-	background:#020617;
-	color:white;
-	overflow:hidden;
-}
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
 
-.space{
-	position:fixed;
-	inset:0;
-	background:
-		radial-gradient(circle at 20% 20%,rgba(99,102,241,.25),transparent 35%),
-		radial-gradient(circle at 80% 30%,rgba(168,85,247,.2),transparent 40%),
-		radial-gradient(circle at 50% 100%,rgba(34,211,238,.12),transparent 45%),
-		#020617;
-	z-index:-3;
-}
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
 
-.stars{
-	position:fixed;
-	inset:0;
-	z-index:-2;
-}
+  .card {
+    background: rgba(20,20,20,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(10px);
+  }
 
-.star{
-	position:absolute;
-	width:2px;
-	height:2px;
-	background:white;
-	border-radius:50%;
-	opacity:.5;
-	animation:float linear infinite;
-}
+  h1, h2 {
+    font-weight: 300;
+  }
 
-@keyframes float{
-	from{transform:translateY(0);}
-	to{transform:translateY(-100vh);}
-}
+  select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #111;
+    color: white;
+  }
 
-.glow{
-	position:fixed;
-	width:700px;
-	height:700px;
-	background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);
-	filter:blur(90px);
-	top:50%;
-	left:50%;
-	transform:translate(-50%,-50%);
-	z-index:-1;
-}
+  button {
+    cursor: pointer;
+    background: white;
+    color: black;
+    font-weight: bold;
+  }
 
-.wrapper{
-	height:100vh;
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	padding:20px;
-}
+  button:hover {
+    opacity: 0.85;
+  }
 
-.panel{
-	width:min(980px,95vw);
-	background:rgba(255,255,255,.04);
-	backdrop-filter:blur(25px);
-	border:1px solid rgba(255,255,255,.08);
-	border-radius:28px;
-	padding:40px;
-}
+  .hidden {
+    display: none;
+  }
 
-.step{display:none;text-align:center;}
-.step.active{display:block;}
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
 
-.logo{
-	font-size:.75rem;
-	letter-spacing:.35em;
-	opacity:.55;
-	margin-bottom:25px;
-}
+  .toggle {
+    cursor: pointer;
+  }
 
-.title{
-	font-size:clamp(2rem,4vw,3.5rem);
-	font-weight:200;
-	margin-bottom:10px;
-}
-
-.subtitle{
-	opacity:.55;
-	margin-bottom:35px;
-}
-
-.grid{
-	display:grid;
-	grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-	gap:14px;
-}
-
-.card{
-	background:rgba(255,255,255,.04);
-	border:1px solid rgba(255,255,255,.08);
-	border-radius:20px;
-	padding:26px;
-	cursor:pointer;
-	transition:.25s;
-}
-
-.card:hover{
-	background:rgba(255,255,255,.08);
-	transform:translateY(-4px);
-}
-
-.emoji{font-size:2rem;margin-bottom:10px;}
-.label{opacity:.9;}
-
-.dashboard{
-	display:grid;
-	grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-	gap:14px;
-	margin-top:20px;
-}
-
-.tile{
-	background:rgba(255,255,255,.04);
-	border:1px solid rgba(255,255,255,.08);
-	border-radius:18px;
-	padding:20px;
-	text-align:left;
-	cursor:pointer;
-}
-
-.tile h3{
-	font-weight:400;
-	margin-bottom:8px;
-}
-
-.tile p{
-	opacity:.6;
-	font-size:.9rem;
-}
-
-.modal{
-	position:fixed;
-	inset:0;
-	background:rgba(0,0,0,.7);
-	display:none;
-	align-items:center;
-	justify-content:center;
-}
-
-.modal-content{
-	width:min(520px,90vw);
-	background:#0f172a;
-	border:1px solid rgba(255,255,255,.1);
-	border-radius:20px;
-	padding:25px;
-}
-
-.modal-content h2{
-	font-weight:300;
-	margin-bottom:15px;
-}
-
-.modal-list{
-	display:grid;
-	grid-template-columns:1fr 1fr;
-	gap:10px;
-	margin-top:15px;
-}
-
-.option{
-	padding:14px;
-	background:rgba(255,255,255,.05);
-	border-radius:12px;
-	cursor:pointer;
-	border:1px solid rgba(255,255,255,.08);
-}
-
-.close{
-	margin-top:15px;
-	padding:10px 18px;
-	border-radius:999px;
-	border:none;
-	cursor:pointer;
-}
-
-.toggles{
-	display:flex;
-	flex-direction:column;
-	gap:10px;
-	margin-top:20px;
-}
-
-.toggle{
-	display:flex;
-	justify-content:space-between;
-	align-items:center;
-	padding:14px;
-	background:rgba(255,255,255,.04);
-	border:1px solid rgba(255,255,255,.08);
-	border-radius:14px;
-}
-
-.switch{
-	width:44px;
-	height:24px;
-	background:rgba(255,255,255,.2);
-	border-radius:999px;
-	position:relative;
-	cursor:pointer;
-}
-
-.knob{
-	width:18px;
-	height:18px;
-	background:white;
-	border-radius:50%;
-	position:absolute;
-	top:3px;
-	left:3px;
-	transition:.2s;
-}
-
-.switch.on{
-	background:rgba(34,211,238,.6);
-}
-
-.switch.on .knob{
-	left:23px;
-}
-
-.small{opacity:.5;font-size:.85rem;margin-top:12px;}
+  .points {
+    font-size: 28px;
+    font-weight: bold;
+  }
 </style>
 </head>
 
 <body>
 
-<div class="space"></div>
-<div class="stars" id="stars"></div>
-<div class="glow"></div>
+<canvas id="stars"></canvas>
 
-<div class="wrapper">
-<div class="panel">
+<div class="container">
 
-<!-- STEP 1 -->
-<div class="step active" id="step1">
-<div class="title">Housing</div>
-<div class="subtitle">Choose your transportation</div>
+  <!-- ONBOARDING -->
+  <div id="onboarding" class="card">
+    <h1>Signal Profile</h1>
 
-<div class="grid">
-<div class="card" onclick="next(2)">
-<div class="emoji">🧳</div>
-<div class="label">Minimalist / Mobile</div>
-</div>
+    <label>Housing Preference</label>
+    <select id="housing">
+      <option>Minimalist / Mobile</option>
+      <option>House / Apartment</option>
+      <option>Luxury / Mansion</option>
+    </select>
 
-<div class="card" onclick="next(2)">
-<div class="emoji">🏠</div>
-<div class="label">House / Apartment</div>
-</div>
+    <label>Transportation</label>
+    <select id="transport">
+      <option>Budget</option>
+      <option>Standard</option>
+      <option>Luxury</option>
+    </select>
 
-<div class="card" onclick="next(2)">
-<div class="emoji">🏰</div>
-<div class="label">Mansion / Luxury</div>
-</div>
-</div>
-</div>
+    <button onclick="verifyLocation()">Verify Location (IP)</button>
+    <div id="locationStatus" style="margin-top:10px; font-size:12px; opacity:0.7;"></div>
 
-<!-- STEP 2 -->
-<div class="step" id="step2">
-<div class="title">Transportation</div>
-<div class="subtitle">Choose your transportation</div>
+    <button onclick="saveProfile()" style="margin-top:20px;">
+      Enter Dashboard
+    </button>
+  </div>
 
-<div class="grid">
-<div class="card" onclick="next(3)">
-<div class="emoji">💸</div>
-<div class="label">Budget</div>
-</div>
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="hidden">
 
-<div class="card" onclick="next(3)">
-<div class="emoji">🚗</div>
-<div class="label">Economical</div>
-</div>
+    <div class="card">
+      <h2>Your Signal Profile</h2>
+      <div id="profileDisplay"></div>
+    </div>
 
-<div class="card" onclick="next(3)">
-<div class="emoji">✈️</div>
-<div class="label">Luxury</div>
-</div>
-</div>
-</div>
+    <div class="card">
+      <h2>Sharing Controls</h2>
 
-<!-- STEP 3 -->
-<div class="step" id="step3">
-<div class="logo">COMMAND CENTER</div>
-<div class="subtitle">Select what you need today</div>
+      <div class="row">
+        <span>Data Sharing</span>
+        <input type="checkbox" id="shareData" class="toggle" checked />
+      </div>
 
-<div class="dashboard">
+      <div class="row">
+        <span>Reward Multiplier</span>
+        <input type="checkbox" id="rewardBoost" class="toggle" checked />
+      </div>
+    </div>
 
-<div class="tile" onclick="openModal('Money')">
-<h3>💰 Money</h3>
-<p>Opportunities & income</p>
-</div>
+    <div class="card">
+      <h2>Daily Points</h2>
+      <div class="points" id="points">0</div>
+      <button onclick="claimPoints()">Claim Daily Points</button>
+    </div>
 
-<div class="tile" onclick="openModal('Time')">
-<h3>⏰ Time</h3>
-<p>Focus/Productivity</p>
-</div>
+  </div>
 
-<div class="tile" onclick="openModal('Education')">
-<h3>📚 Education</h3>
-<p>Skills/Learning</p>
-</div>
-
-<div class="tile" onclick="openModal('Other')">
-<h3>✨ Other</h3>
-<p>Custom Needs</p>
-</div>
-
-</div>
-
-<div class="subtitle" style="margin-top:25px;">Opportunity Stream</div>
-
-<div class="card" style="margin-top:10px;">
-<div id="opText">AI Remote Work Matches</div>
-</div>
-
-<div class="toggles">
-
-<div class="toggle">
-<span>Email</span>
-<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
-</div>
-
-<div class="toggle">
-<span>SMS</span>
-<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
-</div>
-
-<div class="toggle">
-<span>Social</span>
-<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
-</div>
-
-<div class="toggle">
-<span>Selfie</span>
-<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-<div class="modal-content">
-<h2 id="modalTitle">Opportunities</h2>
-
-<div class="modal-list">
-<div class="option">Freelance AI Tasks</div>
-<div class="option">Local Business Gigs</div>
-<div class="option">Skill Learning Path</div>
-<div class="option">Passive Income Ideas</div>
-</div>
-
-<button class="close" onclick="closeModal()">Close</button>
-</div>
 </div>
 
 <script>
+// -----------------------------
+// STARFIELD ANIMATION
+// -----------------------------
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
 
-// stars
-for(let i=0;i<120;i++){
-	let s=document.createElement("div");
-	s.className="star";
-	s.style.left=Math.random()*100+"%";
-	s.style.top=Math.random()*100+"%";
-	s.style.animationDuration=(20+Math.random()*50)+"s";
-	document.getElementById("stars").appendChild(s);
+let stars = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+for (let i = 0; i < 200; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    z: Math.random() * canvas.width
+  });
 }
 
-function next(n){
-	document.querySelectorAll(".step").forEach(e=>e.classList.remove("active"));
-	document.getElementById("step"+n).classList.add("active");
+function animateStars() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (let s of stars) {
+    s.z -= 2;
+    if (s.z <= 0) s.z = canvas.width;
+
+    let k = 128 / s.z;
+    let px = s.x * k + canvas.width / 2;
+    let py = s.y * k + canvas.height / 2;
+
+    if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+      ctx.fillStyle = "white";
+      ctx.fillRect(px, py, 2, 2);
+    }
+  }
+
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+
+// -----------------------------
+// LOCATION (IP MOCK)
+// -----------------------------
+let userData = {
+  housing: null,
+  transport: null,
+  location: "unknown",
+  points: 0
+};
+
+async function verifyLocation() {
+  document.getElementById("locationStatus").innerText = "Verifying...";
+
+  try {
+    // lightweight IP geolocation API (replace with your backend in production)
+    let res = await fetch("https://ipapi.co/json/");
+    let data = await res.json();
+
+    userData.location = data.country_name || "unknown";
+
+    document.getElementById("locationStatus").innerText =
+      "Location: " + userData.location;
+
+  } catch (e) {
+    document.getElementById("locationStatus").innerText =
+      "Location failed (fallback: unknown)";
+  }
 }
 
-function openModal(type){
-	document.getElementById("modalTitle").innerText=type+" Opportunities";
-	document.getElementById("modal").style.display="flex";
+
+// -----------------------------
+// SAVE PROFILE
+// -----------------------------
+function saveProfile() {
+  userData.housing = document.getElementById("housing").value;
+  userData.transport = document.getElementById("transport").value;
+
+  localStorage.setItem("signalUser", JSON.stringify(userData));
+
+  document.getElementById("onboarding").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+
+  renderProfile();
+  loadPoints();
 }
 
-function closeModal(){
-	document.getElementById("modal").style.display="none";
+
+// -----------------------------
+// DASHBOARD RENDER
+// -----------------------------
+function renderProfile() {
+  document.getElementById("profileDisplay").innerHTML = `
+    <p>Housing: ${userData.housing}</p>
+    <p>Transport: ${userData.transport}</p>
+    <p>Location: ${userData.location}</p>
+  `;
 }
 
-function toggle(el){
-	el.classList.toggle("on");
+
+// -----------------------------
+// POINT SYSTEM (SIMULATED DAILY)
+// -----------------------------
+function loadPoints() {
+  let stored = JSON.parse(localStorage.getItem("signalUser"));
+  if (!stored) return;
+
+  userData = stored;
+
+  let last = localStorage.getItem("lastClaimDate");
+  if (!last) {
+    document.getElementById("points").innerText = userData.points;
+  } else {
+    document.getElementById("points").innerText = userData.points;
+  }
 }
 
-const ops=[
-"AI Remote Work Matches",
-"High Skill Freelance",
-"Local Business Deals",
-"Automated Income Systems"
-];
+function claimPoints() {
+  let today = new Date().toDateString();
+  let last = localStorage.getItem("lastClaimDate");
 
-let i=0;
-setInterval(()=>{
-	let el=document.getElementById("opText");
-	if(el){
-		el.innerText=ops[i%ops.length];
-		i++;
-	}
-},4000);
+  if (last === today) {
+    alert("Already claimed today");
+    return;
+  }
 
+  let multiplier = document.getElementById("rewardBoost").checked ? 2 : 1;
+
+  let earned = 10 * multiplier;
+  userData.points += earned;
+
+  localStorage.setItem("signalUser", JSON.stringify(userData));
+  localStorage.setItem("lastClaimDate", today);
+
+  document.getElementById("points").innerText = userData.points;
+  renderProfile();
+}
+
+
+// -----------------------------
+// AUTO LOAD
+// -----------------------------
+(function init(){
+  let stored = localStorage.getItem("signalUser");
+  if (stored) {
+    userData = JSON.parse(stored);
+    document.getElementById("onboarding").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+    renderProfile();
+    loadPoints();
+  }
+})();
 </script>
 
 </body>
