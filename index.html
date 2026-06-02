@@ -10,13 +10,13 @@
 	margin:0;
 	padding:0;
 	box-sizing:border-box;
-	font-family:Inter,Arial,sans-serif;
+	font-family:Arial, sans-serif;
 }
 
 body{
+	height:100vh;
 	background:#020617;
 	color:white;
-	height:100vh;
 	overflow:hidden;
 }
 
@@ -24,9 +24,9 @@ body{
 	position:fixed;
 	inset:0;
 	background:
-		radial-gradient(circle at 20% 20%,rgba(59,130,246,.25),transparent 30%),
-		radial-gradient(circle at 80% 20%,rgba(168,85,247,.2),transparent 35%),
-		radial-gradient(circle at 50% 100%,rgba(34,211,238,.15),transparent 40%),
+		radial-gradient(circle at 20% 20%,rgba(99,102,241,.25),transparent 35%),
+		radial-gradient(circle at 80% 30%,rgba(168,85,247,.2),transparent 40%),
+		radial-gradient(circle at 50% 100%,rgba(34,211,238,.12),transparent 45%),
 		#020617;
 	z-index:-3;
 }
@@ -48,12 +48,8 @@ body{
 }
 
 @keyframes float{
-	from{
-		transform:translateY(0px);
-	}
-	to{
-		transform:translateY(-100vh);
-	}
+	from{transform:translateY(0);}
+	to{transform:translateY(-100vh);}
 }
 
 .glow{
@@ -61,18 +57,11 @@ body{
 	width:700px;
 	height:700px;
 	background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);
-	filter:blur(80px);
+	filter:blur(90px);
 	top:50%;
 	left:50%;
 	transform:translate(-50%,-50%);
 	z-index:-1;
-	animation:pulse 8s infinite ease-in-out;
-}
-
-@keyframes pulse{
-	50%{
-		transform:translate(-50%,-50%) scale(1.1);
-	}
 }
 
 .wrapper{
@@ -84,201 +73,175 @@ body{
 }
 
 .panel{
-	width:min(1000px,95vw);
+	width:min(980px,95vw);
 	background:rgba(255,255,255,.04);
 	backdrop-filter:blur(25px);
 	border:1px solid rgba(255,255,255,.08);
-	border-radius:30px;
+	border-radius:28px;
 	padding:40px;
-	box-shadow:0 0 50px rgba(0,0,0,.4);
 }
 
-.step{
-	display:none;
-	text-align:center;
-}
-
-.step.active{
-	display:block;
-	animation:fade .5s ease;
-}
-
-@keyframes fade{
-	from{
-		opacity:0;
-		transform:translateY(15px);
-	}
-	to{
-		opacity:1;
-		transform:translateY(0);
-	}
-}
+.step{display:none;text-align:center;}
+.step.active{display:block;}
 
 .logo{
 	font-size:.75rem;
-	letter-spacing:.4em;
-	opacity:.5;
-	margin-bottom:30px;
+	letter-spacing:.35em;
+	opacity:.55;
+	margin-bottom:25px;
 }
 
 .title{
-	font-size:clamp(2rem,5vw,4rem);
+	font-size:clamp(2rem,4vw,3.5rem);
 	font-weight:200;
 	margin-bottom:10px;
 }
 
 .subtitle{
 	opacity:.55;
-	margin-bottom:40px;
+	margin-bottom:35px;
 }
 
 .grid{
 	display:grid;
-	grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-	gap:16px;
+	grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+	gap:14px;
 }
 
 .card{
 	background:rgba(255,255,255,.04);
 	border:1px solid rgba(255,255,255,.08);
-	border-radius:24px;
-	padding:30px 20px;
+	border-radius:20px;
+	padding:26px;
 	cursor:pointer;
-	transition:.3s;
+	transition:.25s;
 }
 
 .card:hover{
-	transform:translateY(-5px);
 	background:rgba(255,255,255,.08);
+	transform:translateY(-4px);
 }
 
-.emoji{
-	font-size:2.5rem;
-	margin-bottom:12px;
-}
-
-.label{
-	font-size:1rem;
-	opacity:.9;
-}
+.emoji{font-size:2rem;margin-bottom:10px;}
+.label{opacity:.9;}
 
 .dashboard{
 	display:grid;
-	grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-	gap:16px;
-	margin-top:25px;
-}
-
-.widget{
-	background:rgba(255,255,255,.04);
-	border:1px solid rgba(255,255,255,.08);
-	border-radius:20px;
-	padding:25px;
-	text-align:left;
-}
-
-.widget h3{
-	font-weight:400;
-	margin-bottom:10px;
-}
-
-.progress{
-	height:8px;
-	background:rgba(255,255,255,.08);
-	border-radius:999px;
-	margin-top:15px;
-	overflow:hidden;
-}
-
-.progress span{
-	display:block;
-	height:100%;
-	background:white;
-	border-radius:999px;
-}
-
-.slider-box{
-	margin-top:30px;
-	padding:25px;
-	background:rgba(255,255,255,.04);
-	border:1px solid rgba(255,255,255,.08);
-	border-radius:20px;
-}
-
-.slide{
-	font-size:1.3rem;
-	font-weight:300;
-	min-height:40px;
-}
-
-input[type=range]{
-	width:100%;
+	grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+	gap:14px;
 	margin-top:20px;
 }
 
-.share-btn{
-	margin-top:25px;
-	padding:16px 30px;
-	background:white;
-	color:black;
-	border:none;
-	border-radius:999px;
+.tile{
+	background:rgba(255,255,255,.04);
+	border:1px solid rgba(255,255,255,.08);
+	border-radius:18px;
+	padding:20px;
+	text-align:left;
 	cursor:pointer;
-	font-weight:600;
+}
+
+.tile h3{
+	font-weight:400;
+	margin-bottom:8px;
+}
+
+.tile p{
+	opacity:.6;
+	font-size:.9rem;
 }
 
 .modal{
 	position:fixed;
 	inset:0;
+	background:rgba(0,0,0,.7);
 	display:none;
 	align-items:center;
 	justify-content:center;
-	background:rgba(0,0,0,.75);
-	backdrop-filter:blur(10px);
 }
 
 .modal-content{
-	width:min(500px,90vw);
+	width:min(520px,90vw);
 	background:#0f172a;
 	border:1px solid rgba(255,255,255,.1);
-	border-radius:25px;
-	padding:30px;
-	text-align:center;
+	border-radius:20px;
+	padding:25px;
 }
 
 .modal-content h2{
 	font-weight:300;
-	margin-bottom:20px;
+	margin-bottom:15px;
 }
 
-.modal-grid{
+.modal-list{
 	display:grid;
 	grid-template-columns:1fr 1fr;
-	gap:12px;
-	margin-top:20px;
+	gap:10px;
+	margin-top:15px;
 }
 
 .option{
-	padding:15px;
+	padding:14px;
 	background:rgba(255,255,255,.05);
-	border:1px solid rgba(255,255,255,.08);
-	border-radius:16px;
+	border-radius:12px;
 	cursor:pointer;
+	border:1px solid rgba(255,255,255,.08);
 }
 
 .close{
-	margin-top:20px;
-	padding:12px 25px;
-	border:none;
+	margin-top:15px;
+	padding:10px 18px;
 	border-radius:999px;
+	border:none;
 	cursor:pointer;
 }
 
-.small{
-	opacity:.5;
-	font-size:.85rem;
-	margin-top:15px;
+.toggles{
+	display:flex;
+	flex-direction:column;
+	gap:10px;
+	margin-top:20px;
 }
+
+.toggle{
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	padding:14px;
+	background:rgba(255,255,255,.04);
+	border:1px solid rgba(255,255,255,.08);
+	border-radius:14px;
+}
+
+.switch{
+	width:44px;
+	height:24px;
+	background:rgba(255,255,255,.2);
+	border-radius:999px;
+	position:relative;
+	cursor:pointer;
+}
+
+.knob{
+	width:18px;
+	height:18px;
+	background:white;
+	border-radius:50%;
+	position:absolute;
+	top:3px;
+	left:3px;
+	transition:.2s;
+}
+
+.switch.on{
+	background:rgba(34,211,238,.6);
+}
+
+.switch.on .knob{
+	left:23px;
+}
+
+.small{opacity:.5;font-size:.85rem;margin-top:12px;}
 </style>
 </head>
 
@@ -289,223 +252,184 @@ input[type=range]{
 <div class="glow"></div>
 
 <div class="wrapper">
+<div class="panel">
 
-	<div class="panel">
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+<div class="logo">DREAM LIFE BUILDER</div>
+<div class="title">Lifestyle</div>
+<div class="subtitle">Choose your path</div>
 
-		<div class="step active" id="step1">
+<div class="grid">
+<div class="card" onclick="next(2)">
+<div class="emoji">🧳</div>
+<div class="label">Minimalist / Mobile</div>
+</div>
 
-			<div class="logo">DREAM LIFE BUILDER</div>
+<div class="card" onclick="next(2)">
+<div class="emoji">🏠</div>
+<div class="label">House / Apartment</div>
+</div>
 
-			<div class="title">Home</div>
+<div class="card" onclick="next(2)">
+<div class="emoji">🏰</div>
+<div class="label">Mansion / Luxury</div>
+</div>
+</div>
+</div>
 
-			<div class="subtitle">Choose your future.</div>
+<!-- STEP 2 -->
+<div class="step" id="step2">
+<div class="logo">TRANSPORT</div>
+<div class="title">Mobility</div>
+<div class="subtitle">Choose your level</div>
 
-			<div class="grid">
+<div class="grid">
+<div class="card" onclick="next(3)">
+<div class="emoji">💸</div>
+<div class="label">Budget</div>
+</div>
 
-				<div class="card" onclick="nextStep(2)">
-					<div class="emoji">🏡</div>
-					<div class="label">House</div>
-				</div>
+<div class="card" onclick="next(3)">
+<div class="emoji">🚗</div>
+<div class="label">Economical</div>
+</div>
 
-				<div class="card" onclick="nextStep(2)">
-					<div class="emoji">🏙️</div>
-					<div class="label">Penthouse</div>
-				</div>
+<div class="card" onclick="next(3)">
+<div class="emoji">✈️</div>
+<div class="label">Luxury</div>
+</div>
+</div>
+</div>
 
-				<div class="card" onclick="nextStep(2)">
-					<div class="emoji">🏖️</div>
-					<div class="label">Beach</div>
-				</div>
+<!-- STEP 3 -->
+<div class="step" id="step3">
+<div class="logo">COMMAND CENTER</div>
+<div class="title">Your System</div>
+<div class="subtitle">Select what you need today</div>
 
-				<div class="card" onclick="nextStep(2)">
-					<div class="emoji">🌲</div>
-					<div class="label">Cabin</div>
-				</div>
+<div class="dashboard">
 
-			</div>
+<div class="tile" onclick="openModal('Money')">
+<h3>💰 Money</h3>
+<p>Opportunities & income</p>
+</div>
 
-		</div>
+<div class="tile" onclick="openModal('Time')">
+<h3>⏰ Time</h3>
+<p>Focus & automation</p>
+</div>
 
-		<div class="step" id="step2">
+<div class="tile" onclick="openModal('Education')">
+<h3>📚 Education</h3>
+<p>Skills & learning</p>
+</div>
 
-			<div class="logo">TRANSPORT</div>
-
-			<div class="title">Travel</div>
-
-			<div class="subtitle">Choose your ride.</div>
-
-			<div class="grid">
-
-				<div class="card" onclick="nextStep(3)">
-					<div class="emoji">🚗</div>
-					<div class="label">Car</div>
-				</div>
-
-				<div class="card" onclick="nextStep(3)">
-					<div class="emoji">🏍️</div>
-					<div class="label">Motorcycle</div>
-				</div>
-
-				<div class="card" onclick="nextStep(3)">
-					<div class="emoji">✈️</div>
-					<div class="label">Jet</div>
-				</div>
-
-				<div class="card" onclick="nextStep(3)">
-					<div class="emoji">🚐</div>
-					<div class="label">RV</div>
-				</div>
-
-			</div>
-
-		</div>
-
-		<div class="step" id="step3">
-
-			<div class="logo">YOUR PLAN</div>
-
-			<div class="title">Dashboard</div>
-
-			<div class="subtitle">Today's focus.</div>
-
-			<div class="dashboard">
-
-				<div class="widget">
-					<h3>💰 Money</h3>
-					<p>$6,000/mo</p>
-					<div class="progress">
-						<span style="width:72%"></span>
-					</div>
-				</div>
-
-				<div class="widget">
-					<h3>⏰ Time</h3>
-					<p>2 hrs/day</p>
-					<div class="progress">
-						<span style="width:48%"></span>
-					</div>
-				</div>
-
-				<div class="widget">
-					<h3>📚 Education</h3>
-					<p>15 mins/day</p>
-					<div class="progress">
-						<span style="width:60%"></span>
-					</div>
-				</div>
-
-				<div class="widget">
-					<h3>✨ Other</h3>
-					<p>Custom Goal</p>
-					<div class="progress">
-						<span style="width:35%"></span>
-					</div>
-				</div>
-
-			</div>
-
-			<div class="slider-box">
-
-				<div class="slide" id="slideText">
-					Remote AI Opportunity
-				</div>
-
-				<input
-					type="range"
-					min="0"
-					max="4"
-					value="0"
-					oninput="changeSlide(this.value)"
-				>
-
-			</div>
-
-			<button class="share-btn" onclick="openModal()">
-				Unlock More Opportunities
-			</button>
-
-		</div>
-
-	</div>
+<div class="tile" onclick="openModal('Other')">
+<h3>✨ Other</h3>
+<p>Custom goals</p>
+</div>
 
 </div>
 
+<div class="subtitle" style="margin-top:25px;">Opportunity Stream</div>
+
+<div class="card" style="margin-top:10px;">
+<div id="opText">AI Remote Work Matches</div>
+</div>
+
+<div class="toggles">
+
+<div class="toggle">
+<span>Email</span>
+<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
+</div>
+
+<div class="toggle">
+<span>SMS</span>
+<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
+</div>
+
+<div class="toggle">
+<span>Social</span>
+<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
+</div>
+
+<div class="toggle">
+<span>Selfie</span>
+<div class="switch" onclick="toggle(this)"><div class="knob"></div></div>
+</div>
+
+</div>
+
+<div class="small">Toggle sharing to improve recommendations.</div>
+
+</div>
+
+</div>
+</div>
+
+<!-- MODAL -->
 <div class="modal" id="modal">
+<div class="modal-content">
+<h2 id="modalTitle">Opportunities</h2>
 
-	<div class="modal-content">
+<div class="modal-list">
+<div class="option">Freelance AI Tasks</div>
+<div class="option">Local Business Gigs</div>
+<div class="option">Skill Learning Path</div>
+<div class="option">Passive Income Ideas</div>
+</div>
 
-		<h2>Share What You Choose</h2>
-
-		<div class="modal-grid">
-
-			<div class="option">📧 Email</div>
-			<div class="option">📱 SMS</div>
-			<div class="option">🌐 Social</div>
-			<div class="option">📸 Selfie</div>
-
-		</div>
-
-		<div class="small">
-			Optional sharing for personalized recommendations.
-		</div>
-
-		<button class="close" onclick="closeModal()">
-			Close
-		</button>
-
-	</div>
-
+<button class="close" onclick="closeModal()">Close</button>
+</div>
 </div>
 
 <script>
 
+// stars
 for(let i=0;i<120;i++){
-
-	let star=document.createElement("div");
-
-	star.className="star";
-
-	star.style.left=Math.random()*100+"%";
-	star.style.top=Math.random()*100+"%";
-	star.style.animationDuration=(20+Math.random()*40)+"s";
-
-	document.getElementById("stars").appendChild(star);
+	let s=document.createElement("div");
+	s.className="star";
+	s.style.left=Math.random()*100+"%";
+	s.style.top=Math.random()*100+"%";
+	s.style.animationDuration=(20+Math.random()*50)+"s";
+	document.getElementById("stars").appendChild(s);
 }
 
-function nextStep(step){
-
-	document
-		.querySelectorAll(".step")
-		.forEach(s=>s.classList.remove("active"));
-
-	document
-		.getElementById("step"+step)
-		.classList.add("active");
+function next(n){
+	document.querySelectorAll(".step").forEach(e=>e.classList.remove("active"));
+	document.getElementById("step"+n).classList.add("active");
 }
 
-const slides=[
-	"Remote AI Opportunity",
-	"Learn High Income Skills",
-	"Local Business Partnership",
-	"Community Project",
-	"Personalized Recommendations"
-];
-
-function changeSlide(value){
-
-	document.getElementById("slideText").innerText=
-		slides[value];
-}
-
-function openModal(){
-
+function openModal(type){
+	document.getElementById("modalTitle").innerText=type+" Opportunities";
 	document.getElementById("modal").style.display="flex";
 }
 
 function closeModal(){
-
 	document.getElementById("modal").style.display="none";
 }
+
+function toggle(el){
+	el.classList.toggle("on");
+}
+
+const ops=[
+"AI Remote Work Matches",
+"High Skill Freelance",
+"Local Business Deals",
+"Automated Income Systems"
+];
+
+let i=0;
+setInterval(()=>{
+	let el=document.getElementById("opText");
+	if(el){
+		el.innerText=ops[i%ops.length];
+		i++;
+	}
+},4000);
 
 </script>
 
