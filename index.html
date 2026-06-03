@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Signal • MVP</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <style>
 :root {
@@ -24,8 +24,8 @@ body {
 	color: #eee;
 	height: 100vh;
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
 	text-align: center;
 	overflow: hidden;
 }
@@ -49,26 +49,32 @@ canvas {
 	box-shadow: 0 0 60px rgba(0,255,157,0.15);
 	display: flex;
 	flex-direction: column;
-	text-align: center;
+	align-items: center;
+	overflow: hidden;
 }
 
 header {
-	padding: 18px;
+	padding: 20px;
+	width: 100%;
 	border-bottom: 1px solid rgba(255,255,255,0.08);
+	text-align: center;
 }
 
 h1 {
-	font-size: 26px;
+	font-size: 28px;
+	font-weight: 500;
 	color: var(--accent);
 }
 
 .screen {
 	flex: 1;
+	width: 100%;
 	overflow-y: auto;
-	padding: 22px;
+	padding: 24px;
 	display: none;
 	flex-direction: column;
-	gap: 18px;
+	align-items: center;
+	gap: 24px;
 }
 
 .screen.active {
@@ -76,55 +82,88 @@ h1 {
 }
 
 .card {
+	width: 100%;
 	background: rgba(255,255,255,0.03);
 	border: 1px solid rgba(255,255,255,0.08);
 	border-radius: 16px;
-	padding: 18px;
+	padding: 20px;
+	backdrop-filter: blur(12px);
 	text-align: center;
 }
 
 .section-title {
-	font-size: 12px;
+	font-size: 13px;
 	opacity: 0.6;
+	margin-bottom: 12px;
 	text-transform: uppercase;
-	margin-bottom: 10px;
 	letter-spacing: 1px;
 }
 
+/* MAP */
 #housing-map {
 	height: 260px;
 	border-radius: 14px;
+	overflow: hidden;
+	border: 1px solid rgba(255,255,255,0.1);
 }
 
+/* OPTIONS */
 .option-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 10px;
-	margin-top: 12px;
+	gap: 12px;
 }
 
 .option-btn {
 	background: rgba(255,255,255,0.05);
+	border: 2px solid transparent;
 	border-radius: 14px;
 	padding: 14px;
 	cursor: pointer;
 	transition: 0.2s;
 }
 
+.option-btn:hover {
+	border-color: var(--accent);
+}
+
 .option-btn.active {
-	border: 1px solid var(--accent);
+	border-color: var(--accent);
 	color: var(--accent);
 	background: rgba(0,255,157,0.12);
 }
 
-.location-bar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.option-btn .emoji {
+	font-size: 34px;
+	display: block;
+	margin-bottom: 6px;
+}
+
+/* HOUSING TYPE */
+.housing-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+	margin-top: 12px;
+}
+
+.housing-btn {
+	padding: 12px;
+	border-radius: 12px;
 	background: rgba(255,255,255,0.05);
-	padding: 12px 14px;
-	border-radius: 14px;
-	margin-top: 10px;
+	border: 1px solid rgba(255,255,255,0.1);
+	cursor: pointer;
+}
+
+.housing-btn.active {
+	border-color: var(--accent);
+	color: var(--accent);
+}
+
+/* LOCATION */
+.location-box {
+	margin-top: 12px;
+	font-size: 14px;
 }
 
 .btn {
@@ -134,34 +173,25 @@ h1 {
 	padding: 14px;
 	border-radius: 14px;
 	border: none;
-	cursor: pointer;
+	width: 100%;
 	font-size: 16px;
+	cursor: pointer;
 }
 
 .btn-secondary {
 	background: transparent;
 	border: 1px solid rgba(255,255,255,0.2);
 	color: white;
-	padding: 8px 12px;
+	padding: 10px 14px;
 	border-radius: 10px;
-	cursor: pointer;
+	margin-top: 10px;
 }
 
-.signal-big {
-	font-size: 64px;
-	color: var(--accent);
-	font-weight: 600;
-}
-
-.stat {
-	display: flex;
-	justify-content: space-between;
-	padding: 10px 0;
+/* DASHBOARD */
+.dashboard-item {
+	margin: 10px 0;
+	padding: 10px;
 	border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.stat:last-child {
-	border: none;
 }
 
 </style>
@@ -181,78 +211,92 @@ h1 {
 <div id="onboarding" class="screen active">
 
 	<div class="card">
-		<div class="section-title">Where do you want to live?</div>
+		<div class="section-title">Choose Location</div>
 		<div id="housing-map"></div>
-		<div style="margin-top:10px; opacity:0.7" id="selected-location">Click map to choose area</div>
-	</div>
 
-	<div class="card">
-		<div class="section-title">Housing Type</div>
-		<div class="option-grid">
-			<div class="option-btn" onclick="setHousing(this,'Minimalist/Mobile')">🚐<br>Minimalist</div>
-			<div class="option-btn" onclick="setHousing(this,'House/Apartment')">🏠<br>House</div>
-			<div class="option-btn" onclick="setHousing(this,'Mansion/Luxury')">🏰<br>Luxury</div>
+		<div class="location-box" id="selected-location">
+			Click map to select area
+		</div>
+
+		<div class="housing-grid">
+			<div class="housing-btn" onclick="selectHousingType(this,'Mobile')">Mobile</div>
+			<div class="housing-btn" onclick="selectHousingType(this,'Apartment')">Apartment</div>
+			<div class="housing-btn" onclick="selectHousingType(this,'Luxury')">Luxury</div>
 		</div>
 	</div>
 
 	<div class="card">
 		<div class="section-title">Transportation</div>
 		<div class="option-grid">
-			<div class="option-btn" onclick="setTransport(this,'Budget')">🚲<br>Budget</div>
-			<div class="option-btn" onclick="setTransport(this,'Economical')">🚗<br>Economical</div>
-			<div class="option-btn" onclick="setTransport(this,'Luxury')">🏎️<br>Luxury</div>
-			<div class="option-btn" onclick="setTransport(this,'Elite')">🛩️<br>Elite</div>
+			<div class="option-btn" data-transport="Budget" onclick="selectTransport(this)">
+				<span class="emoji">🚲</span>
+				Budget
+			</div>
+			<div class="option-btn" data-transport="Standard" onclick="selectTransport(this)">
+				<span class="emoji">🚗</span>
+				Standard
+			</div>
+			<div class="option-btn" data-transport="Premium" onclick="selectTransport(this)">
+				<span class="emoji">🏎️</span>
+				Premium
+			</div>
+			<div class="option-btn" data-transport="Luxury" onclick="selectTransport(this)">
+				<span class="emoji">🛩️</span>
+				Luxury
+			</div>
 		</div>
 	</div>
 
 	<div class="card">
 		<div class="section-title">Detected Country</div>
-		<div id="country">Detecting...</div>
+		<div id="country-display">Detecting...</div>
 
-		<div class="location-bar">
+		<div id="country-confirm">
 			<button class="btn-secondary" onclick="confirmCountry(true)">Yes</button>
-			<button class="btn-secondary" onclick="changeCountry()">No</button>
+			<button class="btn-secondary" onclick="showCountrySelect()">No</button>
 		</div>
 
-		<select id="country-select" style="display:none; margin-top:10px;">
+		<select id="country-select" style="display:none; margin-top:10px; padding:10px; border-radius:10px;">
 			<option>United States</option>
 			<option>Canada</option>
+			<option>Mexico</option>
 			<option>United Kingdom</option>
 			<option>Germany</option>
+			<option>France</option>
 			<option>Japan</option>
 			<option>Kenya</option>
+			<option>India</option>
 		</select>
-
-		<button class="btn-secondary" id="save-country" style="display:none; margin-top:10px;" onclick="saveCountry()">Save</button>
 	</div>
 
-	<button class="btn" onclick="goDashboard()">Continue</button>
+	<button class="btn" onclick="goToDashboard()">Continue</button>
+
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="screen">
 
 	<div class="card">
-		<div class="section-title">Signal Score</div>
-		<div class="signal-big" id="points">248</div>
-	</div>
+		<div class="section-title">Your Setup</div>
 
-	<div class="card">
-		<div class="section-title">Your Selections</div>
-
-		<div class="stat">
-			<span>Housing</span>
-			<span id="dash-housing"></span>
+		<div class="dashboard-item">
+			<div>Country</div>
+			<div id="dash-country"></div>
 		</div>
 
-		<div class="stat">
-			<span>Transport</span>
-			<span id="dash-transport"></span>
+		<div class="dashboard-item">
+			<div>Location</div>
+			<div id="dash-location"></div>
 		</div>
 
-		<div class="stat">
-			<span>Country</span>
-			<span id="dash-country"></span>
+		<div class="dashboard-item">
+			<div>Housing Type</div>
+			<div id="dash-housing-type"></div>
+		</div>
+
+		<div class="dashboard-item">
+			<div>Transport</div>
+			<div id="dash-transport"></div>
 		</div>
 	</div>
 
@@ -268,138 +312,140 @@ h1 {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
+
 // STARFIELD
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+let stars = [];
 
-let stars = Array.from({length:220}, () => ({
-	x: Math.random()*canvas.width,
-	y: Math.random()*canvas.height,
-	s: Math.random()*2
-}));
+function resize() {
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
+}
+resize();
+addEventListener("resize", resize);
 
-function draw(){
-	ctx.fillStyle="#050505";
+for (let i = 0; i < 200; i++) {
+	stars.push({
+		x: Math.random() * canvas.width,
+		y: Math.random() * canvas.height,
+		s: Math.random() * 2,
+		sp: Math.random() * 0.6 + 0.2
+	});
+}
+
+function draw() {
+	ctx.fillStyle = "rgba(5,5,5,0.4)";
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 
-	ctx.fillStyle="#fff";
-	for(let s of stars){
-		ctx.fillRect(s.x,s.y,s.s,s.s);
-		s.y += 0.3;
-		if(s.y>canvas.height) s.y=0;
+	ctx.fillStyle = "#fff";
+	for (let s of stars) {
+		ctx.fillRect(s.x, s.y, s.s, s.s);
+		s.y += s.sp;
+		if (s.y > canvas.height) s.y = 0;
 	}
 	requestAnimationFrame(draw);
 }
 draw();
 
 // STATE
-let user = {
-	housing:"",
-	transport:"",
-	country:"",
-	location:{}
+let profile = {
+	lat: 0,
+	lng: 0,
+	locationName: "",
+	housingType: "",
+	transport: "",
+	country: ""
 };
 
 // MAP
 let map, marker;
 
-function initMap(){
-	map = L.map('housing-map',{zoomControl:false}).setView([20,0],2);
+function initMap() {
+	map = L.map('housing-map', { zoomControl:false }).setView([20,0], 2);
 
 	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-	marker = L.marker([20,0],{draggable:true}).addTo(map);
+	marker = L.marker([20,0], { draggable:true }).addTo(map);
 
-	marker.on("dragend", updateLocation);
-	map.on("click", e=>{
+	function update(pos) {
+		profile.lat = pos.lat;
+		profile.lng = pos.lng;
+		profile.locationName = `${pos.lat.toFixed(2)}, ${pos.lng.toFixed(2)}`;
+		document.getElementById("selected-location").innerText = profile.locationName;
+	}
+
+	marker.on("dragend", e => update(e.target.getLatLng()));
+	map.on("click", e => {
 		marker.setLatLng(e.latlng);
-		updateLocation();
+		update(e.latlng);
 	});
 }
 
-function updateLocation(){
-	const p = marker.getLatLng();
-	user.location = p;
-	document.getElementById("selected-location").innerText =
-		`Selected: ${p.lat.toFixed(2)}, ${p.lng.toFixed(2)}`;
-}
-
-// HOUSING / TRANSPORT
-function setHousing(el,val){
-	user.housing = val;
-	document.querySelectorAll(".card .option-btn").forEach(b=>{
-		if(b.innerText.includes("Minimalist") || b.innerText.includes("House") || b.innerText.includes("Luxury")){
-			b.classList.remove("active");
-		}
-	});
+// TRANSPORT
+function selectTransport(el) {
+	document.querySelectorAll(".option-btn").forEach(b=>b.classList.remove("active"));
 	el.classList.add("active");
+	profile.transport = el.dataset.transport;
 }
 
-function setTransport(el,val){
-	user.transport = val;
-	document.querySelectorAll(".card .option-btn").forEach(b=>{
-		if(b.innerText.includes("Budget") || b.innerText.includes("Economical") || b.innerText.includes("Luxury") || b.innerText.includes("Elite")){
-			b.classList.remove("active");
-		}
-	});
+// HOUSING
+function selectHousingType(el, type) {
+	document.querySelectorAll(".housing-btn").forEach(b=>b.classList.remove("active"));
 	el.classList.add("active");
+	profile.housingType = type;
 }
 
 // COUNTRY
-async function detectCountry(){
-	try{
-		let r = await fetch("https://ipapi.co/json/");
-		let d = await r.json();
-		user.country = d.country_name;
-		document.getElementById("country").innerText = d.country_name;
-	}catch{
-		user.country = "United States";
-		document.getElementById("country").innerText = "United States";
-	}
+function detectCountry() {
+	fetch("https://ipapi.co/json/")
+	.then(r=>r.json())
+	.then(d=>{
+		profile.country = d.country_name || "Unknown";
+		document.getElementById("country-display").innerText = profile.country;
+	});
 }
 
-function confirmCountry(ok){
-	if(ok){
-		document.querySelector(".location-bar").style.display="none";
-	}else{
-		changeCountry();
-	}
+function confirmCountry(ok) {
+	if (ok) return;
+	showCountrySelect();
 }
 
-function changeCountry(){
-	document.getElementById("country-select").style.display="block";
-	document.getElementById("save-country").style.display="block";
-}
-
-function saveCountry(){
-	user.country = document.getElementById("country-select").value;
-	document.getElementById("country").innerText = user.country;
-	document.getElementById("country-select").style.display="none";
-	document.getElementById("save-country").style.display="none";
+function showCountrySelect() {
+	document.getElementById("country-select").style.display = "block";
+	document.getElementById("country-select").onchange = (e)=>{
+		profile.country = e.target.value;
+		document.getElementById("country-display").innerText = profile.country;
+	};
 }
 
 // NAV
-function goDashboard(){
+function goToDashboard() {
 	document.getElementById("onboarding").classList.remove("active");
 	document.getElementById("dashboard").classList.add("active");
 
-	document.getElementById("dash-housing").innerText = user.housing || "None";
-	document.getElementById("dash-transport").innerText = user.transport || "None";
-	document.getElementById("dash-country").innerText = user.country || "None";
+	document.getElementById("dash-country").innerText = profile.country;
+	document.getElementById("dash-location").innerText = profile.locationName;
+	document.getElementById("dash-housing-type").innerText = profile.housingType;
+	document.getElementById("dash-transport").innerText = profile.transport;
 }
 
-// PAY
-function paySol(){
-	alert("Mock: 1 SOL payment flow");
+// PAYMENT MOCK
+function paySol() {
+	alert("1 SOL payment flow placeholder");
 }
 
 // INIT
-window.onload = ()=>{
+window.onload = () => {
 	initMap();
 	detectCountry();
+
+	// default transport
+	let def = document.querySelector('[data-transport="Standard"]');
+	if (def) def.classList.add("active");
+	profile.transport = "Standard";
 };
+
 </script>
 
 </body>
