@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Signal • MVP</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
 :root {
@@ -27,6 +27,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	text-align: center;
+	overflow: hidden;
 }
 
 canvas {
@@ -46,31 +47,28 @@ canvas {
 	background: #0a0a0a;
 	border: 1px solid rgba(255,255,255,0.08);
 	box-shadow: 0 0 60px rgba(0,255,157,0.15);
-	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	text-align: center;
 }
 
 header {
-	padding: 20px;
+	padding: 18px;
 	border-bottom: 1px solid rgba(255,255,255,0.08);
-	text-align: center;
 }
 
 h1 {
-	font-size: 28px;
+	font-size: 26px;
 	color: var(--accent);
 }
 
 .screen {
 	flex: 1;
 	overflow-y: auto;
-	padding: 24px;
+	padding: 22px;
 	display: none;
 	flex-direction: column;
-	gap: 24px;
-	text-align: center;
+	gap: 18px;
 }
 
 .screen.active {
@@ -81,71 +79,89 @@ h1 {
 	background: rgba(255,255,255,0.03);
 	border: 1px solid rgba(255,255,255,0.08);
 	border-radius: 16px;
-	padding: 20px;
+	padding: 18px;
 	text-align: center;
 }
 
 .section-title {
-	font-size: 13px;
+	font-size: 12px;
 	opacity: 0.6;
-	margin-bottom: 12px;
 	text-transform: uppercase;
+	margin-bottom: 10px;
+	letter-spacing: 1px;
+}
+
+#housing-map {
+	height: 260px;
+	border-radius: 14px;
 }
 
 .option-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 12px;
+	gap: 10px;
+	margin-top: 12px;
 }
 
 .option-btn {
 	background: rgba(255,255,255,0.05);
 	border-radius: 14px;
-	padding: 16px;
+	padding: 14px;
 	cursor: pointer;
+	transition: 0.2s;
 }
 
 .option-btn.active {
 	border: 1px solid var(--accent);
 	color: var(--accent);
+	background: rgba(0,255,157,0.12);
+}
+
+.location-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: rgba(255,255,255,0.05);
+	padding: 12px 14px;
+	border-radius: 14px;
+	margin-top: 10px;
 }
 
 .btn {
 	background: var(--accent);
 	color: black;
 	font-weight: 700;
-	padding: 16px;
+	padding: 14px;
 	border-radius: 14px;
 	border: none;
 	cursor: pointer;
+	font-size: 16px;
 }
 
 .btn-secondary {
 	background: transparent;
 	border: 1px solid rgba(255,255,255,0.2);
 	color: white;
-	padding: 10px 14px;
+	padding: 8px 12px;
 	border-radius: 10px;
+	cursor: pointer;
 }
 
-#housing-map {
-	height: 240px;
-	border-radius: 14px;
-}
-
-.location-box {
-	margin-top: 10px;
-}
-
-.big {
-	font-size: 56px;
+.signal-big {
+	font-size: 64px;
 	color: var(--accent);
+	font-weight: 600;
 }
 
-.stat-row {
+.stat {
 	display: flex;
 	justify-content: space-between;
 	padding: 10px 0;
+	border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.stat:last-child {
+	border: none;
 }
 
 </style>
@@ -165,23 +181,35 @@ h1 {
 <div id="onboarding" class="screen active">
 
 	<div class="card">
-		<div class="section-title">Select Housing Location</div>
+		<div class="section-title">Where do you want to live?</div>
 		<div id="housing-map"></div>
+		<div style="margin-top:10px; opacity:0.7" id="selected-location">Click map to choose area</div>
+	</div>
 
-		<div style="margin-top:10px;">
-			<button class="btn-secondary" onclick="setHousingType('Minimalist/Mobile')">Minimalist</button>
-			<button class="btn-secondary" onclick="setHousingType('House/Apartment')">House</button>
-			<button class="btn-secondary" onclick="setHousingType('Mansion/Luxury')">Luxury</button>
+	<div class="card">
+		<div class="section-title">Housing Type</div>
+		<div class="option-grid">
+			<div class="option-btn" onclick="setHousing(this,'Minimalist/Mobile')">🚐<br>Minimalist</div>
+			<div class="option-btn" onclick="setHousing(this,'House/Apartment')">🏠<br>House</div>
+			<div class="option-btn" onclick="setHousing(this,'Mansion/Luxury')">🏰<br>Luxury</div>
 		</div>
+	</div>
 
-		<div style="margin-top:10px; opacity:0.7" id="selected-location">Loading map...</div>
+	<div class="card">
+		<div class="section-title">Transportation</div>
+		<div class="option-grid">
+			<div class="option-btn" onclick="setTransport(this,'Budget')">🚲<br>Budget</div>
+			<div class="option-btn" onclick="setTransport(this,'Economical')">🚗<br>Economical</div>
+			<div class="option-btn" onclick="setTransport(this,'Luxury')">🏎️<br>Luxury</div>
+			<div class="option-btn" onclick="setTransport(this,'Elite')">🛩️<br>Elite</div>
+		</div>
 	</div>
 
 	<div class="card">
 		<div class="section-title">Detected Country</div>
-		<div id="country-display">Detecting...</div>
+		<div id="country">Detecting...</div>
 
-		<div class="location-box" id="country-confirm">
+		<div class="location-bar">
 			<button class="btn-secondary" onclick="confirmCountry(true)">Yes</button>
 			<button class="btn-secondary" onclick="changeCountry()">No</button>
 		</div>
@@ -191,40 +219,46 @@ h1 {
 			<option>Canada</option>
 			<option>United Kingdom</option>
 			<option>Germany</option>
-			<option>Kenya</option>
 			<option>Japan</option>
+			<option>Kenya</option>
 		</select>
 
-		<button class="btn-secondary" style="display:none; margin-top:10px;" id="save-country" onclick="saveCountry()">Save</button>
+		<button class="btn-secondary" id="save-country" style="display:none; margin-top:10px;" onclick="saveCountry()">Save</button>
 	</div>
 
-	<button class="btn" onclick="goToDashboard()">Continue</button>
-
+	<button class="btn" onclick="goDashboard()">Continue</button>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="screen">
 
 	<div class="card">
-		<div class="section-title">Your Setup</div>
+		<div class="section-title">Signal Score</div>
+		<div class="signal-big" id="points">248</div>
+	</div>
 
-		<div class="big" id="points">248</div>
+	<div class="card">
+		<div class="section-title">Your Selections</div>
 
-		<div class="stat-row">
-			<span>Housing Type</span>
+		<div class="stat">
+			<span>Housing</span>
 			<span id="dash-housing"></span>
 		</div>
 
-		<div class="stat-row">
+		<div class="stat">
+			<span>Transport</span>
+			<span id="dash-transport"></span>
+		</div>
+
+		<div class="stat">
 			<span>Country</span>
 			<span id="dash-country"></span>
 		</div>
-
 	</div>
 
 	<div class="card">
 		<div class="section-title">Early Access</div>
-		<button class="btn" onclick="buySol()">Pay 1 SOL</button>
+		<button class="btn" onclick="paySol()">Pay 1 SOL</button>
 	</div>
 
 </div>
@@ -234,13 +268,13 @@ h1 {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-// STARFIELD (minimal)
+// STARFIELD
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-let stars = Array.from({length:200}, () => ({
+let stars = Array.from({length:220}, () => ({
 	x: Math.random()*canvas.width,
 	y: Math.random()*canvas.height,
 	s: Math.random()*2
@@ -249,10 +283,11 @@ let stars = Array.from({length:200}, () => ({
 function draw(){
 	ctx.fillStyle="#050505";
 	ctx.fillRect(0,0,canvas.width,canvas.height);
+
 	ctx.fillStyle="#fff";
 	for(let s of stars){
 		ctx.fillRect(s.x,s.y,s.s,s.s);
-		s.y += 0.4;
+		s.y += 0.3;
 		if(s.y>canvas.height) s.y=0;
 	}
 	requestAnimationFrame(draw);
@@ -261,9 +296,10 @@ draw();
 
 // STATE
 let user = {
-	housingType: "",
-	country: "",
-	location: {}
+	housing:"",
+	transport:"",
+	country:"",
+	location:{}
 };
 
 // MAP
@@ -284,14 +320,31 @@ function initMap(){
 }
 
 function updateLocation(){
-	const pos = marker.getLatLng();
-	user.location = pos;
+	const p = marker.getLatLng();
+	user.location = p;
 	document.getElementById("selected-location").innerText =
-		`Selected: ${pos.lat.toFixed(2)}, ${pos.lng.toFixed(2)}`;
+		`Selected: ${p.lat.toFixed(2)}, ${p.lng.toFixed(2)}`;
 }
 
-function setHousingType(type){
-	user.housingType = type;
+// HOUSING / TRANSPORT
+function setHousing(el,val){
+	user.housing = val;
+	document.querySelectorAll(".card .option-btn").forEach(b=>{
+		if(b.innerText.includes("Minimalist") || b.innerText.includes("House") || b.innerText.includes("Luxury")){
+			b.classList.remove("active");
+		}
+	});
+	el.classList.add("active");
+}
+
+function setTransport(el,val){
+	user.transport = val;
+	document.querySelectorAll(".card .option-btn").forEach(b=>{
+		if(b.innerText.includes("Budget") || b.innerText.includes("Economical") || b.innerText.includes("Luxury") || b.innerText.includes("Elite")){
+			b.classList.remove("active");
+		}
+	});
+	el.classList.add("active");
 }
 
 // COUNTRY
@@ -300,16 +353,16 @@ async function detectCountry(){
 		let r = await fetch("https://ipapi.co/json/");
 		let d = await r.json();
 		user.country = d.country_name;
-		document.getElementById("country-display").innerText = d.country_name;
+		document.getElementById("country").innerText = d.country_name;
 	}catch{
 		user.country = "United States";
-		document.getElementById("country-display").innerText = "United States";
+		document.getElementById("country").innerText = "United States";
 	}
 }
 
 function confirmCountry(ok){
 	if(ok){
-		document.getElementById("country-confirm").style.display="none";
+		document.querySelector(".location-bar").style.display="none";
 	}else{
 		changeCountry();
 	}
@@ -322,24 +375,24 @@ function changeCountry(){
 
 function saveCountry(){
 	user.country = document.getElementById("country-select").value;
-	document.getElementById("country-display").innerText = user.country;
+	document.getElementById("country").innerText = user.country;
 	document.getElementById("country-select").style.display="none";
 	document.getElementById("save-country").style.display="none";
-	document.getElementById("country-confirm").style.display="none";
 }
 
 // NAV
-function goToDashboard(){
+function goDashboard(){
 	document.getElementById("onboarding").classList.remove("active");
 	document.getElementById("dashboard").classList.add("active");
 
-	document.getElementById("dash-housing").innerText = user.housingType || "Not set";
-	document.getElementById("dash-country").innerText = user.country || "Not set";
+	document.getElementById("dash-housing").innerText = user.housing || "None";
+	document.getElementById("dash-transport").innerText = user.transport || "None";
+	document.getElementById("dash-country").innerText = user.country || "None";
 }
 
-// SOL BUTTON (mock)
-function buySol(){
-	alert("Redirecting to Solana payment (mock)");
+// PAY
+function paySol(){
+	alert("Mock: 1 SOL payment flow");
 }
 
 // INIT
