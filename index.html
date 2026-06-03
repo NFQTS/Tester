@@ -6,466 +6,346 @@
 <title>Signal • MVP</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
 <style>
-  :root {
-    --accent: #00ff9d;
-  }
+:root {
+	--accent: #00ff9d;
+}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #050505;
-    color: #eee;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
 
-  canvas {
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 0;
-    opacity: 0.6;
-  }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	background: #050505;
+	color: #eee;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
 
-  .app {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 480px;
-    height: 100vh;
-    background: #0a0a0a;
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 0 60px rgba(0,255,157,0.15);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
+canvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	opacity: 0.6;
+}
 
-  header {
-    padding: 20px;
-    text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
+.app {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 480px;
+	height: 100vh;
+	background: #0a0a0a;
+	border: 1px solid rgba(255,255,255,0.08);
+	box-shadow: 0 0 60px rgba(0,255,157,0.15);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
 
-  h1 {
-    font-size: 28px;
-    font-weight: 500;
-    letter-spacing: -1px;
-    color: var(--accent);
-  }
+header {
+	padding: 20px;
+	border-bottom: 1px solid rgba(255,255,255,0.08);
+	text-align: center;
+}
 
-  .screen {
-    flex: 1;
-    overflow-y: auto;
-    padding: 24px;
-    display: none;
-    flex-direction: column;
-    gap: 24px;
-  }
+h1 {
+	font-size: 28px;
+	color: var(--accent);
+}
 
-  .screen.active { display: flex; }
+.screen {
+	flex: 1;
+	overflow-y: auto;
+	padding: 24px;
+	display: none;
+	flex-direction: column;
+	gap: 24px;
+	text-align: center;
+}
 
-  .card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 20px;
-    backdrop-filter: blur(12px);
-  }
+.screen.active {
+	display: flex;
+}
 
-  .section-title {
-    font-size: 15px;
-    opacity: 0.6;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+.card {
+	background: rgba(255,255,255,0.03);
+	border: 1px solid rgba(255,255,255,0.08);
+	border-radius: 16px;
+	padding: 20px;
+	text-align: center;
+}
 
-  /* Onboarding */
-  .option-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
+.section-title {
+	font-size: 13px;
+	opacity: 0.6;
+	margin-bottom: 12px;
+	text-transform: uppercase;
+}
 
-  .option-btn {
-    background: rgba(255,255,255,0.05);
-    border: 2px solid transparent;
-    border-radius: 14px;
-    padding: 18px 12px;
-    text-align: center;
-    transition: all 0.2s;
-    cursor: pointer;
-  }
+.option-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 12px;
+}
 
-  .option-btn:hover {
-    background: rgba(0,255,157,0.08);
-    border-color: var(--accent);
-  }
+.option-btn {
+	background: rgba(255,255,255,0.05);
+	border-radius: 14px;
+	padding: 16px;
+	cursor: pointer;
+}
 
-  .option-btn.active {
-    background: rgba(0,255,157,0.15);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
+.option-btn.active {
+	border: 1px solid var(--accent);
+	color: var(--accent);
+}
 
-  .option-btn .emoji {
-    font-size: 42px;
-    display: block;
-    margin-bottom: 8px;
-  }
+.btn {
+	background: var(--accent);
+	color: black;
+	font-weight: 700;
+	padding: 16px;
+	border-radius: 14px;
+	border: none;
+	cursor: pointer;
+}
 
-  /* Map */
-  #housing-map {
-    height: 260px;
-    border-radius: 14px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
+.btn-secondary {
+	background: transparent;
+	border: 1px solid rgba(255,255,255,0.2);
+	color: white;
+	padding: 10px 14px;
+	border-radius: 10px;
+}
 
-  .leaflet-popup-content {
-    color: black;
-  }
+#housing-map {
+	height: 240px;
+	border-radius: 14px;
+}
 
-  /* Location */
-  .location-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(255,255,255,0.05);
-    padding: 14px 18px;
-    border-radius: 14px;
-  }
+.location-box {
+	margin-top: 10px;
+}
 
-  .btn {
-    background: var(--accent);
-    color: black;
-    font-weight: 700;
-    padding: 16px;
-    border-radius: 14px;
-    border: none;
-    font-size: 17px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+.big {
+	font-size: 56px;
+	color: var(--accent);
+}
 
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,255,157,0.3);
-  }
+.stat-row {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0;
+}
 
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
-  }
-
-  /* Dashboard */
-  .points-big {
-    font-size: 72px;
-    font-weight: 600;
-    line-height: 1;
-    color: var(--accent);
-    text-align: center;
-  }
-
-  .stat-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .stat-row:last-child { border: none; }
-
-  .signal-bar {
-    height: 6px;
-    background: linear-gradient(90deg, #00ff9d, #00cc7a);
-    border-radius: 999px;
-    margin-top: 8px;
-  }
 </style>
 </head>
+
 <body>
 
 <canvas id="stars"></canvas>
 
 <div class="app">
 
-  <!-- HEADER -->
-  <header>
-    <h1>Signal</h1>
-  </header>
+<header>
+	<h1>Signal</h1>
+</header>
 
-  <!-- ONBOARDING -->
-  <div id="onboarding" class="screen active">
+<!-- ONBOARDING -->
+<div id="onboarding" class="screen active">
 
-    <div class="card">
-      <div class="section-title">Where do you want to live?</div>
-      <div id="housing-map"></div>
-      <div style="margin-top:12px; font-size:13px; opacity:0.7;" id="selected-location">Click map to select area</div>
-    </div>
+	<div class="card">
+		<div class="section-title">Select Housing Location</div>
+		<div id="housing-map"></div>
 
-    <div class="card">
-      <div class="section-title">Transportation Preference</div>
-      <div class="option-grid">
-        <div class="option-btn" data-transport="Budget" onclick="selectTransport(this)">
-          <span class="emoji">🚲</span>
-          <div>Budget</div>
-        </div>
-        <div class="option-btn" data-transport="Standard" onclick="selectTransport(this)">
-          <span class="emoji">🚗</span>
-          <div>Standard</div>
-        </div>
-        <div class="option-btn" data-transport="Premium" onclick="selectTransport(this)">
-          <span class="emoji">🏎️</span>
-          <div>Premium</div>
-        </div>
-        <div class="option-btn" data-transport="Luxury" onclick="selectTransport(this)">
-          <span class="emoji">🛩️</span>
-          <div>Luxury</div>
-        </div>
-      </div>
-    </div>
+		<div style="margin-top:10px;">
+			<button class="btn-secondary" onclick="setHousingType('Minimalist/Mobile')">Minimalist</button>
+			<button class="btn-secondary" onclick="setHousingType('House/Apartment')">House</button>
+			<button class="btn-secondary" onclick="setHousingType('Mansion/Luxury')">Luxury</button>
+		</div>
 
-    <div class="card">
-      <div class="section-title">Your Location</div>
-      <div class="location-bar">
-        <span id="detected-location">Detecting...</span>
-        <button onclick="verifyLocation()" class="btn-secondary" style="padding:8px 16px; font-size:14px;">Verify</button>
-      </div>
-      <div id="location-feedback" style="margin-top:12px; font-size:14px;"></div>
-    </div>
+		<div style="margin-top:10px; opacity:0.7" id="selected-location">Loading map...</div>
+	</div>
 
-    <button onclick="goToDashboard()" class="btn" style="margin-top:auto;">Continue to Dashboard</button>
-  </div>
+	<div class="card">
+		<div class="section-title">Detected Country</div>
+		<div id="country-display">Detecting...</div>
 
-  <!-- DASHBOARD -->
-  <div id="dashboard" class="screen">
+		<div class="location-box" id="country-confirm">
+			<button class="btn-secondary" onclick="confirmCountry(true)">Yes</button>
+			<button class="btn-secondary" onclick="changeCountry()">No</button>
+		</div>
 
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <div style="opacity:0.6; font-size:14px;">Your Signal Score</div>
-          <div class="points-big" id="points-display">248</div>
-        </div>
-        <div style="text-align:right;">
-          <div id="streak" style="color:#ffd700; font-size:32px;">🔥 7</div>
-          <div style="font-size:13px; opacity:0.7;">day streak</div>
-        </div>
-      </div>
-      <div class="signal-bar"></div>
-    </div>
+		<select id="country-select" style="display:none; margin-top:10px;">
+			<option>United States</option>
+			<option>Canada</option>
+			<option>United Kingdom</option>
+			<option>Germany</option>
+			<option>Kenya</option>
+			<option>Japan</option>
+		</select>
 
-    <div class="card">
-      <div class="section-title">Your Profile</div>
-      <div id="profile-info" style="line-height:1.7;"></div>
-    </div>
+		<button class="btn-secondary" style="display:none; margin-top:10px;" id="save-country" onclick="saveCountry()">Save</button>
+	</div>
 
-    <div class="card">
-      <div class="section-title">Today's Signals</div>
-      <div class="stat-row">
-        <span>🌍 Location Matches</span>
-        <span style="color:var(--accent)">12</span>
-      </div>
-      <div class="stat-row">
-        <span>🏠 Housing Opportunities</span>
-        <span style="color:var(--accent)">8</span>
-      </div>
-      <div class="stat-row">
-        <span>🚘 Transport Deals</span>
-        <span style="color:var(--accent)">5</span>
-      </div>
-    </div>
+	<button class="btn" onclick="goToDashboard()">Continue</button>
 
-    <div class="card">
-      <button onclick="claimDaily()" class="btn">Claim Daily Reward (+25)</button>
-    </div>
+</div>
 
-    <div style="margin-top:auto; text-align:center; opacity:0.5; font-size:13px;">
-      Signal MVP • v0.3
-    </div>
-  </div>
+<!-- DASHBOARD -->
+<div id="dashboard" class="screen">
+
+	<div class="card">
+		<div class="section-title">Your Setup</div>
+
+		<div class="big" id="points">248</div>
+
+		<div class="stat-row">
+			<span>Housing Type</span>
+			<span id="dash-housing"></span>
+		</div>
+
+		<div class="stat-row">
+			<span>Country</span>
+			<span id="dash-country"></span>
+		</div>
+
+	</div>
+
+	<div class="card">
+		<div class="section-title">Early Access</div>
+		<button class="btn" onclick="buySol()">Pay 1 SOL</button>
+	</div>
+
+</div>
 
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-// ====================== STARFIELD ======================
+// STARFIELD (minimal)
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
-let stars = [];
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+let stars = Array.from({length:200}, () => ({
+	x: Math.random()*canvas.width,
+	y: Math.random()*canvas.height,
+	s: Math.random()*2
+}));
+
+function draw(){
+	ctx.fillStyle="#050505";
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+	ctx.fillStyle="#fff";
+	for(let s of stars){
+		ctx.fillRect(s.x,s.y,s.s,s.s);
+		s.y += 0.4;
+		if(s.y>canvas.height) s.y=0;
+	}
+	requestAnimationFrame(draw);
 }
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+draw();
 
-for (let i = 0; i < 300; i++) {
-  stars.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 2.5 + 0.5,
-    speed: Math.random() * 0.8 + 0.2
-  });
-}
-
-function animateStars() {
-  ctx.fillStyle = "rgba(5,5,5,0.4)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#ffffff";
-  for (let s of stars) {
-    ctx.globalAlpha = Math.random() * 0.6 + 0.4;
-    ctx.fillRect(s.x, s.y, s.size, s.size);
-    s.y += s.speed;
-    if (s.y > canvas.height) s.y = 0;
-  }
-  ctx.globalAlpha = 1;
-  requestAnimationFrame(animateStars);
-}
-animateStars();
-
-// ====================== STATE ======================
-let userProfile = {
-  housing: { lat: 40.7128, lng: -74.0060, name: "New York, USA" },
-  transport: "Standard",
-  location: { country: "United States", city: "New York" },
-  points: 248,
-  lastClaim: null
+// STATE
+let user = {
+	housingType: "",
+	country: "",
+	location: {}
 };
 
-// ====================== LEAFLET MAP ======================
+// MAP
 let map, marker;
 
-function initMap() {
-  map = L.map('housing-map', {
-    zoomControl: false,
-    attributionControl: false
-  }).setView([40.7128, -74.0060], 4);
+function initMap(){
+	map = L.map('housing-map',{zoomControl:false}).setView([20,0],2);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    className: 'map-tiles'
-  }).addTo(map);
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  marker = L.marker([40.7128, -74.0060], {
-    draggable: true
-  }).addTo(map);
+	marker = L.marker([20,0],{draggable:true}).addTo(map);
 
-  marker.on('dragend', () => {
-    const pos = marker.getLatLng();
-    updateSelectedLocation(pos.lat, pos.lng);
-  });
-
-  map.on('click', (e) => {
-    marker.setLatLng(e.latlng);
-    updateSelectedLocation(e.latlng.lat, e.latlng.lng);
-  });
+	marker.on("dragend", updateLocation);
+	map.on("click", e=>{
+		marker.setLatLng(e.latlng);
+		updateLocation();
+	});
 }
 
-async function updateSelectedLocation(lat, lng) {
-  try {
-    const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
-    const data = await res.json();
-    const place = data.city || data.locality || data.countryName || "Selected Area";
-    document.getElementById("selected-location").textContent = `📍 ${place}`;
-    userProfile.housing = { lat, lng, name: place };
-  } catch(e) {
-    document.getElementById("selected-location").textContent = `📍 ${lat.toFixed(2)}, ${lng.toFixed(2)}`;
-  }
+function updateLocation(){
+	const pos = marker.getLatLng();
+	user.location = pos;
+	document.getElementById("selected-location").innerText =
+		`Selected: ${pos.lat.toFixed(2)}, ${pos.lng.toFixed(2)}`;
 }
 
-// ====================== TRANSPORT ======================
-function selectTransport(el) {
-  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  userProfile.transport = el.dataset.transport;
+function setHousingType(type){
+	user.housingType = type;
 }
 
-// ====================== LOCATION ======================
-async function detectLocation() {
-  const locEl = document.getElementById("detected-location");
-  locEl.textContent = "Detecting IP...";
-
-  try {
-    const res = await fetch("https://ipapi.co/json/");
-    const data = await res.json();
-    userProfile.location = {
-      country: data.country_name || "United States",
-      city: data.city || "Unknown"
-    };
-    locEl.textContent = `📍 ${data.city}, ${data.country_name}`;
-  } catch(e) {
-    locEl.textContent = "📍 New York, United States (fallback)";
-  }
+// COUNTRY
+async function detectCountry(){
+	try{
+		let r = await fetch("https://ipapi.co/json/");
+		let d = await r.json();
+		user.country = d.country_name;
+		document.getElementById("country-display").innerText = d.country_name;
+	}catch{
+		user.country = "United States";
+		document.getElementById("country-display").innerText = "United States";
+	}
 }
 
-async function verifyLocation() {
-  const feedback = document.getElementById("location-feedback");
-  feedback.innerHTML = `<span style="color:#00ff9d">✓ Looks correct</span>`;
-
-  setTimeout(() => {
-    feedback.innerHTML = "";
-  }, 2500);
+function confirmCountry(ok){
+	if(ok){
+		document.getElementById("country-confirm").style.display="none";
+	}else{
+		changeCountry();
+	}
 }
 
-// ====================== NAVIGATION ======================
-function goToDashboard() {
-  if (!userProfile.transport) {
-    alert("Please select a transportation preference");
-    return;
-  }
-
-  document.getElementById("onboarding").classList.remove("active");
-  document.getElementById("dashboard").classList.add("active");
-
-  renderDashboard();
+function changeCountry(){
+	document.getElementById("country-select").style.display="block";
+	document.getElementById("save-country").style.display="block";
 }
 
-function renderDashboard() {
-  document.getElementById("points-display").textContent = userProfile.points;
-
-  document.getElementById("profile-info").innerHTML = `
-    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-      <span>Housing</span>
-      <span style="color:var(--accent)">${userProfile.housing.name}</span>
-    </div>
-    <div style="display:flex; justify-content:space-between;">
-      <span>Transport</span>
-      <span style="color:var(--accent)">${userProfile.transport}</span>
-    </div>
-  `;
+function saveCountry(){
+	user.country = document.getElementById("country-select").value;
+	document.getElementById("country-display").innerText = user.country;
+	document.getElementById("country-select").style.display="none";
+	document.getElementById("save-country").style.display="none";
+	document.getElementById("country-confirm").style.display="none";
 }
 
-// ====================== POINTS ======================
-function claimDaily() {
-  const today = new Date().toDateString();
-  if (userProfile.lastClaim === today) {
-    alert("You've already claimed today's reward!");
-    return;
-  }
+// NAV
+function goToDashboard(){
+	document.getElementById("onboarding").classList.remove("active");
+	document.getElementById("dashboard").classList.add("active");
 
-  userProfile.points += 25;
-  userProfile.lastClaim = today;
-  renderDashboard();
-  alert("✅ +25 Signal Points added!");
+	document.getElementById("dash-housing").innerText = user.housingType || "Not set";
+	document.getElementById("dash-country").innerText = user.country || "Not set";
 }
 
-// ====================== INIT ======================
-window.onload = () => {
-  initMap();
-  detectLocation();
+// SOL BUTTON (mock)
+function buySol(){
+	alert("Redirecting to Solana payment (mock)");
+}
 
-  // Pre-select Standard transport
-  const standardBtn = document.querySelector('[data-transport="Standard"]');
-  if (standardBtn) standardBtn.classList.add('active');
-  userProfile.transport = "Standard";
+// INIT
+window.onload = ()=>{
+	initMap();
+	detectCountry();
 };
 </script>
 
