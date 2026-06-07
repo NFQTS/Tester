@@ -1,452 +1,491 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Signal • MVP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reach the Stars • Spread His Word</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .title-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a0033 0%, #000000 70%);
+            overflow: hidden;
+        }
 
-<style>
-:root {
-	--accent: #00ff9d;
-}
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite alternate;
+        }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
 
-body {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-	background: #050505;
-	color: #eee;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	overflow: hidden;
-}
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(transparent, #a5b4fc);
+            animation: meteor-shower 8s linear infinite;
+        }
 
-canvas {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 0;
-	opacity: 0.6;
-}
+        @keyframes meteor-shower {
+            0% { transform: translateY(-100px) translateX(-100px); opacity: 1; }
+            100% { transform: translateY(800px) translateX(800px); opacity: 0; }
+        }
 
-.app {
-	position: relative;
-	z-index: 2;
-	width: 100%;
-	max-width: 480px;
-	height: 100vh;
-	background: #0a0a0a;
-	border: 1px solid rgba(255,255,255,0.08);
-	box-shadow: 0 0 60px rgba(0,255,157,0.15);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	overflow: hidden;
-}
+        .crypto-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .crypto-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 0 40px -10px rgb(165 180 252);
+        }
 
-header {
-	padding: 20px;
-	width: 100%;
-	border-bottom: 1px solid rgba(255,255,255,0.08);
-	text-align: center;
-}
-
-h1 {
-	font-size: 28px;
-	font-weight: 500;
-	color: var(--accent);
-}
-
-.screen {
-	flex: 1;
-	width: 100%;
-	overflow-y: auto;
-	padding: 24px;
-	display: none;
-	flex-direction: column;
-	align-items: center;
-	gap: 24px;
-}
-
-.screen.active {
-	display: flex;
-}
-
-.card {
-	width: 100%;
-	background: rgba(255,255,255,0.03);
-	border: 1px solid rgba(255,255,255,0.08);
-	border-radius: 16px;
-	padding: 20px;
-	backdrop-filter: blur(12px);
-	text-align: center;
-}
-
-.section-title {
-	font-size: 13px;
-	opacity: 0.6;
-	margin-bottom: 12px;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-}
-
-/* MAP */
-#housing-map {
-	height: 260px;
-	border-radius: 14px;
-	overflow: hidden;
-	border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* OPTIONS */
-.option-grid {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 12px;
-}
-
-.option-btn {
-	background: rgba(255,255,255,0.05);
-	border: 2px solid transparent;
-	border-radius: 14px;
-	padding: 14px;
-	cursor: pointer;
-	transition: 0.2s;
-}
-
-.option-btn:hover {
-	border-color: var(--accent);
-}
-
-.option-btn.active {
-	border-color: var(--accent);
-	color: var(--accent);
-	background: rgba(0,255,157,0.12);
-}
-
-.option-btn .emoji {
-	font-size: 34px;
-	display: block;
-	margin-bottom: 6px;
-}
-
-/* HOUSING TYPE */
-.housing-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 10px;
-	margin-top: 12px;
-}
-
-.housing-btn {
-	padding: 12px;
-	border-radius: 12px;
-	background: rgba(255,255,255,0.05);
-	border: 1px solid rgba(255,255,255,0.1);
-	cursor: pointer;
-}
-
-.housing-btn.active {
-	border-color: var(--accent);
-	color: var(--accent);
-}
-
-/* LOCATION */
-.location-box {
-	margin-top: 12px;
-	font-size: 14px;
-}
-
-.btn {
-	background: var(--accent);
-	color: black;
-	font-weight: 700;
-	padding: 14px;
-	border-radius: 14px;
-	border: none;
-	width: 100%;
-	font-size: 16px;
-	cursor: pointer;
-}
-
-.btn-secondary {
-	background: transparent;
-	border: 1px solid rgba(255,255,255,0.2);
-	color: white;
-	padding: 10px 14px;
-	border-radius: 10px;
-	margin-top: 10px;
-}
-
-/* DASHBOARD */
-.dashboard-item {
-	margin: 10px 0;
-	padding: 10px;
-	border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-</style>
+        .video-slide {
+            transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+    </style>
 </head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Starfield Background -->
+    <div id="starfield" class="starfield"></div>
 
-<body>
+    <div class="relative min-h-screen">
+        <!-- Header -->
+        <header class="flex justify-between items-center px-8 py-6 border-b border-white/10">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-2xl flex items-center justify-center text-2xl">✧</div>
+                <div>
+                    <span class="title-font text-2xl tracking-tight">Reach the Stars</span>
+                </div>
+            </div>
+            <nav class="flex items-center gap-8 text-sm font-medium">
+                <a href="#donate" class="hover:text-indigo-400 transition-colors">Donate</a>
+                <a href="#watch" class="hover:text-indigo-400 transition-colors">Watch</a>
+                <a href="#share" class="hover:text-indigo-400 transition-colors">Share</a>
+            </nav>
+        </header>
 
-<canvas id="stars"></canvas>
+        <!-- Hero -->
+        <section class="pt-20 pb-16 px-8 max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-6 py-2 text-sm mb-8">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                Spreading God’s Word to the Ends of the Cosmos
+            </div>
+            
+            <h1 class="title-font text-7xl md:text-8xl font-bold tracking-tighter leading-none mb-6">
+                One verse.<br>
+                <span class="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">One donation.</span><br>
+                Eternal impact.
+            </h1>
+            
+            <p class="max-w-md mx-auto text-lg text-white/70 mb-12">
+                Support Bible verse videos reaching souls worldwide. Choose your crypto — we’ll handle the rest.
+            </p>
 
-<div class="app">
+            <div class="flex justify-center gap-4">
+                <a href="#donate" 
+                   class="px-10 py-5 bg-white text-black font-semibold rounded-3xl hover:bg-white/90 transition-all flex items-center gap-3 text-lg">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    Donate Crypto Now
+                </a>
+                <a href="#watch" 
+                   class="px-8 py-5 border border-white/30 hover:border-white/60 font-medium rounded-3xl transition-all flex items-center gap-3">
+                    Watch Latest Verse
+                </a>
+            </div>
+        </section>
 
-<header>
-	<h1>Signal</h1>
-</header>
+        <!-- Crypto Donation Section -->
+        <section id="donate" class="max-w-5xl mx-auto px-8 pb-20">
+            <div class="bg-white/5 border border-white/10 rounded-3xl p-10">
+                <div class="text-center mb-10">
+                    <h2 class="text-4xl font-semibold mb-3">Send Crypto • Spread His Word</h2>
+                    <p class="text-white/60">Select a coin. We’ll show our wallet. Every satoshi helps more souls see the Light.</p>
+                </div>
+                
+                <!-- Crypto Selector -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" id="crypto-grid">
+                    <!-- Populated by JS -->
+                </div>
 
-<!-- ONBOARDING -->
-<div id="onboarding" class="screen active">
+                <!-- Selected Address -->
+                <div id="address-display" class="hidden bg-black/50 border border-white/20 rounded-2xl p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-4">
+                            <div id="selected-icon" class="text-5xl"></div>
+                            <div>
+                                <div id="selected-name" class="font-semibold text-2xl"></div>
+                                <div id="selected-symbol" class="text-white/50"></div>
+                            </div>
+                        </div>
+                        <div onclick="copyAddress()" 
+                             class="cursor-pointer flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-2xl transition-colors">
+                            <i class="fa-solid fa-copy"></i>
+                            <span class="font-medium">Copy Address</span>
+                        </div>
+                    </div>
+                    <div id="wallet-address" 
+                         class="font-mono bg-black p-6 rounded-2xl text-sm break-all text-emerald-300 tracking-widest leading-relaxed">
+                    </div>
+                    <p class="text-center text-xs text-white/40 mt-6">
+                        Thank you. Your gift helps us create and promote more Bible verse videos.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-	<div class="card">
-		<div class="section-title">Choose Location</div>
-		<div id="housing-map"></div>
+        <!-- Video Slider -->
+        <section id="watch" class="max-w-5xl mx-auto px-8 pb-20">
+            <div class="flex items-end justify-between mb-8">
+                <div>
+                    <h2 class="text-4xl font-semibold">Daily Verse • One Chapter at a Time</h2>
+                    <p class="text-white/60">Help us reach 1M+ views. Watch. Like. Share.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="prevSlide()" 
+                            class="w-12 h-12 border border-white/30 hover:border-white/70 rounded-2xl flex items-center justify-center transition-colors">
+                        ←
+                    </button>
+                    <button onclick="nextSlide()" 
+                            class="w-12 h-12 border border-white/30 hover:border-white/70 rounded-2xl flex items-center justify-center transition-colors">
+                        →
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative overflow-hidden rounded-3xl" style="height: 520px;">
+                <div id="video-slider" class="flex h-full transition-transform duration-700 ease-out">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            
+            <div class="flex justify-center gap-2 mt-6" id="slider-dots">
+                <!-- Populated by JS -->
+            </div>
+        </section>
 
-		<div class="location-box" id="selected-location">
-			Click map to select area
-		</div>
+        <!-- Share -->
+        <section id="share" class="max-w-5xl mx-auto px-8 pb-20">
+            <div class="bg-gradient-to-br from-purple-950/30 to-indigo-950/30 border border-white/10 rounded-3xl p-12 text-center">
+                <h2 class="text-4xl font-semibold mb-4">Help the Message Travel Further</h2>
+                <p class="max-w-md mx-auto text-white/70 mb-10">
+                    Share our mission with one click. Pre-written message included.
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="shareX()" 
+                            class="flex items-center gap-4 bg-black hover:bg-white/5 border border-white/20 px-8 py-6 rounded-3xl transition-all group">
+                        <i class="fa-brands fa-x-twitter text-3xl"></i>
+                        <div class="text-left">
+                            <div class="font-medium group-hover:text-blue-400">Share on X</div>
+                            <div class="text-xs text-white/50">“Spreading God’s Word through beautiful Bible verse videos”</div>
+                        </div>
+                    </button>
+                    
+                    <button onclick="shareFacebook()" 
+                            class="flex items-center gap-4 bg-black hover:bg-white/5 border border-white/20 px-8 py-6 rounded-3xl transition-all group">
+                        <i class="fa-brands fa-facebook-f text-3xl"></i>
+                        <div class="text-left">
+                            <div class="font-medium group-hover:text-blue-500">Share on Facebook</div>
+                            <div class="text-xs text-white/50">Help reach more hearts today</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
 
-		<div class="housing-grid">
-			<div class="housing-btn" onclick="selectHousingType(this,'Mobile')">Mobile</div>
-			<div class="housing-btn" onclick="selectHousingType(this,'Apartment')">Apartment</div>
-			<div class="housing-btn" onclick="selectHousingType(this,'Luxury')">Luxury</div>
-		</div>
-	</div>
+        <!-- Email Opt-in -->
+        <section class="max-w-5xl mx-auto px-8 pb-24">
+            <div class="border border-white/10 rounded-3xl p-12 bg-white/5">
+                <div class="max-w-md mx-auto text-center">
+                    <h2 class="text-3xl font-semibold mb-3">Stay in the Light</h2>
+                    <p class="text-white/60 mb-8">Receive a new Bible verse every morning + updates on our mission.</p>
+                    
+                    <form onsubmit="handleSubscribe(event)" class="flex gap-3">
+                        <input type="email" id="email" 
+                               placeholder="your@email.com"
+                               class="flex-1 bg-black border border-white/20 focus:border-indigo-400 rounded-3xl px-8 py-6 outline-none text-white placeholder:text-white/40">
+                        <button type="submit"
+                                class="px-12 bg-gradient-to-r from-indigo-500 to-purple-600 font-semibold rounded-3xl hover:brightness-110 transition-all">
+                            Join
+                        </button>
+                    </form>
+                    <p class="text-[10px] text-white/30 mt-4">We respect your inbox as much as we respect the Word.</p>
+                </div>
+            </div>
+        </section>
 
-	<div class="card">
-		<div class="section-title">Transportation</div>
-		<div class="option-grid">
-			<div class="option-btn" data-transport="Budget" onclick="selectTransport(this)">
-				<span class="emoji">🚲</span>
-				Budget
-			</div>
-			<div class="option-btn" data-transport="Standard" onclick="selectTransport(this)">
-				<span class="emoji">🚗</span>
-				Standard
-			</div>
-			<div class="option-btn" data-transport="Premium" onclick="selectTransport(this)">
-				<span class="emoji">🏎️</span>
-				Premium
-			</div>
-			<div class="option-btn" data-transport="Luxury" onclick="selectTransport(this)">
-				<span class="emoji">🛩️</span>
-				Luxury
-			</div>
-		</div>
-	</div>
+        <!-- Footer -->
+        <footer class="border-t border-white/10 py-8 text-center text-xs text-white/40">
+            <p>Made with love to glorify God • All donations go directly to video production &amp; promotion</p>
+        </footer>
+    </div>
 
-	<div class="card">
-		<div class="section-title">Detected Country</div>
-		<div id="country-display">Detecting...</div>
+    <script>
+        // Tailwind script already included
 
-		<div id="country-confirm">
-			<button class="btn-secondary" onclick="confirmCountry(true)">Yes</button>
-			<button class="btn-secondary" onclick="showCountrySelect()">No</button>
-		</div>
+        // Crypto options
+        const cryptos = [
+            {
+                name: "Bitcoin",
+                symbol: "BTC",
+                icon: "₿",
+                color: "text-orange-400",
+                address: "bc1qxy2kdygjrsqtzq2n0yrf2493p83kkfjhx0wlh6"
+            },
+            {
+                name: "Ethereum",
+                symbol: "ETH",
+                icon: "⟠",
+                color: "text-indigo-400",
+                address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F"
+            },
+            {
+                name: "Solana",
+                symbol: "SOL",
+                icon: "◎",
+                color: "text-purple-400",
+                address: "9WzG8v8z3z9z9z9z9z9z9z9z9z9z9z9z9z9z9z9z9z"
+            },
+            {
+                name: "USDC",
+                symbol: "USDC",
+                icon: "⬡",
+                color: "text-emerald-400",
+                address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+            }
+        ];
 
-		<select id="country-select" style="display:none; margin-top:10px; padding:10px; border-radius:10px;">
-			<option>United States</option>
-			<option>Canada</option>
-			<option>Mexico</option>
-			<option>United Kingdom</option>
-			<option>Germany</option>
-			<option>France</option>
-			<option>Japan</option>
-			<option>Kenya</option>
-			<option>India</option>
-		</select>
-	</div>
+        // Populate crypto grid
+        function populateCryptos() {
+            const grid = document.getElementById('crypto-grid');
+            grid.innerHTML = '';
+            
+            cryptos.forEach((coin, index) => {
+                const card = document.createElement('div');
+                card.className = `crypto-card bg-black border border-white/10 hover:border-white/30 rounded-3xl p-6 text-center cursor-pointer`;
+                card.innerHTML = `
+                    <div class="text-6xl mb-4 ${coin.color}">${coin.icon}</div>
+                    <div class="font-semibold text-xl">${coin.name}</div>
+                    <div class="text-white/40 text-sm">${coin.symbol}</div>
+                `;
+                card.onclick = () => selectCrypto(index);
+                grid.appendChild(card);
+            });
+        }
 
-	<button class="btn" onclick="goToDashboard()">Continue</button>
+        let selectedCrypto = null;
+        
+        function selectCrypto(index) {
+            selectedCrypto = cryptos[index];
+            const display = document.getElementById('address-display');
+            display.classList.remove('hidden');
+            
+            document.getElementById('selected-icon').innerHTML = selectedCrypto.icon;
+            document.getElementById('selected-name').textContent = selectedCrypto.name;
+            document.getElementById('selected-symbol').textContent = selectedCrypto.symbol;
+            document.getElementById('wallet-address').textContent = selectedCrypto.address;
+        }
+        
+        function copyAddress() {
+            if (!selectedCrypto) return;
+            navigator.clipboard.writeText(selectedCrypto.address);
+            
+            const btns = document.querySelectorAll('#address-display button, #address-display div[onclick]');
+            const original = btns[0].innerHTML;
+            btns[0].innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+            setTimeout(() => {
+                btns[0].innerHTML = original;
+            }, 2000);
+        }
 
-</div>
+        // Sample Bible videos (use real YouTube embeds or thumbnails)
+        const videos = [
+            {
+                title: "John 3:16",
+                verse: "For God so loved the world...",
+                thumb: "https://picsum.photos/id/1015/800/450",
+                link: "https://youtube.com/watch?v=dQw4w9wgxcq" // placeholder
+            },
+            {
+                title: "Psalm 23",
+                verse: "The Lord is my shepherd...",
+                thumb: "https://picsum.photos/id/201/800/450",
+                link: "#"
+            },
+            {
+                title: "Matthew 6:33",
+                verse: "Seek first the kingdom...",
+                thumb: "https://picsum.photos/id/237/800/450",
+                link: "#"
+            },
+            {
+                title: "Romans 8:28",
+                verse: "All things work together...",
+                thumb: "https://picsum.photos/id/180/800/450",
+                link: "#"
+            }
+        ];
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="screen">
+        let currentSlide = 0;
 
-	<div class="card">
-		<div class="section-title">Your Setup</div>
+        function populateSlider() {
+            const container = document.getElementById('video-slider');
+            container.innerHTML = '';
+            
+            videos.forEach(video => {
+                const slide = document.createElement('div');
+                slide.className = 'video-slide min-w-full h-full bg-black flex flex-col';
+                slide.innerHTML = `
+                    <div class="relative flex-1">
+                        <img src="${video.thumb}" class="w-full h-full object-cover brightness-75" alt="">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-10">
+                            <div class="uppercase tracking-[3px] text-xs text-indigo-300 mb-2">TODAY'S VERSE</div>
+                            <div class="text-4xl font-semibold title-font">${video.title}</div>
+                            <div class="text-white/80 mt-3 text-lg">${video.verse}</div>
+                        </div>
+                    </div>
+                    <div class="p-6 flex justify-center">
+                        <a href="${video.link}" target="_blank"
+                           class="inline-flex items-center gap-3 bg-white text-black px-10 py-4 rounded-3xl font-semibold hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-youtube"></i>
+                            WATCH ON YOUTUBE
+                        </a>
+                    </div>
+                `;
+                container.appendChild(slide);
+            });
+            
+            // Dots
+            const dotsContainer = document.getElementById('slider-dots');
+            dotsContainer.innerHTML = '';
+            videos.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = `w-3 h-3 rounded-full transition-all ${i === 0 ? 'bg-white scale-125' : 'bg-white/30'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            });
+        }
 
-		<div class="dashboard-item">
-			<div>Country</div>
-			<div id="dash-country"></div>
-		</div>
+        function updateDots() {
+            const dots = document.querySelectorAll('#slider-dots button');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-white', i === currentSlide);
+                dot.classList.toggle('scale-125', i === currentSlide);
+                dot.classList.toggle('bg-white/30', i !== currentSlide);
+            });
+        }
 
-		<div class="dashboard-item">
-			<div>Location</div>
-			<div id="dash-location"></div>
-		</div>
+        function goToSlide(n) {
+            currentSlide = n;
+            document.getElementById('video-slider').style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
+        }
 
-		<div class="dashboard-item">
-			<div>Housing Type</div>
-			<div id="dash-housing-type"></div>
-		</div>
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % videos.length;
+            goToSlide(currentSlide);
+        }
 
-		<div class="dashboard-item">
-			<div>Transport</div>
-			<div id="dash-transport"></div>
-		</div>
-	</div>
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + videos.length) % videos.length;
+            goToSlide(currentSlide);
+        }
 
-	<div class="card">
-		<div class="section-title">Early Access</div>
-		<button class="btn" onclick="paySol()">Pay 1 SOL</button>
-	</div>
+        // Share functions
+        function shareX() {
+            const text = encodeURIComponent("Spreading God’s Word through beautiful Bible verse videos. Support with crypto → https://yourdomain.com");
+            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+        }
 
-</div>
+        function shareFacebook() {
+            window.open('https://www.facebook.com/sharer/sharer.php?u=https://yourdomain.com', '_blank');
+        }
 
-</div>
+        function handleSubscribe(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            if (email) {
+                alert("Thank you! You've been added. A new verse is on the way tomorrow. ✨");
+                document.getElementById('email').value = '';
+            }
+        }
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        // Starfield animation
+        function createStarfield() {
+            const starfield = document.getElementById('starfield');
+            
+            // Stars
+            for (let i = 0; i < 800; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3 + 0.8;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                star.style.animationDelay = `-${Math.random() * 4}s`;
+                star.style.opacity = Math.random() * 0.8 + 0.4;
+                
+                starfield.appendChild(star);
+            }
+            
+            // Meteors
+            setInterval(() => {
+                const meteor = document.createElement('div');
+                meteor.className = 'meteor';
+                meteor.style.left = `${Math.random() * 80}%`;
+                meteor.style.top = '-60px';
+                meteor.style.transform = `rotate(${Math.random() * 40 + 30}deg)`;
+                starfield.appendChild(meteor);
+                
+                setTimeout(() => meteor.remove(), 9000);
+            }, 800);
+        }
 
-<script>
-
-// STARFIELD
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
-let stars = [];
-
-function resize() {
-	canvas.width = innerWidth;
-	canvas.height = innerHeight;
-}
-resize();
-addEventListener("resize", resize);
-
-for (let i = 0; i < 200; i++) {
-	stars.push({
-		x: Math.random() * canvas.width,
-		y: Math.random() * canvas.height,
-		s: Math.random() * 2,
-		sp: Math.random() * 0.6 + 0.2
-	});
-}
-
-function draw() {
-	ctx.fillStyle = "rgba(5,5,5,0.4)";
-	ctx.fillRect(0,0,canvas.width,canvas.height);
-
-	ctx.fillStyle = "#fff";
-	for (let s of stars) {
-		ctx.fillRect(s.x, s.y, s.s, s.s);
-		s.y += s.sp;
-		if (s.y > canvas.height) s.y = 0;
-	}
-	requestAnimationFrame(draw);
-}
-draw();
-
-// STATE
-let profile = {
-	lat: 0,
-	lng: 0,
-	locationName: "",
-	housingType: "",
-	transport: "",
-	country: ""
-};
-
-// MAP
-let map, marker;
-
-function initMap() {
-	map = L.map('housing-map', { zoomControl:false }).setView([20,0], 2);
-
-	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-	marker = L.marker([20,0], { draggable:true }).addTo(map);
-
-	function update(pos) {
-		profile.lat = pos.lat;
-		profile.lng = pos.lng;
-		profile.locationName = `${pos.lat.toFixed(2)}, ${pos.lng.toFixed(2)}`;
-		document.getElementById("selected-location").innerText = profile.locationName;
-	}
-
-	marker.on("dragend", e => update(e.target.getLatLng()));
-	map.on("click", e => {
-		marker.setLatLng(e.latlng);
-		update(e.latlng);
-	});
-}
-
-// TRANSPORT
-function selectTransport(el) {
-	document.querySelectorAll(".option-btn").forEach(b=>b.classList.remove("active"));
-	el.classList.add("active");
-	profile.transport = el.dataset.transport;
-}
-
-// HOUSING
-function selectHousingType(el, type) {
-	document.querySelectorAll(".housing-btn").forEach(b=>b.classList.remove("active"));
-	el.classList.add("active");
-	profile.housingType = type;
-}
-
-// COUNTRY
-function detectCountry() {
-	fetch("https://ipapi.co/json/")
-	.then(r=>r.json())
-	.then(d=>{
-		profile.country = d.country_name || "Unknown";
-		document.getElementById("country-display").innerText = profile.country;
-	});
-}
-
-function confirmCountry(ok) {
-	if (ok) return;
-	showCountrySelect();
-}
-
-function showCountrySelect() {
-	document.getElementById("country-select").style.display = "block";
-	document.getElementById("country-select").onchange = (e)=>{
-		profile.country = e.target.value;
-		document.getElementById("country-display").innerText = profile.country;
-	};
-}
-
-// NAV
-function goToDashboard() {
-	document.getElementById("onboarding").classList.remove("active");
-	document.getElementById("dashboard").classList.add("active");
-
-	document.getElementById("dash-country").innerText = profile.country;
-	document.getElementById("dash-location").innerText = profile.locationName;
-	document.getElementById("dash-housing-type").innerText = profile.housingType;
-	document.getElementById("dash-transport").innerText = profile.transport;
-}
-
-// PAYMENT MOCK
-function paySol() {
-	alert("1 SOL payment flow placeholder");
-}
-
-// INIT
-window.onload = () => {
-	initMap();
-	detectCountry();
-
-	// default transport
-	let def = document.querySelector('[data-transport="Standard"]');
-	if (def) def.classList.add("active");
-	profile.transport = "Standard";
-};
-
-</script>
-
+        // Initialize everything
+        window.onload = function() {
+            populateCryptos();
+            populateSlider();
+            createStarfield();
+            
+            // Auto-advance slider
+            setInterval(() => {
+                nextSlide();
+            }, 7000);
+            
+            // Keyboard support for slider
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextSlide();
+                if (e.key === 'ArrowLeft') prevSlide();
+            });
+        };
+    </script>
 </body>
 </html>
