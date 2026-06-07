@@ -39,25 +39,24 @@
     <div id="starfield" class="starfield"></div>
 
     <!-- HERO -->
-    <div class="relative pt-16 pb-12 text-center px-6 max-w-3xl mx-auto">
+    <div class="relative pt-20 pb-12 text-center px-6 max-w-3xl mx-auto">
         <div class="inline text-xs tracking-[4px] text-indigo-300 mb-6">SPREADING GOD’S WORD</div>
         <h1 class="title text-6xl md:text-7xl leading-none font-bold tracking-tighter mb-4">
-            One verse.<br>One gift.
+            Help us reach<br>the world
         </h1>
-        <p class="text-white/60 text-lg">Help us reach the world.</p>
+        <p class="text-white/60">One verse. One gift. Eternal impact.</p>
     </div>
 
-    <!-- CRYPTO DONATION - Most prominent -->
+    <!-- CRYPTO DONATION -->
     <div class="max-w-4xl mx-auto px-6 pb-16">
         <div class="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12">
             <div class="text-center mb-8">
                 <div class="text-2xl font-medium">Donate Crypto</div>
-                <div class="text-white/50 text-sm mt-1">Select coin → Address appears</div>
+                <div class="text-white/50 text-sm mt-1">Select coin • Address appears instantly</div>
             </div>
             
             <div class="grid grid-cols-4 gap-4" id="crypto-grid"></div>
 
-            <!-- Address Reveal -->
             <div id="address-box" class="hidden mt-10 bg-black/70 border border-white/20 rounded-2xl p-8 text-center">
                 <div class="flex justify-center gap-4 items-center mb-6">
                     <span id="coin-icon" class="text-6xl"></span>
@@ -93,28 +92,34 @@
         </div>
     </div>
 
-    <!-- SHARE + EMAIL -->
-    <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-6 pb-20">
+    <!-- BUY BIBLE + SHARE + EMAIL -->
+    <div class="max-w-4xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-6">
+        
+        <!-- Buy a Bible -->
+        <a href="https://your-bible-store-link.com" target="_blank"
+           class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-all group">
+            <i class="fa-solid fa-book-bible text-5xl mb-4 text-amber-300"></i>
+            <div class="font-medium text-xl group-hover:text-amber-300">Buy a Bible</div>
+            <div class="text-white/50 text-sm mt-1">Physical or digital</div>
+        </a>
+
         <!-- Share -->
         <div onclick="shareX()" 
-             class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 cursor-pointer transition-all group">
-            <div class="flex items-center gap-6">
-                <i class="fa-brands fa-x-twitter text-5xl"></i>
-                <div>
-                    <div class="font-medium text-xl group-hover:text-blue-400">Share on X</div>
-                    <div class="text-white/50 text-sm">Help the Word travel further</div>
-                </div>
-            </div>
+             class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center cursor-pointer transition-all group">
+            <i class="fa-brands fa-x-twitter text-5xl mb-4"></i>
+            <div class="font-medium text-xl group-hover:text-blue-400">Share on X</div>
+            <div class="text-white/50 text-sm mt-1">Help the Word spread</div>
         </div>
 
         <!-- Email -->
         <div class="bg-white/5 border border-white/10 rounded-3xl p-8">
             <form onsubmit="subscribe(event)" class="flex flex-col h-full">
+                <div class="text-sm text-white/60 mb-3">Daily Verse in your inbox</div>
                 <input id="email-input" type="email" 
-                       placeholder="Get a verse every day"
-                       class="bg-transparent border-0 focus:outline-none text-lg placeholder:text-white/40 flex-1">
+                       placeholder="your@email.com"
+                       class="bg-transparent border-b border-white/30 focus:border-white py-3 text-lg placeholder:text-white/40 focus:outline-none flex-1">
                 <button type="submit"
-                        class="mt-6 w-full py-5 bg-white text-black font-medium rounded-2xl hover:bg-white/90">
+                        class="mt-8 w-full py-5 bg-white text-black font-medium rounded-2xl hover:bg-white/90 transition">
                     Subscribe
                 </button>
             </form>
@@ -122,7 +127,7 @@
     </div>
 
     <script>
-        // Crypto data
+        // === CRYPTO ===
         const cryptos = [
             {name:"Bitcoin", symbol:"BTC", icon:"₿", color:"text-orange-400", addr:"bc1qxy2kdygjrsqtzq2n0yrf2493p83kkfjhx0wlh6"},
             {name:"Ethereum", symbol:"ETH", icon:"⟠", color:"text-indigo-400", addr:"0x71C7656EC7ab88b098defB751B7401B5f6d8976F"},
@@ -155,58 +160,89 @@
         function copyAddress() {
             if (!currentCrypto) return;
             navigator.clipboard.writeText(currentCrypto.addr);
-            const addrEl = document.getElementById('wallet-addr');
-            const orig = addrEl.style.color;
-            addrEl.style.color = '#22c55e';
-            setTimeout(() => addrEl.style.color = orig, 1200);
+            const el = document.getElementById('wallet-addr');
+            const origColor = el.style.color;
+            el.style.color = '#22c55e';
+            setTimeout(() => el.style.color = origColor, 1500);
         }
 
-        // Videos (replace thumbs & links with real ones)
+        // === VIDEO SLIDER - EASY TO ADD ===
+        // Just add new objects here with YouTube link. Title and verse are optional.
         const videos = [
-            {title:"John 3:16", verse:"For God so loved the world…", thumb:"https://picsum.photos/id/1015/1200/600", yt:"https://youtube.com"},
-            {title:"Psalm 23", verse:"The Lord is my shepherd…", thumb:"https://picsum.photos/id/201/1200/600", yt:"https://youtube.com"},
-            {title:"Matthew 6:33", verse:"Seek first the kingdom…", thumb:"https://picsum.photos/id/237/1200/600", yt:"https://youtube.com"}
+            {
+                ytLink: "https://www.youtube.com/watch?v=dQw4w9wgxcq",   // ← Replace with real link
+                title: "John 3:16",
+                verse: "For God so loved the world…"
+            },
+            {
+                ytLink: "https://youtube.com/watch?v=EXAMPLE2",
+                title: "Psalm 23",
+                verse: "The Lord is my shepherd…"
+            },
+            {
+                ytLink: "https://youtube.com/watch?v=EXAMPLE3",
+                title: "Matthew 6:33",
+                verse: "Seek first the kingdom…"
+            }
+            // Add more objects like above — just copy-paste and change the ytLink
         ];
 
         let slideIndex = 0;
+
+        function getYouTubeId(url) {
+            const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
         function populateSlider() {
             const container = document.getElementById('slider');
             container.innerHTML = '';
             videos.forEach(v => {
+                const id = getYouTubeId(v.ytLink);
+                const thumb = id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : 'https://picsum.photos/id/1015/1200/600';
+                
                 const slide = document.createElement('div');
                 slide.className = 'min-w-full h-full relative';
                 slide.innerHTML = `
-                    <img src="${v.thumb}" class="absolute inset-0 w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <img src="${thumb}" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
                     <div class="absolute bottom-0 left-0 right-0 p-10">
-                        <div class="text-indigo-300 text-sm tracking-widest mb-2">NEW VERSE</div>
+                        <div class="text-indigo-300 text-sm tracking-widest mb-2">VERSE OF THE DAY</div>
                         <div class="text-4xl font-medium title">${v.title}</div>
                         <div class="mt-2 text-white/80">${v.verse}</div>
                     </div>
-                    <a href="${v.yt}" target="_blank" 
-                       class="absolute top-8 right-8 bg-white/90 hover:bg-white text-black px-6 py-3 rounded-2xl font-medium flex items-center gap-2">
+                    <a href="${v.ytLink}" target="_blank" 
+                       class="absolute top-8 right-8 bg-white/90 hover:bg-white text-black px-7 py-3.5 rounded-2xl font-medium flex items-center gap-2 shadow-lg">
                         <i class="fa-brands fa-youtube"></i> WATCH
                     </a>
                 `;
                 container.appendChild(slide);
             });
         }
-        function nextSlide() { slideIndex = (slideIndex + 1) % videos.length; updateSlider(); }
-        function prevSlide() { slideIndex = (slideIndex - 1 + videos.length) % videos.length; updateSlider(); }
+
         function updateSlider() {
             document.getElementById('slider').style.transform = `translateX(-${slideIndex * 100}%)`;
         }
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % videos.length;
+            updateSlider();
+        }
+        function prevSlide() {
+            slideIndex = (slideIndex - 1 + videos.length) % videos.length;
+            updateSlider();
+        }
 
         function shareX() {
-            const msg = encodeURIComponent("Spreading God’s Word one beautiful Bible verse video at a time. Support with crypto → yourlink.com");
+            const msg = encodeURIComponent("Help us spread God’s Word one beautiful Bible verse at a time → yourdomain.com");
             window.open(`https://x.com/intent/tweet?text=${msg}`, '_blank');
         }
 
         function subscribe(e) {
             e.preventDefault();
-            const email = document.getElementById('email-input').value;
+            const email = document.getElementById('email-input').value.trim();
             if (email) {
-                alert("Thank you. A new verse will arrive in your inbox tomorrow.");
+                alert("Thank you! A new Bible verse will arrive in your inbox tomorrow.");
                 document.getElementById('email-input').value = '';
             }
         }
@@ -214,10 +250,10 @@
         // Starfield
         function createStars() {
             const sf = document.getElementById('starfield');
-            for (let i = 0; i < 600; i++) {
+            for (let i = 0; i < 650; i++) {
                 const s = document.createElement('div');
                 s.className = 'star';
-                const sz = Math.random() * 2.5 + 0.7;
+                const sz = Math.random() * 2.8 + 0.6;
                 s.style.width = sz + 'px';
                 s.style.height = sz + 'px';
                 s.style.left = Math.random() * 100 + '%';
@@ -232,14 +268,14 @@
                 m.style.top = '-80px';
                 sf.appendChild(m);
                 setTimeout(() => m.remove(), 7000);
-            }, 650);
+            }, 700);
         }
 
         window.onload = () => {
             populateCryptos();
             populateSlider();
             createStars();
-            setInterval(nextSlide, 6500);
+            setInterval(nextSlide, 7000);
         };
     </script>
 </body>
