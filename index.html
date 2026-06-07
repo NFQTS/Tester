@@ -33,6 +33,9 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .crypto-btn:hover { transform: scale(1.08) translateY(-4px); }
+
+        /* RTL support for Arabic */
+        .rtl { direction: rtl; text-align: right; }
     </style>
 </head>
 <body class="bg-black text-white overflow-x-hidden min-h-screen">
@@ -40,22 +43,21 @@
 
     <!-- HERO -->
     <div class="relative pt-20 pb-12 text-center px-6 max-w-3xl mx-auto">
-        <div class="inline text-xs tracking-[4px] text-indigo-300 mb-6">SPREADING GOD’S WORD</div>
-        <h1 class="title text-6xl md:text-7xl leading-none font-bold tracking-tighter mb-4">
+        <div id="spreading-text" class="inline text-xs tracking-[4px] text-indigo-300 mb-6">SPREADING GOD’S WORD</div>
+        <h1 id="hero-title" class="title text-6xl md:text-7xl leading-none font-bold tracking-tighter mb-4">
             Help us reach<br>the world
         </h1>
-
     </div>
 
     <!-- CRYPTO DONATION -->
     <div class="max-w-4xl mx-auto px-6 pb-16">
         <div class="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12">
             <div class="text-center mb-8">
-                <div class="text-2xl font-medium">Donate Crypto</div>
-                <div class="text-white/50 text-sm mt-1">Select coin • Address appears instantly</div>
+                <div id="donate-title" class="text-2xl font-medium">Donate Crypto</div>
+                <div id="donate-desc" class="text-white/50 text-sm mt-1">Select coin • Address appears instantly</div>
             </div>
             
-            <div class="grid grid-cols-4 gap-4" id="crypto-grid"></div>
+            <div class="grid grid-cols-3 gap-6 max-w-md mx-auto" id="crypto-grid"></div>
 
             <div id="address-box" class="hidden mt-10 bg-black/70 border border-white/20 rounded-2xl p-8 text-center">
                 <div class="flex justify-center gap-4 items-center mb-6">
@@ -80,7 +82,7 @@
     <!-- VIDEO SLIDER -->
     <div class="max-w-5xl mx-auto px-6 pb-16">
         <div class="flex items-center justify-between mb-6 px-2">
-            <div class="text-lg font-medium">Bible Verse Videos</div>
+            <div id="videos-title" class="text-lg font-medium">Bible Verse Videos</div>
             <div class="flex gap-4 text-2xl">
                 <button onclick="prevSlide()" class="hover:text-white/70">←</button>
                 <button onclick="nextSlide()" class="hover:text-white/70">→</button>
@@ -93,32 +95,33 @@
     </div>
 
     <!-- BUY BIBLE + SHARE + EMAIL -->
-    <div class="max-w-4xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-6">
-        
-        <!-- Buy a Bible -->
-        <a href="https://your-bible-store-link.com" target="_blank"
-           class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-all group">
-            <i class="fa-solid fa-book-bible text-5xl mb-4 text-amber-300"></i>
-            <div class="font-medium text-xl group-hover:text-amber-300">Buy a Bible</div>
-            <div class="text-white/50 text-sm mt-1">Amazon Affiliate Link</div>
-        </a>
+    <div class="max-w-4xl mx-auto px-6 pb-20">
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <!-- Buy a Bible -->
+            <a href="https://your-bible-store-link.com" target="_blank"
+               class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-all group">
+                <i class="fa-solid fa-book-bible text-5xl mb-4 text-amber-300"></i>
+                <div id="buy-title" class="font-medium text-xl group-hover:text-amber-300">Buy a Bible</div>
+                <div id="buy-desc" class="text-white/50 text-sm mt-1">Amazon Affiliate Link</div>
+            </a>
 
-        <!-- Share -->
-        <div onclick="shareX()" 
-             class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center cursor-pointer transition-all group">
-            <i class="fa-brands fa-x-twitter text-5xl mb-4"></i>
-            <div class="font-medium text-xl group-hover:text-blue-400">Share on X</div>
-            <div class="text-white/50 text-sm mt-1">Help the Word spread</div>
+            <!-- Share -->
+            <div onclick="shareX()" 
+                 class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center cursor-pointer transition-all group">
+                <i class="fa-brands fa-x-twitter text-5xl mb-4"></i>
+                <div id="share-title" class="font-medium text-xl group-hover:text-blue-400">Share on X</div>
+                <div id="share-desc" class="text-white/50 text-sm mt-1">Help the Word spread</div>
+            </div>
         </div>
 
-        <!-- Email -->
-        <div class="bg-white/5 border border-white/10 rounded-3xl p-8">
-            <form onsubmit="subscribe(event)" class="flex flex-col h-full">
-                <div class="text-sm text-white/60 mb-3">Daily Verse in your inbox</div>
+        <!-- Email opt-in -->
+        <div class="max-w-md mx-auto bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+            <form onsubmit="subscribe(event)" class="flex flex-col">
+                <div id="email-label" class="text-sm text-white/60 mb-3">Daily Verse in your inbox</div>
                 <input id="email-input" type="email" 
                        placeholder="your@email.com"
-                       class="bg-transparent border-b border-white/30 focus:border-white py-3 text-lg placeholder:text-white/40 focus:outline-none flex-1">
-                <button type="submit"
+                       class="bg-transparent border-b border-white/30 focus:border-white py-3 text-lg placeholder:text-white/40 focus:outline-none text-center">
+                <button id="subscribe-btn" type="submit"
                         class="mt-8 w-full py-5 bg-white text-black font-medium rounded-2xl hover:bg-white/90 transition">
                     Subscribe
                 </button>
@@ -127,11 +130,188 @@
     </div>
 
     <script>
-        // === CRYPTO ===
+        // === MULTI-LANGUAGE SUPPORT (Top population languages) ===
+        const translations = {
+            en: {
+                spreading: "SPREADING GOD’S WORD",
+                hero: "Help us reach<br>the world",
+                donateTitle: "Donate Crypto",
+                donateDesc: "Select coin • Address appears instantly",
+                videosTitle: "Bible Verse Videos",
+                verseLabel: "VERSE OF THE DAY",
+                buyTitle: "Buy a Bible",
+                buyDesc: "Amazon Affiliate Link",
+                shareTitle: "Share on X",
+                shareDesc: "Help the Word spread",
+                emailLabel: "Daily Verse in your inbox",
+                subscribeBtn: "Subscribe",
+                alertMsg: "Thank you! A new Bible verse will arrive in your inbox tomorrow.",
+                shareMsg: "Help us spread God’s Word one beautiful Bible verse at a time → yourdomain.com",
+                watchBtn: "WATCH"
+            },
+            es: {
+                spreading: "DIFUNDIENDO LA PALABRA DE DIOS",
+                hero: "Ayúdanos a alcanzar<br>el mundo",
+                donateTitle: "Donar Cripto",
+                donateDesc: "Elige moneda • Dirección aparece al instante",
+                videosTitle: "Videos de Versículos Bíblicos",
+                verseLabel: "VERSÍCULO DEL DÍA",
+                buyTitle: "Comprar una Biblia",
+                buyDesc: "Enlace de Afiliado Amazon",
+                shareTitle: "Compartir en X",
+                shareDesc: "Ayuda a difundir la Palabra",
+                emailLabel: "Versículo diario en tu correo",
+                subscribeBtn: "Suscribirse",
+                alertMsg: "¡Gracias! Mañana recibirás un nuevo versículo.",
+                shareMsg: "Ayúdanos a difundir la Palabra de Dios versículo a versículo → yourdomain.com",
+                watchBtn: "VER"
+            },
+            zh: {
+                spreading: "传播神的话语",
+                hero: "帮助我们<br>触及世界",
+                donateTitle: "捐赠加密货币",
+                donateDesc: "选择币种 • 地址立即显示",
+                videosTitle: "圣经经文视频",
+                verseLabel: "今日经文",
+                buyTitle: "购买圣经",
+                buyDesc: "亚马逊联盟链接",
+                shareTitle: "在 X 上分享",
+                shareDesc: "帮助传播圣言",
+                emailLabel: "每日经文发送到您的邮箱",
+                subscribeBtn: "订阅",
+                alertMsg: "感谢！明天您将收到新的圣经经文。",
+                shareMsg: "帮助我们一句一句传播神的话语 → yourdomain.com",
+                watchBtn: "观看"
+            },
+            hi: {
+                spreading: "परमेश्वर का वचन फैलाना",
+                hero: "हमारी मदद करें<br>दुनिया तक पहुंचाने में",
+                donateTitle: "क्रिप्टो दान करें",
+                donateDesc: "सिक्का चुनें • पता तुरंत दिखे",
+                videosTitle: "बाइबिल वर्स वीडियो",
+                verseLabel: "आज का वचन",
+                buyTitle: "बाइबिल खरीदें",
+                buyDesc: "अमेज़न एफिलिएट लिंक",
+                shareTitle: "X पर शेयर करें",
+                shareDesc: "वचन फैलाने में मदद करें",
+                emailLabel: "आपके इनबॉक्स में दैनिक वचन",
+                subscribeBtn: "सदस्यता लें",
+                alertMsg: "धन्यवाद! कल आपको नया बाइबिल वचन मिलेगा।",
+                shareMsg: "एक-एक सुंदर बाइबिल वचन से परमेश्वर का वचन फैलाने में मदद करें → yourdomain.com",
+                watchBtn: "देखें"
+            },
+            ar: {
+                spreading: "نشر كلمة الله",
+                hero: "ساعدنا في<br>الوصول إلى العالم",
+                donateTitle: "تبرع بالعملات المشفرة",
+                donateDesc: "اختر العملة • العنوان يظهر فوراً",
+                videosTitle: "فيديوهات آيات الكتاب المقدس",
+                verseLabel: "آية اليوم",
+                buyTitle: "شراء الكتاب المقدس",
+                buyDesc: "رابط أمازون التابع",
+                shareTitle: "مشاركة على X",
+                shareDesc: "ساعد في نشر الكلمة",
+                emailLabel: "آية يومية في بريدك",
+                subscribeBtn: "اشترك",
+                alertMsg: "شكراً! سيصلك آية جديدة غداً.",
+                shareMsg: "ساعدنا في نشر كلمة الله آية بآية → yourdomain.com",
+                watchBtn: "شاهد"
+            },
+            pt: {
+                spreading: "ESPALHANDO A PALAVRA DE DEUS",
+                hero: "Ajude-nos a<br>alcançar o mundo",
+                donateTitle: "Doar Criptomoeda",
+                donateDesc: "Selecione a moeda • Endereço aparece instantaneamente",
+                videosTitle: "Vídeos de Versículos Bíblicos",
+                verseLabel: "VERSÍCULO DO DIA",
+                buyTitle: "Comprar uma Bíblia",
+                buyDesc: "Link de Afiliado Amazon",
+                shareTitle: "Compartilhar no X",
+                shareDesc: "Ajude a Palavra a se espalhar",
+                emailLabel: "Versículo diário na sua caixa de entrada",
+                subscribeBtn: "Inscrever-se",
+                alertMsg: "Obrigado! Amanhã chegará um novo versículo.",
+                shareMsg: "Ajude-nos a espalhar a Palavra de Deus um versículo bonito de cada vez → yourdomain.com",
+                watchBtn: "ASSISTIR"
+            },
+            ru: {
+                spreading: "РАСПРОСТРАНЯЕМ СЛОВО БОЖЬЕ",
+                hero: "Помогите нам<br>достичь мира",
+                donateTitle: "Пожертвовать криптовалюту",
+                donateDesc: "Выберите монету • Адрес появится мгновенно",
+                videosTitle: "Видео с библейскими стихами",
+                verseLabel: "СТИХ ДНЯ",
+                buyTitle: "Купить Библию",
+                buyDesc: "Партнёрская ссылка Amazon",
+                shareTitle: "Поделиться в X",
+                shareDesc: "Помогите распространить Слово",
+                emailLabel: "Ежедневный стих на почту",
+                subscribeBtn: "Подписаться",
+                alertMsg: "Спасибо! Завтра вы получите новый библейский стих.",
+                shareMsg: "Помогите нам распространять Слово Божье один красивый стих за раз → yourdomain.com",
+                watchBtn: "СМОТРЕТЬ"
+            },
+            id: {
+                spreading: "MENYEBARKAN FIRMAN TUHAN",
+                hero: "Bantu kami<br>menjangkau dunia",
+                donateTitle: "Donasi Kripto",
+                donateDesc: "Pilih koin • Alamat muncul seketika",
+                videosTitle: "Video Ayat Alkitab",
+                verseLabel: "AYAT HARI INI",
+                buyTitle: "Beli Alkitab",
+                buyDesc: "Link Afiliasi Amazon",
+                shareTitle: "Bagikan di X",
+                shareDesc: "Bantu Firman menyebar",
+                emailLabel: "Ayat harian di inbox Anda",
+                subscribeBtn: "Berlangganan",
+                alertMsg: "Terima kasih! Besok Anda akan menerima ayat baru.",
+                shareMsg: "Bantu kami menyebarkan Firman Tuhan satu ayat indah pada satu waktu → yourdomain.com",
+                watchBtn: "TONTON"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function detectLanguage() {
+            let lang = (navigator.language || navigator.userLanguage || 'en').toLowerCase().split('-')[0];
+            
+            // Prioritize highest population languages
+            if (['zh', 'cn'].includes(lang)) currentLang = 'zh';
+            else if (['hi'].includes(lang)) currentLang = 'hi';
+            else if (['ar'].includes(lang)) currentLang = 'ar';
+            else if (['es'].includes(lang)) currentLang = 'es';
+            else if (['pt'].includes(lang)) currentLang = 'pt';
+            else if (['ru'].includes(lang)) currentLang = 'ru';
+            else if (['id'].includes(lang)) currentLang = 'id';
+            else currentLang = 'en';
+            
+            return currentLang;
+        }
+
+        function translatePage() {
+            const t = translations[currentLang];
+            const isArabic = currentLang === 'ar';
+            if (isArabic) document.body.classList.add('rtl');
+            else document.body.classList.remove('rtl');
+
+            document.getElementById('spreading-text').textContent = t.spreading;
+            document.getElementById('hero-title').innerHTML = t.hero;
+            document.getElementById('donate-title').textContent = t.donateTitle;
+            document.getElementById('donate-desc').textContent = t.donateDesc;
+            document.getElementById('videos-title').textContent = t.videosTitle;
+            document.getElementById('buy-title').textContent = t.buyTitle;
+            document.getElementById('buy-desc').textContent = t.buyDesc;
+            document.getElementById('share-title').textContent = t.shareTitle;
+            document.getElementById('share-desc').textContent = t.shareDesc;
+            document.getElementById('email-label').textContent = t.emailLabel;
+            document.getElementById('subscribe-btn').textContent = t.subscribeBtn;
+        }
+
+        // === CRYPTO (3 centered) ===
         const cryptos = [
             {name:"Bitcoin", symbol:"BTC", icon:"₿", color:"text-orange-400", addr:"bc1qt7920ytslkkvkx6rcmffclgknvurn8umpuuz3g"},
             {name:"Ethereum", symbol:"ETH", icon:"⟠", color:"text-indigo-400", addr:"0x73Fe0f0Fa44035607b9ddB5Ba560301Ae7C96a54"},
-            {name:"Solana", symbol:"SOL", icon:"◎", color:"text-purple-400", addr:"4CYdS9QxVS9tRYtkoi6WKNs1wYL81uSjAjrmjtJ2vT7A"},
+            {name:"Solana", symbol:"SOL", icon:"◎", color:"text-purple-400", addr:"4CYdS9QxVS9tRYtkoi6WKNs1wYL81uSjAjrmjtJ2vT7A"}
         ];
 
         function populateCryptos() {
@@ -160,30 +340,16 @@
             if (!currentCrypto) return;
             navigator.clipboard.writeText(currentCrypto.addr);
             const el = document.getElementById('wallet-addr');
-            const origColor = el.style.color;
+            const orig = el.style.color;
             el.style.color = '#22c55e';
-            setTimeout(() => el.style.color = origColor, 1500);
+            setTimeout(() => el.style.color = orig, 1500);
         }
 
-        // === VIDEO SLIDER - EASY TO ADD ===
-        // Just add new objects here with YouTube link. Title and verse are optional.
+        // === VIDEO SLIDER ===
         const videos = [
-            {
-                ytLink: "https://www.youtube.com/watch?v=dQw4w9wgxcq",   // ← Replace with real link
-                title: "John 3:16",
-                verse: "For God so loved the world…"
-            },
-            {
-                ytLink: "https://youtube.com/watch?v=EXAMPLE2",
-                title: "Psalm 23",
-                verse: "The Lord is my shepherd…"
-            },
-            {
-                ytLink: "https://youtube.com/watch?v=EXAMPLE3",
-                title: "Matthew 6:33",
-                verse: "Seek first the kingdom…"
-            }
-            // Add more objects like above — just copy-paste and change the ytLink
+            { ytLink: "https://www.youtube.com/watch?v=dQw4w9wgxcq", title: "John 3:16", verse: "For God so loved the world…" },
+            { ytLink: "https://youtube.com/watch?v=EXAMPLE2", title: "Psalm 23", verse: "The Lord is my shepherd…" },
+            { ytLink: "https://youtube.com/watch?v=EXAMPLE3", title: "Matthew 6:33", verse: "Seek first the kingdom…" }
         ];
 
         let slideIndex = 0;
@@ -195,6 +361,7 @@
         }
 
         function populateSlider() {
+            const t = translations[currentLang];
             const container = document.getElementById('slider');
             container.innerHTML = '';
             videos.forEach(v => {
@@ -207,13 +374,13 @@
                     <img src="${thumb}" class="absolute inset-0 w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
                     <div class="absolute bottom-0 left-0 right-0 p-10">
-                        <div class="text-indigo-300 text-sm tracking-widest mb-2">VERSE OF THE DAY</div>
+                        <div class="text-indigo-300 text-sm tracking-widest mb-2">${t.verseLabel}</div>
                         <div class="text-4xl font-medium title">${v.title}</div>
                         <div class="mt-2 text-white/80">${v.verse}</div>
                     </div>
                     <a href="${v.ytLink}" target="_blank" 
                        class="absolute top-8 right-8 bg-white/90 hover:bg-white text-black px-7 py-3.5 rounded-2xl font-medium flex items-center gap-2 shadow-lg">
-                        <i class="fa-brands fa-youtube"></i> WATCH
+                        <i class="fa-brands fa-youtube"></i> ${t.watchBtn}
                     </a>
                 `;
                 container.appendChild(slide);
@@ -223,17 +390,12 @@
         function updateSlider() {
             document.getElementById('slider').style.transform = `translateX(-${slideIndex * 100}%)`;
         }
-        function nextSlide() {
-            slideIndex = (slideIndex + 1) % videos.length;
-            updateSlider();
-        }
-        function prevSlide() {
-            slideIndex = (slideIndex - 1 + videos.length) % videos.length;
-            updateSlider();
-        }
+        function nextSlide() { slideIndex = (slideIndex + 1) % videos.length; updateSlider(); }
+        function prevSlide() { slideIndex = (slideIndex - 1 + videos.length) % videos.length; updateSlider(); }
 
         function shareX() {
-            const msg = encodeURIComponent("Help us spread God’s Word one beautiful Bible verse at a time → yourdomain.com");
+            const t = translations[currentLang];
+            const msg = encodeURIComponent(t.shareMsg);
             window.open(`https://x.com/intent/tweet?text=${msg}`, '_blank');
         }
 
@@ -241,7 +403,7 @@
             e.preventDefault();
             const email = document.getElementById('email-input').value.trim();
             if (email) {
-                alert("Thank you! A new Bible verse will arrive in your inbox tomorrow.");
+                alert(translations[currentLang].alertMsg);
                 document.getElementById('email-input').value = '';
             }
         }
@@ -271,6 +433,8 @@
         }
 
         window.onload = () => {
+            detectLanguage();
+            translatePage();
             populateCryptos();
             populateSlider();
             createStars();
