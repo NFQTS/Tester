@@ -34,19 +34,91 @@
         }
         .crypto-btn:hover { transform: scale(1.08) translateY(-4px); }
 
-        /* RTL support for Arabic */
         .rtl { direction: rtl; text-align: right; }
+        
+        .prompt-result {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-black text-white overflow-x-hidden min-h-screen">
     <div id="starfield" class="starfield"></div>
 
-    <!-- HERO -->
-    <div class="relative pt-20 pb-12 text-center px-6 max-w-3xl mx-auto">
+    <!-- HERO (kept minimal) -->
+    <div class="relative pt-20 pb-8 text-center px-6 max-w-3xl mx-auto">
         <div id="spreading-text" class="inline text-xs tracking-[4px] text-indigo-300 mb-6">SPREADING GOD’S WORD</div>
         <h1 id="hero-title" class="title text-6xl md:text-7xl leading-none font-bold tracking-tighter mb-4">
             Help us reach<br>the world
         </h1>
+    </div>
+
+    <!-- NEW PROMPT FEATURE – FIRST THING THEY SEE -->
+    <div class="max-w-4xl mx-auto px-6 pb-16">
+        <div class="bg-white/5 border border-white/10 rounded-3xl p-10 md:p-12">
+            <div class="text-center mb-8">
+                <div id="prompt-title" class="text-3xl font-medium">What’s weighing on your heart?</div>
+                <div id="prompt-subtitle" class="text-white/60 mt-2">Describe your situation and receive a Bible verse that speaks directly to it.</div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-4">
+                <input id="prompt-input" 
+                       type="text"
+                       placeholder="e.g. I feel anxious about tomorrow"
+                       class="flex-1 bg-black border border-white/20 focus:border-indigo-400 rounded-3xl px-8 py-6 text-lg placeholder:text-white/40 outline-none">
+                <button onclick="findVerse()"
+                        id="find-btn"
+                        class="md:w-auto w-full px-10 py-6 bg-gradient-to-r from-indigo-500 to-purple-600 font-semibold rounded-3xl hover:brightness-110 transition-all flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span id="find-btn-text">Find God’s Answer</span>
+                </button>
+            </div>
+
+            <!-- Results area -->
+            <div id="verse-results" class="hidden mt-10 prompt-result"></div>
+            
+            <div onclick="clearPrompt()" 
+                 id="clear-btn"
+                 class="hidden text-center text-xs uppercase tracking-widest text-white/40 hover:text-white mt-4 cursor-pointer">
+                ← Clear and try another
+            </div>
+        </div>
+    </div>
+
+    <!-- VIDEO SLIDER -->
+    <div class="max-w-5xl mx-auto px-6 pb-16">
+        <div class="flex items-center justify-between mb-6 px-2">
+            <div id="videos-title" class="text-lg font-medium">Bible Verse Videos</div>
+            <div class="flex gap-4 text-2xl">
+                <button onclick="prevSlide()" class="hover:text-white/70">←</button>
+                <button onclick="nextSlide()" class="hover:text-white/70">→</button>
+            </div>
+        </div>
+        
+        <div class="relative rounded-3xl overflow-hidden shadow-2xl" style="height: 460px;">
+            <div id="slider" class="flex h-full transition-transform duration-700"></div>
+        </div>
+    </div>
+
+    <!-- BUY BIBLE + SHARE -->
+    <div class="max-w-4xl mx-auto px-6 pb-12">
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <!-- Buy a Bible -->
+            <a href="https://amzn.to/4v1r0By" target="_blank"
+               class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-all group">
+                <i class="fa-solid fa-book-bible text-5xl mb-4 text-amber-300"></i>
+                <div id="buy-title" class="font-medium text-xl group-hover:text-amber-300">Buy a Bible</div>
+                <div id="buy-desc" class="text-white/50 text-sm mt-1">Amazon Affiliate Link</div>
+            </a>
+
+            <!-- Share -->
+            <div onclick="shareX()" 
+                 class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center cursor-pointer transition-all group">
+                <i class="fa-brands fa-x-twitter text-5xl mb-4"></i>
+                <div id="share-title" class="font-medium text-xl group-hover:text-blue-400">Share on X</div>
+                <div id="share-desc" class="text-white/50 text-sm mt-1">Help the Word spread</div>
+            </div>
+        </div>
     </div>
 
     <!-- CRYPTO DONATION -->
@@ -79,42 +151,8 @@
         </div>
     </div>
 
-    <!-- VIDEO SLIDER -->
-    <div class="max-w-5xl mx-auto px-6 pb-16">
-        <div class="flex items-center justify-between mb-6 px-2">
-            <div id="videos-title" class="text-lg font-medium">Bible Verse Videos</div>
-            <div class="flex gap-4 text-2xl">
-                <button onclick="prevSlide()" class="hover:text-white/70">←</button>
-                <button onclick="nextSlide()" class="hover:text-white/70">→</button>
-            </div>
-        </div>
-        
-        <div class="relative rounded-3xl overflow-hidden shadow-2xl" style="height: 460px;">
-            <div id="slider" class="flex h-full transition-transform duration-700"></div>
-        </div>
-    </div>
-
-    <!-- BUY BIBLE + SHARE + EMAIL -->
+    <!-- EMAIL OPT-IN -->
     <div class="max-w-4xl mx-auto px-6 pb-20">
-        <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <!-- Buy a Bible -->
-            <a href="https://amzn.to/4v1r0By" target="_blank"
-               class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-all group">
-                <i class="fa-solid fa-book-bible text-5xl mb-4 text-amber-300"></i>
-                <div id="buy-title" class="font-medium text-xl group-hover:text-amber-300">Buy a Bible</div>
-                <div id="buy-desc" class="text-white/50 text-sm mt-1">Amazon Affiliate Link</div>
-            </a>
-
-            <!-- Share -->
-            <div onclick="shareX()" 
-                 class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-8 flex flex-col justify-center items-center text-center cursor-pointer transition-all group">
-                <i class="fa-brands fa-x-twitter text-5xl mb-4"></i>
-                <div id="share-title" class="font-medium text-xl group-hover:text-blue-400">Share on X</div>
-                <div id="share-desc" class="text-white/50 text-sm mt-1">Help the Word spread</div>
-            </div>
-        </div>
-
-        <!-- Email opt-in -->
         <div class="max-w-md mx-auto bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
             <form onsubmit="subscribe(event)" class="flex flex-col">
                 <div id="email-label" class="text-sm text-white/60 mb-3">Daily Verse in your inbox</div>
@@ -135,138 +173,186 @@
             en: {
                 spreading: "SPREADING GOD’S WORD",
                 hero: "Help us reach<br>the world",
-                donateTitle: "Donate Crypto",
-                donateDesc: "Select coin • Address appears instantly",
+                promptTitle: "What’s weighing on your heart?",
+                promptSubtitle: "Describe your situation and receive a Bible verse that speaks directly to it.",
+                findBtn: "Find God’s Answer",
                 videosTitle: "Bible Verse Videos",
                 verseLabel: "VERSE OF THE DAY",
                 buyTitle: "Buy a Bible",
                 buyDesc: "Amazon Affiliate Link",
                 shareTitle: "Share on X",
                 shareDesc: "Help the Word spread",
+                donateTitle: "Donate Crypto",
+                donateDesc: "Select coin • Address appears instantly",
                 emailLabel: "Daily Verse in your inbox",
                 subscribeBtn: "Subscribe",
                 alertMsg: "Thank you! A new Bible verse will arrive in your inbox tomorrow.",
                 shareMsg: "Help us spread God’s Word one beautiful Bible verse at a time → unprincipledinc.com",
-                watchBtn: "WATCH"
+                watchBtn: "WATCH",
+                resultTitle: "Here’s what God says:",
+                clearBtn: "← Clear and try another",
+                noMatch: "No exact match found, but here are encouraging verses:"
             },
             es: {
                 spreading: "DIFUNDIENDO LA PALABRA DE DIOS",
                 hero: "Ayúdanos a alcanzar<br>el mundo",
-                donateTitle: "Donar Cripto",
-                donateDesc: "Elige moneda • Dirección aparece al instante",
+                promptTitle: "¿Qué te pesa en el corazón?",
+                promptSubtitle: "Describe tu situación y recibe un versículo que habla directamente a ella.",
+                findBtn: "Encontrar Respuesta de Dios",
                 videosTitle: "Videos de Versículos Bíblicos",
                 verseLabel: "VERSÍCULO DEL DÍA",
                 buyTitle: "Comprar una Biblia",
                 buyDesc: "Enlace de Afiliado Amazon",
                 shareTitle: "Compartir en X",
                 shareDesc: "Ayuda a difundir la Palabra",
+                donateTitle: "Donar Cripto",
+                donateDesc: "Elige moneda • Dirección aparece al instante",
                 emailLabel: "Versículo diario en tu correo",
                 subscribeBtn: "Suscribirse",
                 alertMsg: "¡Gracias! Mañana recibirás un nuevo versículo.",
                 shareMsg: "Ayúdanos a difundir la Palabra de Dios versículo a versículo → unprincipledinc.com",
-                watchBtn: "VER"
+                watchBtn: "VER",
+                resultTitle: "Esto es lo que Dios dice:",
+                clearBtn: "← Limpiar y probar otro",
+                noMatch: "No se encontró coincidencia exacta, pero aquí hay versículos alentadores:"
             },
             zh: {
                 spreading: "传播神的话语",
                 hero: "帮助我们<br>触及世界",
-                donateTitle: "捐赠加密货币",
-                donateDesc: "选择币种 • 地址立即显示",
+                promptTitle: "你心里有什么重担？",
+                promptSubtitle: "描述你的情况，获取直接回应你的圣经经文。",
+                findBtn: "寻找上帝的答案",
                 videosTitle: "圣经经文视频",
                 verseLabel: "今日经文",
                 buyTitle: "购买圣经",
                 buyDesc: "亚马逊联盟链接",
                 shareTitle: "在 X 上分享",
                 shareDesc: "帮助传播圣言",
+                donateTitle: "捐赠加密货币",
+                donateDesc: "选择币种 • 地址立即显示",
                 emailLabel: "每日经文发送到您的邮箱",
                 subscribeBtn: "订阅",
                 alertMsg: "感谢！明天您将收到新的圣经经文。",
                 shareMsg: "帮助我们一句一句传播神的话语 → unprincipledinc.com",
-                watchBtn: "观看"
+                watchBtn: "观看",
+                resultTitle: "上帝这样说：",
+                clearBtn: "← 清除并再试一次",
+                noMatch: "未找到精确匹配，但这里有一些鼓励的经文："
             },
             hi: {
                 spreading: "परमेश्वर का वचन फैलाना",
                 hero: "हमारी मदद करें<br>दुनिया तक पहुंचाने में",
-                donateTitle: "क्रिप्टो दान करें",
-                donateDesc: "सिक्का चुनें • पता तुरंत दिखे",
+                promptTitle: "आपके दिल पर क्या बोझ है?",
+                promptSubtitle: "अपनी स्थिति बताएं और उससे सीधे जुड़ा बाइबिल वचन प्राप्त करें।",
+                findBtn: "परमेश्वर का उत्तर पाएं",
                 videosTitle: "बाइबिल वर्स वीडियो",
                 verseLabel: "आज का वचन",
                 buyTitle: "बाइबिल खरीदें",
                 buyDesc: "अमेज़न एफिलिएट लिंक",
                 shareTitle: "X पर शेयर करें",
                 shareDesc: "वचन फैलाने में मदद करें",
+                donateTitle: "क्रिप्टो दान करें",
+                donateDesc: "सिक्का चुनें • पता तुरंत दिखे",
                 emailLabel: "आपके इनबॉक्स में दैनिक वचन",
                 subscribeBtn: "सदस्यता लें",
                 alertMsg: "धन्यवाद! कल आपको नया बाइबिल वचन मिलेगा।",
                 shareMsg: "एक-एक सुंदर बाइबिल वचन से परमेश्वर का वचन फैलाने में मदद करें → unprincipledinc.com",
-                watchBtn: "देखें"
+                watchBtn: "देखें",
+                resultTitle: "परमेश्वर यही कहता है:",
+                clearBtn: "← साफ करें और दूसरा आज़माएं",
+                noMatch: "कोई सटीक मैच नहीं मिला, लेकिन यहाँ कुछ प्रोत्साहन वाले वचन हैं:"
             },
             ar: {
                 spreading: "نشر كلمة الله",
                 hero: "ساعدنا في<br>الوصول إلى العالم",
-                donateTitle: "تبرع بالعملات المشفرة",
-                donateDesc: "اختر العملة • العنوان يظهر فوراً",
+                promptTitle: "ما الذي يثقل قلبك؟",
+                promptSubtitle: "صف موقفك واحصل على آية كتاب مقدس تتحدث مباشرة إليك.",
+                findBtn: "ابحث عن جواب الله",
                 videosTitle: "فيديوهات آيات الكتاب المقدس",
                 verseLabel: "آية اليوم",
                 buyTitle: "شراء الكتاب المقدس",
                 buyDesc: "رابط أمازون التابع",
                 shareTitle: "مشاركة على X",
                 shareDesc: "ساعد في نشر الكلمة",
+                donateTitle: "تبرع بالعملات المشفرة",
+                donateDesc: "اختر العملة • العنوان يظهر فوراً",
                 emailLabel: "آية يومية في بريدك",
                 subscribeBtn: "اشترك",
                 alertMsg: "شكراً! سيصلك آية جديدة غداً.",
                 shareMsg: "ساعدنا في نشر كلمة الله آية بآية → unprincipledinc.com",
-                watchBtn: "شاهد"
+                watchBtn: "شاهد",
+                resultTitle: "هذا ما يقوله الله:",
+                clearBtn: "← امسح وجرب مرة أخرى",
+                noMatch: "لم يتم العثور على تطابق دقيق، لكن إليك بعض الآيات المشجعة:"
             },
             pt: {
                 spreading: "ESPALHANDO A PALAVRA DE DEUS",
                 hero: "Ajude-nos a<br>alcançar o mundo",
-                donateTitle: "Doar Criptomoeda",
-                donateDesc: "Selecione a moeda • Endereço aparece instantaneamente",
+                promptTitle: "O que pesa no seu coração?",
+                promptSubtitle: "Descreva sua situação e receba um versículo que fala diretamente com você.",
+                findBtn: "Encontrar Resposta de Deus",
                 videosTitle: "Vídeos de Versículos Bíblicos",
                 verseLabel: "VERSÍCULO DO DIA",
                 buyTitle: "Comprar uma Bíblia",
                 buyDesc: "Link de Afiliado Amazon",
                 shareTitle: "Compartilhar no X",
                 shareDesc: "Ajude a Palavra a se espalhar",
+                donateTitle: "Doar Criptomoeda",
+                donateDesc: "Selecione a moeda • Endereço aparece instantaneamente",
                 emailLabel: "Versículo diário na sua caixa de entrada",
                 subscribeBtn: "Inscrever-se",
                 alertMsg: "Obrigado! Amanhã chegará um novo versículo.",
                 shareMsg: "Ajude-nos a espalhar a Palavra de Deus um versículo bonito de cada vez → unprincipledinc.com",
-                watchBtn: "ASSISTIR"
+                watchBtn: "ASSISTIR",
+                resultTitle: "Aqui está o que Deus diz:",
+                clearBtn: "← Limpar e tentar outra",
+                noMatch: "Nenhuma correspondência exata, mas aqui estão versículos encorajadores:"
             },
             ru: {
                 spreading: "РАСПРОСТРАНЯЕМ СЛОВО БОЖЬЕ",
                 hero: "Помогите нам<br>достичь мира",
-                donateTitle: "Пожертвовать криптовалюту",
-                donateDesc: "Выберите монету • Адрес появится мгновенно",
+                promptTitle: "Что тяготит ваше сердце?",
+                promptSubtitle: "Опишите свою ситуацию и получите библейский стих, который говорит именно к ней.",
+                findBtn: "Найти ответ Бога",
                 videosTitle: "Видео с библейскими стихами",
                 verseLabel: "СТИХ ДНЯ",
                 buyTitle: "Купить Библию",
                 buyDesc: "Партнёрская ссылка Amazon",
                 shareTitle: "Поделиться в X",
                 shareDesc: "Помогите распространить Слово",
+                donateTitle: "Пожертвовать криптовалюту",
+                donateDesc: "Выберите монету • Адрес появится мгновенно",
                 emailLabel: "Ежедневный стих на почту",
                 subscribeBtn: "Подписаться",
                 alertMsg: "Спасибо! Завтра вы получите новый библейский стих.",
                 shareMsg: "Помогите нам распространять Слово Божье один красивый стих за раз → unprincipledinc.com",
-                watchBtn: "СМОТРЕТЬ"
+                watchBtn: "СМОТРЕТЬ",
+                resultTitle: "Вот что говорит Бог:",
+                clearBtn: "← Очистить и попробовать снова",
+                noMatch: "Точного совпадения не найдено, но вот ободряющие стихи:"
             },
             id: {
                 spreading: "MENYEBARKAN FIRMAN TUHAN",
                 hero: "Bantu kami<br>menjangkau dunia",
-                donateTitle: "Donasi Kripto",
-                donateDesc: "Pilih koin • Alamat muncul seketika",
+                promptTitle: "Apa yang membebani hati Anda?",
+                promptSubtitle: "Jelaskan situasi Anda dan terima ayat Alkitab yang berbicara langsung kepadanya.",
+                findBtn: "Temukan Jawaban Tuhan",
                 videosTitle: "Video Ayat Alkitab",
                 verseLabel: "AYAT HARI INI",
                 buyTitle: "Beli Alkitab",
                 buyDesc: "Link Afiliasi Amazon",
                 shareTitle: "Bagikan di X",
                 shareDesc: "Bantu Firman menyebar",
+                donateTitle: "Donasi Kripto",
+                donateDesc: "Pilih koin • Alamat muncul seketika",
                 emailLabel: "Ayat harian di inbox Anda",
                 subscribeBtn: "Berlangganan",
                 alertMsg: "Terima kasih! Besok Anda akan menerima ayat baru.",
                 shareMsg: "Bantu kami menyebarkan Firman Tuhan satu ayat indah pada satu waktu → unprincipledinc.com",
-                watchBtn: "TONTON"
+                watchBtn: "TONTON",
+                resultTitle: "Inilah yang Tuhan katakan:",
+                clearBtn: "← Bersihkan dan coba lagi",
+                noMatch: "Tidak ada kecocokan yang tepat, tapi ini beberapa ayat yang menguatkan:"
             }
         };
 
@@ -274,8 +360,6 @@
 
         function detectLanguage() {
             let lang = (navigator.language || navigator.userLanguage || 'en').toLowerCase().split('-')[0];
-            
-            // Prioritize highest population languages
             if (['zh', 'cn'].includes(lang)) currentLang = 'zh';
             else if (['hi'].includes(lang)) currentLang = 'hi';
             else if (['ar'].includes(lang)) currentLang = 'ar';
@@ -284,7 +368,6 @@
             else if (['ru'].includes(lang)) currentLang = 'ru';
             else if (['id'].includes(lang)) currentLang = 'id';
             else currentLang = 'en';
-            
             return currentLang;
         }
 
@@ -296,18 +379,103 @@
 
             document.getElementById('spreading-text').textContent = t.spreading;
             document.getElementById('hero-title').innerHTML = t.hero;
-            document.getElementById('donate-title').textContent = t.donateTitle;
-            document.getElementById('donate-desc').textContent = t.donateDesc;
+            document.getElementById('prompt-title').textContent = t.promptTitle;
+            document.getElementById('prompt-subtitle').textContent = t.promptSubtitle;
+            document.getElementById('find-btn-text').textContent = t.findBtn;
             document.getElementById('videos-title').textContent = t.videosTitle;
             document.getElementById('buy-title').textContent = t.buyTitle;
             document.getElementById('buy-desc').textContent = t.buyDesc;
             document.getElementById('share-title').textContent = t.shareTitle;
             document.getElementById('share-desc').textContent = t.shareDesc;
+            document.getElementById('donate-title').textContent = t.donateTitle;
+            document.getElementById('donate-desc').textContent = t.donateDesc;
             document.getElementById('email-label').textContent = t.emailLabel;
             document.getElementById('subscribe-btn').textContent = t.subscribeBtn;
         }
 
-        // === CRYPTO (3 centered) ===
+        // === BIBLE VERSE DATABASE (keyword-based "AI" matching) ===
+        // This is fully functional without any external API. You can expand this list anytime.
+        const verseDB = [
+            { keywords: ["anxious","anxiety","worry","fear","stress","future","tomorrow"], ref: "Philippians 4:6-7", text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God." },
+            { keywords: ["lonely","alone","isolated","friendless"], ref: "Psalm 23:4", text: "Even though I walk through the darkest valley, I will fear no evil, for you are with me." },
+            { keywords: ["depressed","sad","hopeless","down","discouraged"], ref: "Psalm 34:18", text: "The Lord is close to the brokenhearted and saves those who are crushed in spirit." },
+            { keywords: ["angry","mad","rage","forgive"], ref: "Ephesians 4:31-32", text: "Get rid of all bitterness, rage and anger… Be kind and compassionate to one another, forgiving each other." },
+            { keywords: ["strength","weak","tired","exhausted"], ref: "Isaiah 40:31", text: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles." },
+            { keywords: ["love","marriage","relationship","heartbreak"], ref: "1 Corinthians 13:4-7", text: "Love is patient, love is kind. It does not envy, it does not boast…" },
+            { keywords: ["peace","calm","chaos","storm"], ref: "John 14:27", text: "Peace I leave with you; my peace I give you. I do not give to you as the world gives." },
+            { keywords: ["doubt","faith","believe","trust"], ref: "Hebrews 11:1", text: "Now faith is confidence in what we hope for and assurance about what we do not see." },
+            { keywords: ["guidance","direction","decision","path"], ref: "Proverbs 3:5-6", text: "Trust in the Lord with all your heart and lean not on your own understanding." },
+            { keywords: ["grief","loss","death","mourning"], ref: "Matthew 5:4", text: "Blessed are those who mourn, for they will be comforted." }
+        ];
+
+        function findVerse() {
+            const input = document.getElementById('prompt-input').value.trim().toLowerCase();
+            if (!input) return;
+            
+            const t = translations[currentLang];
+            const resultsDiv = document.getElementById('verse-results');
+            resultsDiv.classList.remove('hidden');
+            document.getElementById('clear-btn').classList.remove('hidden');
+            
+            // Simple keyword scoring
+            let scored = verseDB.map(v => {
+                let score = 0;
+                const words = input.split(/\s+/);
+                words.forEach(word => {
+                    if (v.keywords.some(k => word.includes(k) || k.includes(word))) score += 2;
+                });
+                return { ...v, score };
+            }).sort((a, b) => b.score - a.score);
+            
+            const top = scored.filter(v => v.score > 0).slice(0, 3);
+            
+            let html = `<div class="text-xl font-medium mb-6">${t.resultTitle}</div>`;
+            
+            if (top.length === 0) {
+                html += `<div class="text-white/70 mb-4">${t.noMatch}</div>`;
+                // fallback to first 2 verses
+                html += verseDB.slice(0, 2).map(v => `
+                    <div class="bg-black/60 border border-white/10 rounded-2xl p-6 mb-4">
+                        <div class="font-medium text-emerald-300">${v.ref}</div>
+                        <div class="mt-2 text-white/90">${v.text}</div>
+                    </div>
+                `).join('');
+            } else {
+                html += top.map(v => `
+                    <div class="bg-black/60 border border-white/10 rounded-2xl p-6 mb-4">
+                        <div class="font-medium text-emerald-300">${v.ref}</div>
+                        <div class="mt-2 text-white/90">${v.text}</div>
+                        <div class="mt-4 flex justify-end">
+                            <button onclick="copyVerse('${v.ref}', '${v.text.replace(/'/g, "\\'")}')" 
+                                    class="text-xs flex items-center gap-1 text-white/60 hover:text-white">
+                                <i class="fa-solid fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        function copyVerse(ref, text) {
+            navigator.clipboard.writeText(`${ref}\n${text}`);
+            // simple feedback
+            const btns = document.querySelectorAll('#verse-results button');
+            if (btns.length) {
+                const orig = btns[0].innerHTML;
+                btns[0].innerHTML = '✓ Copied';
+                setTimeout(() => btns[0].innerHTML = orig, 1500);
+            }
+        }
+
+        function clearPrompt() {
+            document.getElementById('prompt-input').value = '';
+            document.getElementById('verse-results').classList.add('hidden');
+            document.getElementById('clear-btn').classList.add('hidden');
+        }
+
+        // === CRYPTO ===
         const cryptos = [
             {name:"Bitcoin", symbol:"BTC", icon:"₿", color:"text-orange-400", addr:"bc1qt7920ytslkkvkx6rcmffclgknvurn8umpuuz3g"},
             {name:"Ethereum", symbol:"ETH", icon:"⟠", color:"text-indigo-400", addr:"0x73Fe0f0Fa44035607b9ddB5Ba560301Ae7C96a54"},
@@ -347,7 +515,7 @@
 
         // === VIDEO SLIDER ===
         const videos = [
-            { ytLink: "https://www.youtube.com/watch?v=dQw4w9wgxcq", title: "John 3:16", verse: "For God so loved the world…" },
+            { ytLink: "https://youtube.com/shorts/Ag-_NZ48oVM?si=b_5yuVXJRixrMJsc", title: "Genesis 1:1", verse: "In the beginning God created…" },
             { ytLink: "https://youtube.com/watch?v=EXAMPLE2", title: "Psalm 23", verse: "The Lord is my shepherd…" },
             { ytLink: "https://youtube.com/watch?v=EXAMPLE3", title: "Matthew 6:33", verse: "Seek first the kingdom…" }
         ];
@@ -367,7 +535,6 @@
             videos.forEach(v => {
                 const id = getYouTubeId(v.ytLink);
                 const thumb = id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : 'https://picsum.photos/id/1015/1200/600';
-                
                 const slide = document.createElement('div');
                 slide.className = 'min-w-full h-full relative';
                 slide.innerHTML = `
@@ -387,9 +554,7 @@
             });
         }
 
-        function updateSlider() {
-            document.getElementById('slider').style.transform = `translateX(-${slideIndex * 100}%)`;
-        }
+        function updateSlider() { document.getElementById('slider').style.transform = `translateX(-${slideIndex * 100}%)`; }
         function nextSlide() { slideIndex = (slideIndex + 1) % videos.length; updateSlider(); }
         function prevSlide() { slideIndex = (slideIndex - 1 + videos.length) % videos.length; updateSlider(); }
 
@@ -432,6 +597,7 @@
             }, 700);
         }
 
+        // Initialize everything
         window.onload = () => {
             detectLanguage();
             translatePage();
@@ -439,6 +605,12 @@
             populateSlider();
             createStars();
             setInterval(nextSlide, 7000);
+            
+            // Allow pressing Enter in prompt field
+            const promptInput = document.getElementById('prompt-input');
+            promptInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') findVerse();
+            });
         };
     </script>
 </body>
