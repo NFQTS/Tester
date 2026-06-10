@@ -7,55 +7,39 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap');
 
-        body {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-
-        .title-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .title-font { font-family: 'Space Grotesk', sans-serif; }
 
         .rain-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: -1;
             background: linear-gradient(to bottom, #0a0a0a, #1a1a2e);
         }
-
         .rain-drop {
-            position: absolute;
-            width: 2px;
-            height: 50px;
-            background: linear-gradient(transparent, rgba(255, 255, 255, 0.8));
+            position: absolute; width: 2px; height: 50px;
+            background: linear-gradient(transparent, rgba(255,255,255,0.8));
             animation: fall linear infinite;
         }
-
-        @keyframes fall {
-            to { transform: translateY(100vh); }
-        }
-
+        @keyframes fall { to { transform: translateY(100vh); } }
         .glass {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255,255,255,0.06);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
         }
     </style>
 </head>
 <body class="bg-black text-white min-h-screen overflow-x-hidden">
 
-    <!-- Rain Background -->
     <div id="rain" class="rain-container"></div>
 
     <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-16">
-    
+        
+        <div class="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+            <div class="w-9 h-9 bg-yellow-400 rounded-2xl flex items-center justify-center text-black font-bold text-2xl">D</div>
+        </div>
 
-        <!-- Main Content -->
         <div class="max-w-2xl w-full text-center mt-20">
             <h1 class="text-7xl md:text-8xl font-bold title-font leading-none tracking-tighter">
                 Share info<br>
@@ -78,16 +62,14 @@
                     Sign up now to be first when we launch. Share only what you want and get paid for it.
                 </p>
 
-                <!-- Email Signup -->
                 <div class="space-y-6">
+                    <!-- Email -->
                     <div>
                         <label class="block text-sm text-gray-400 mb-2">Email Address</label>
                         <div class="flex">
-                            <input id="email" 
-                                   type="email" 
-                                   placeholder="you@example.com"
+                            <input id="email" type="email" placeholder="you@example.com"
                                    class="flex-1 bg-black/50 border border-gray-700 focus:border-yellow-400 rounded-l-3xl px-6 py-5 outline-none text-white">
-                            <button onclick="joinWithEmail()" 
+                            <button onclick="submitEmail()" 
                                     class="bg-yellow-400 hover:bg-yellow-300 transition-all text-black font-semibold px-8 rounded-r-3xl">
                                 Join
                             </button>
@@ -95,17 +77,15 @@
                     </div>
 
                     <div class="relative">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-700"></div>
-                        </div>
+                        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-700"></div></div>
                         <div class="relative flex justify-center text-xs uppercase tracking-widest text-gray-500">
                             <span class="bg-black px-4">or</span>
                         </div>
                     </div>
 
-                    <!-- Solana Wallet -->
-                    <button onclick="connectSolana()" 
-                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 transition-all text-white font-semibold py-6 rounded-3xl text-lg flex items-center justify-center gap-3 shadow-lg shadow-purple-500/30">
+                    <!-- Wallet -->
+                    <button onclick="connectSolanaWallet()" 
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 transition-all text-white font-semibold py-6 rounded-3xl text-lg flex items-center justify-center gap-3">
                         <i class="fa-brands fa-solana text-2xl"></i>
                         CONNECT SOLANA WALLET
                     </button>
@@ -114,58 +94,67 @@
                 <div class="mt-10 text-xs text-gray-500 space-y-4">
                     <p class="flex items-start gap-2">
                         <i class="fa-solid fa-circle-info mt-0.5"></i>
-                        <span>Your email and wallet address may be shared with trusted partners for platform operations and data marketplace matching.</span>
-                    </p>
-                    <p>
-                        You control exactly what personal data you share later. We only sell what you explicitly approve.
+                        <span>Your email and wallet address may be shared with trusted partners for platform operations.</span>
                     </p>
                 </div>
             </div>
-
-            <p class="text-xs text-gray-500 mt-12 max-w-xs mx-auto">
-                Transparent data marketplace launching soon.<br>
-                You own your data • You decide what to sell • You get paid directly.
-            </p>
         </div>
     </div>
 
     <script>
         // Rain Effect
         function createRain() {
-            const rainContainer = document.getElementById('rain');
+            const container = document.getElementById('rain');
             for (let i = 0; i < 150; i++) {
                 const drop = document.createElement('div');
                 drop.className = 'rain-drop';
-                
-                const left = Math.random() * 100;
-                drop.style.left = `${left}vw`;
+                drop.style.left = Math.random() * 100 + 'vw';
                 drop.style.opacity = Math.random() * 0.6 + 0.4;
-                drop.style.height = `${Math.random() * 70 + 40}px`;
-                drop.style.animationDuration = `${Math.random() * 0.7 + 0.4}s`;
-                drop.style.animationDelay = `-${Math.random() * 3}s`;
-                
-                rainContainer.appendChild(drop);
+                drop.style.height = Math.random() * 70 + 40 + 'px';
+                drop.style.animationDuration = Math.random() * 0.7 + 0.4 + 's';
+                drop.style.animationDelay = '-' + Math.random() * 3 + 's';
+                container.appendChild(drop);
             }
         }
 
-        function joinWithEmail() {
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwdLK9nJo6AOXJn5AJenWkKrJaFAFFnA4Sm0n6wXJvElH9mHhumJmafPr1b4IeMpXAdqw/exec";
+
+        async function submitEmail() {
             const email = document.getElementById('email').value.trim();
-            if (email) {
-                alert(`✅ Thank you!\n\n${email} has been added to the waitlist.\n\nWe'll notify you when DataRain launches.`);
+            if (!email) return alert("Please enter your email");
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: new URLSearchParams({ email: email, source: 'email' })
+                });
+                alert(`✅ Thank you!\n\n${email} has been added to the waitlist.`);
                 document.getElementById('email').value = '';
-            } else {
-                alert("Please enter your email address");
+            } catch (e) {
+                alert("✅ Thank you! (Demo mode - Google Sheet not connected yet)");
             }
         }
 
-        function connectSolana() {
-            alert("🔗 Solana wallet connected successfully! (Demo)\n\nYou've been added to the priority waitlist.\n\nGet ready to start earning when we launch.");
+        async function connectSolanaWallet() {
+            if (!window.solana) {
+                return alert("Please install Phantom or another Solana wallet.");
+            }
+            try {
+                const resp = await window.solana.connect();
+                const wallet = resp.publicKey.toString();
+
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: new URLSearchParams({ wallet: wallet, source: 'wallet' })
+                });
+
+                alert(`✅ Wallet Connected!\n\n${wallet}\n\nYou've been added to the priority waitlist.`);
+            } catch (err) {
+                alert("Wallet connection failed or cancelled.");
+            }
         }
 
-        // Initialize
-        window.onload = function() {
-            createRain();
-        };
+        window.onload = createRain;
     </script>
 </body>
 </html>
