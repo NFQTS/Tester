@@ -67,30 +67,20 @@
                 <span class="text-yellow-400">Get paid</span>
             </h1>
             
-            <p class="mt-6 text-2xl text-gray-300 max-w-md mx-auto">
-                Own your data.<br>
-                Earn rewards for sharing.
+            <p class="mt-8 text-2xl text-gray-300 max-w-lg mx-auto leading-tight">
+                We help you sell your personal data directly to AI companies and advertisers.<br>
+                <span class="text-gray-400">You stay in control and earn every time it's used.</span>
             </p>
 
-            <!-- Earnings Card (Simplified) -->
-            <div class="mt-16 glass rounded-3xl p-8 shadow-2xl max-w-md mx-auto">
-                <p class="text-sm text-gray-400 font-medium">Estimated monthly earnings when we launch</p>
-                <div class="flex items-baseline gap-1 mt-3 justify-center">
-                    <span class="text-7xl font-semibold text-yellow-400">$420</span>
-                    <span class="text-3xl text-gray-400 font-medium">USDT</span>
-                </div>
-                <p class="text-xs text-emerald-400 mt-4 font-medium">🔥 Early users get priority access + bonus rewards</p>
-            </div>
-
             <!-- Waitlist Signup -->
-            <div class="mt-12 glass rounded-3xl p-8 max-w-md mx-auto">
+            <div class="mt-16 glass rounded-3xl p-8 max-w-md mx-auto">
                 <div class="flex items-center gap-3 mb-6">
                     <i class="fa-solid fa-shield-halved text-yellow-400"></i>
                     <h2 class="text-xl font-semibold tracking-tight">Join the Waitlist</h2>
                 </div>
 
-                <p class="text-gray-400 mb-8 text-center">
-                    Be among the first to share your data and earn when we launch.
+                <p class="text-gray-400 mb-8 text-center text-lg">
+                    Sign up now to be first when we launch. Share only what you want — and get paid for it.
                 </p>
 
                 <!-- Email Signup -->
@@ -126,17 +116,20 @@
                     </button>
                 </div>
 
-                <div class="mt-8 text-center">
-                    <p class="text-xs text-gray-500">
-                        ✅ No data shared yet • Transparent &amp; secure<br>
-                        We'll notify you when the platform launches
+                <div class="mt-10 text-xs text-gray-500 space-y-4">
+                    <p class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-info mt-0.5"></i>
+                        <span>Your email and wallet address may be shared with trusted partners for platform operations and data marketplace matching.</span>
+                    </p>
+                    <p>
+                        You control exactly what personal data you share later. We only sell what you explicitly approve.
                     </p>
                 </div>
             </div>
 
-            <p class="text-xs text-gray-500 mt-10 max-w-xs mx-auto">
-                Data will only be sold to verified AI companies and advertisers.<br>
-                You stay in full control.
+            <p class="text-xs text-gray-500 mt-12 max-w-xs mx-auto">
+                Transparent data marketplace launching soon.<br>
+                You own your data • You decide what to sell • You get paid directly.
             </p>
         </div>
     </div>
@@ -144,8 +137,8 @@
     <!-- Footer -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-gray-500 flex gap-8">
         <a href="#" class="hover:text-white transition-colors">How it works</a>
-        <a href="#" class="hover:text-white transition-colors">For AI Companies</a>
-        <a href="#" class="hover:text-white transition-colors">Safety First</a>
+        <a href="#" class="hover:text-white transition-colors">For Buyers</a>
+        <a href="#" class="hover:text-white transition-colors">Privacy</a>
     </div>
 
     <script>
@@ -170,7 +163,7 @@
         function joinWithEmail() {
             const email = document.getElementById('email').value.trim();
             if (email) {
-                alert(`✅ Thank you!\n\n${email} has been added to the waitlist.\n\nYou'll be notified when DataRain launches.`);
+                alert(`✅ Thank you!\n\n${email} has been added to the waitlist.\n\nWe'll notify you when DataRain launches.`);
                 document.getElementById('email').value = '';
             } else {
                 alert("Please enter your email address");
@@ -178,7 +171,7 @@
         }
 
         function connectSolana() {
-            alert("🔗 Solana wallet connected successfully! (Demo)\n\nYou've been added to the priority waitlist.\n\nGet ready to earn when we launch.");
+            alert("🔗 Solana wallet connected successfully! (Demo)\n\nYou've been added to the priority waitlist.\n\nGet ready to start earning when we launch.");
         }
 
         // Initialize
